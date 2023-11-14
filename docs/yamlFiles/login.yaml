@@ -1,8 +1,8 @@
 openapi: 3.0.0
 
 info:
-  title       : DocBook
-  description : REST APIs DocBook Project
+  title       : API for Logging in
+  description : REST APIs for DocBook Project
   version     : 'v1.0'
 
 servers:
