@@ -15,3 +15,6 @@ This project is and end-to-end system designed to streamline the patient-doctor 
 5) Review and Feedback System: Incorporates a sophisticated review and feedback system that encourages patients to share their experiences. This promotes transparency, trust, and accountability within the healthcare community.
 
 HealthConnect represents a forward-thinking solution that leverages technology to enhance the patient-doctor relationship, ultimately contributing to a more connected and efficient healthcare ecosystem.
+
+# Object Model
+![Object Model](/docs/objectModel/objectModel.jpeg)
