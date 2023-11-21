@@ -1,10 +1,10 @@
 // doctorService.js
-const Doctor = require('../models/doctor-search');
+const Doctors = require('../models/doctor-search');
 
 class DoctorService {
   static async searchDoctors(query) {
     try {
-      const doctors = await Doctor.find(query);
+      const doctors = await Doctors.find(query);
       return doctors;
     } catch (error) {
       throw error;

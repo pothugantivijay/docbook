@@ -1,7 +1,7 @@
-// doctorModel.js
+
 const mongoose = require('mongoose');
 
-const doctorSchema = new mongoose.Schema({
+const doctorSearchSchema = new mongoose.Schema({
   doctorId: {
     type: String,
     required: true,
@@ -32,6 +32,6 @@ const doctorSchema = new mongoose.Schema({
   },
 });
 
-const Doctor = mongoose.model('Doctor', doctorSchema);
+const DoctorSearch = mongoose.model('DoctorSearch', doctorSearchSchema);
 
-module.exports = Doctor;
+module.exports = DoctorSearch;
