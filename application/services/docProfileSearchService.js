@@ -1,5 +1,5 @@
 // doctorService.js
-const Doctors = require('../models/doctor-search');
+const Doctors = require('../models/doctor');
 
 class DoctorService {
   static async searchDoctors(query) {
