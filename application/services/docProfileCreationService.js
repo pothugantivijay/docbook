@@ -1,4 +1,4 @@
-const Doctor = require('../models/doctor-search.js');
+const Doctor = require('../models/doctor.js');
 
 const createDoctorProfile = async (doctorData) => {
     try {
