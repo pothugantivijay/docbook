@@ -3,7 +3,7 @@ const router = express.Router();
 const DoctorController = require('../controllers/docProfileController');
 
 // POST endpoint for creating a doctor profile
-router.post('/doctors', DoctorController.createDoctor);
+router.post('/createdoctor', DoctorController.createDoctor);
 
 
 module.exports = router;
