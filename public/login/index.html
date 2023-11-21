@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Login</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="login.css">
+    </head>
+    <body>
+        <div class="headingContainer">
+            <div class="heading">DocBook</div>
+        </div>
+        <div class="centerWrap">
+            <div class="container glassEffect">
+                <form id="loginForm" method="POST" action="/login">
+                    <div class="loginText">Account Login</div>
+                    <label for="username">Username</label>
+                    <div class="underline-input">
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                
+                    <label for="password">Password</label>
+                    <div class="underline-input">
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="alignButton">
+                        <button type="submit">Login</button>
+                    </div>
+                    <label>New user?</label>
+                </form>
+                <div class="registerContainer">
+                    <div class="patient">
+                        <a href="../registerpatient/">Register as patient</a>
+                    </div>
+                    <div class="doctor">
+                        <a href="#">Register as doctor</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.getElementById('loginForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                console.log('Form submitted!');
+                this.submit();
+            });
+        </script>
+    </body>
+</html>
