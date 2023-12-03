@@ -4,6 +4,6 @@ const patientRouter = require('./patientRoutes.js');
 
 module.exports = function(application) {
     application.use('/login', loginRouter);
-    application.use('/doctor',doctorRouter);
+    application.use('\*/doctor',doctorRouter);
     application.use('/patient',patientRouter);
 };

@@ -7,6 +7,7 @@ import {
 import App from "./App";
 import Login from "./Login";
 import Help from "./Help";
+import DoctorProfile from "./DoctorProfile";
 
 const Routes: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const Routes: React.FC = () => {
         <Route path="/" element={<App />} />
         <Route path="/login" element={<Login />} />
         <Route path="/help" element={<Help />} />
+        <Route path="/doctorprofile/doctor/:id" element={<DoctorProfile />} />
       </RouterRoutes>
     </Router>
   );

@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const DoctorController = require('../controllers/docProfileController');
+const DoctorController = require('../controllers/doctor_controller.js');
 
-// POST endpoint for creating a doctor profile
-router.post('/createdoctor', DoctorController.createDoctor);
+router.route('/:id')
+    .get(DoctorController.get);
 
 
 module.exports = router;
