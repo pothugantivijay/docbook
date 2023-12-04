@@ -9,6 +9,8 @@ import Login from "./Login";
 import Help from "./Help";
 import DoctorProfile from "./DoctorProfile";
 import PatientRegistrationForm from "./PatientRegistration";
+import DoctorSearchPage from "./components/DoctorSearchPage";
+import BookingPage from "./components/BookingPage";
 
 const Routes: React.FC = () => {
   return (
@@ -19,6 +21,8 @@ const Routes: React.FC = () => {
         <Route path="/help" element={<Help />} />
         <Route path="/doctorprofile/doctor/:id" element={<DoctorProfile />} />
         <Route path="/registerpatient" element={<PatientRegistrationForm />} />
+        <Route path="/search" element={<DoctorSearchPage />} />
+        <Route path="/booking" element={<BookingPage />} />
       </RouterRoutes>
     </Router>
   );

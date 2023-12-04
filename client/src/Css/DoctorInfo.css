@@ -1,0 +1,50 @@
+.container-fluid,
+#search-results,
+#map {
+    height: 100vh;
+}
+
+#map {
+    position: sticky;
+    top: 0;
+}
+
+
+#search-results {
+    overflow-y: auto;
+}
+
+.container-fluid {
+    background-color: rgb(235, 249, 252);
+}
+
+.doctor-card {
+    border: 1px solid #e0e0e0;
+    /* Light grey border */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+}
+
+.doctor-card .doctor-image {
+    object-fit: cover;
+    /* Ensures the image covers the area */
+    height: 100%;
+    /* Equal height for image and content */
+}
+
+.doctor-card .card-body {
+    padding: 20px;
+    /* Spacing inside the card */
+}
+
+.doctor-card .card-title {
+    font-size: 1.5rem;
+    /* Larger text for doctor's name */
+    color: #333;
+    /* Darker text for emphasis */
+}
+
+.doctor-card .card-text {
+    margin-bottom: 10px;
+    /* Spacing between text elements */
+}
