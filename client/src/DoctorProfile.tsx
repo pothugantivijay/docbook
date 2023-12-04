@@ -14,7 +14,7 @@ const DoctorProfile: React.FC = () => {
   );
 
   useEffect(() => {
-    fetch(`/doctorprofile/doctor/${id}`)
+    fetch(`/doctor/${id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
