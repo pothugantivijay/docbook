@@ -136,44 +136,44 @@ const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
 
   return (
     <div className="homepage">
-      <header className="header">
-        <div className="logo">Zocdoc</div>
-        <div className="header-buttons">
-          <button className="btn btn-outline-primary me-2">Browse</button>
-          <button className="btn btn-outline-primary me-2">Help</button>
-          <button className="btn btn-outline-primary me-2">List your Practice on DocBook</button>
-          <button className="btn btn-primary">Login/Signup</button>
+      <div className='upper'>
+        <div className="header">
+            <div className="logo">DocBook</div>
+            <div className="header-buttons">
+            <button className="btn btn-outline-primary me-2">Browse</button>|
+            <button className="btn btn-outline-primary me-2">Help</button>|
+            <button className="btn btn-outline-primary me-2">List your Practice on DocBook</button>|
+            <button className="btn btn-outline-primary me-2">Login/Signup</button>
+            </div>
         </div>
-      </header>
-      <div>
-        Book local doctors who accept your Insurance
-      </div>
-      <div className="search-bar">
-        <input
-          type="text"
-          className="form-control mb-2"
-          placeholder="Location"
-          name="location"
-          value={searchParams.location}
-          onChange={handleSearchChange}
-        />
-        <input
-          type="text"
-          className="form-control mb-2"
-          placeholder="Specialty"
-          name="specialty"
-          value={searchParams.specialty}
-          onChange={handleSearchChange}
-        />
-        <input
-          type="text"
-          className="form-control mb-2"
-          placeholder="Insurance"
-          name="insurance"
-          value={searchParams.insurance}
-          onChange={handleSearchChange}
-        />
-        <button className="btn btn-primary search-btn">Search</button>
+        <div className='uppertext'>Book local doctors who accept your Insurance</div>
+        <div className="search-bar">
+            <input
+            type="text"
+            className="form-control mb-2"
+            placeholder="Location"
+            name="location"
+            value={searchParams.location}
+            onChange={handleSearchChange}
+            />
+            <input
+            type="text"
+            className="form-control mb-2"
+            placeholder="Specialty"
+            name="specialty"
+            value={searchParams.specialty}
+            onChange={handleSearchChange}
+            />
+            <input
+            type="text"
+            className="form-control mb-2"
+            placeholder="Insurance"
+            name="insurance"
+            value={searchParams.insurance}
+            onChange={handleSearchChange}
+            />
+            <button className="btn btn-primary search-btn">Search</button>
+        </div>
       </div>
       <div className="doctor-profiles">
         <div className="doctor-row">
