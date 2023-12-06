@@ -1,5 +1,15 @@
 const mongoose = require('mongoose');
 
+const bookedSlotSchema = new mongoose.Schema({
+  start: String,
+  end: String
+});
+
+const dateAvailabilitySchema = new mongoose.Schema({
+  date: Date,
+  slots: [bookedSlotSchema]
+});
+
 const doctorSchema = new mongoose.Schema({
   id: {
     type: Number,
@@ -43,13 +53,7 @@ const doctorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  availability: {
-    monday: [String],
-    tuesday: [String],
-    wednesday: [String],
-    thursday: [String],
-    friday: [String],
-  },
+  availability: [dateAvailabilitySchema],
   insuranceProviders: [String],
   education: [
     {

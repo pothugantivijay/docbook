@@ -1,43 +1,32 @@
 import React, { useState } from 'react';
-import { BookedSlot, Doctor, DoctorAvailability } from '../types/DoctorTypes';
+import { Doctor } from '../types/DoctorTypes';
 import '../Css/availabilityGrid.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { fetchSlotDetails } from '../api';
 
 interface AvailabilityGridProps {
-    availability: DoctorAvailability;
+    availabilitySummary: { [date: string]: number }; // Updated structure
     doctor: Doctor;
 }
 
-
-interface SelectedDay {
-    date: Date;
-    slots: BookedSlot[];
+interface Slot {
+    start: string;
+    end: string;
 }
 
-const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availability, doctor }) => {
-    const navigate = useNavigate(); // For React Router v6
-    const [selectedDay, setSelectedDay] = useState<SelectedDay | null>(null);
-    const [startDate, setStartDate] = useState(new Date());
-    const workingHoursStart = 9; // Clinic starts at 9:00 AM
-    const workingHoursEnd = 17; // Clinic closes at 5:00 PM (17:00 in 24-hour format)
-    const maxRangeInDays = 28; // 4 weeks
+const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary, doctor }) => {
+    const navigate = useNavigate();
+    const [selectedDay, setSelectedDay] = useState<{ date: Date; slots: Slot[] } | null>(null);
+    const startDate = new Date();
+    const [slots, setSlots] = useState<Slot[]>([]);
+    const maxRangeInDays = 28; // Adjust as needed
+    const [weekOffset, setWeekOffset] = useState(0);
 
-
-    const goToNextTwoWeeks = () => {
-        let newStartDate = new Date(startDate);
-        newStartDate.setDate(newStartDate.getDate() + 14);
-
-        // Check if the new start date exceeds the maximum range
-        if (newStartDate.getTime() - startDate.getTime() <= maxRangeInDays * 24 * 60 * 60 * 1000) {
-            setStartDate(newStartDate);
-        }
-    };
-
-    const getNextTwoWeeksDates = (start: Date): Date[] => {
+    const getNextFourWeeksDates = (start: Date): Date[] => {
         let dates: Date[] = [];
-        for (let i = 0; i < 14; i++) {
+        for (let i = 0; i < maxRangeInDays; i++) {
             let date = new Date(start);
             date.setDate(date.getDate() + i);
             dates.push(date);
@@ -45,73 +34,36 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availability, docto
         return dates;
     };
 
-    const goToPreviousTwoWeeks = () => {
-        let newStartDate = new Date(startDate);
-        newStartDate.setDate(newStartDate.getDate() - 14);
+    const handleNextWeeks = () => {
+        setWeekOffset((prevOffset) => prevOffset + 1);
+    };
 
-        // Ensure the new start date does not go before the initial start date
-        if (newStartDate >= new Date()) {
-            setStartDate(newStartDate);
+    const handlePreviousWeeks = () => {
+        setWeekOffset((prevOffset) => prevOffset - 1);
+    };
+
+
+    const handleCellClick = async (date: Date) => {
+        setSelectedDay({ date, slots: [] });
+        try {
+            const slotDetails = await fetchSlotDetails(doctor.id.toString(), date);
+
+            setSlots(slotDetails);
+        } catch (error) {
+            console.error("Error fetching slot details: ", error);
+            setSlots([]);
         }
     };
 
-    const getAvailableSlots = (bookedSlots: BookedSlot[]): BookedSlot[] => {
-        // Convert 12-hour format to 24-hour for comparison
-        const convertTo24Hour = (time: string) => {
-            const matches = time.match(/\d+/g);
-            const periodMatch = time.match(/AM|PM/i);
-
-            if (!matches || matches.length < 2 || !periodMatch) {
-                throw new Error(`Invalid time format: ${time}`);
-            }
-
-            let [hours, minutes] = matches;
-            const period = periodMatch[0];
-
-            hours = (period === 'PM' && hours !== '12') ? String(parseInt(hours, 10) + 12) : hours;
-            hours = (period === 'AM' && hours === '12') ? '00' : hours;
-
-            return `${hours.padStart(2, '0')}:${minutes}`;
-        };
 
 
-        // Create all hourly slots
-        let allSlots: BookedSlot[] = [];
-        for (let hour = workingHoursStart; hour < workingHoursEnd; hour++) {
-            const startHour = hour < 10 ? `0${hour}` : hour.toString();
-            const endHour = hour + 1 < 10 ? `0${hour + 1}` : (hour + 1).toString();
-            allSlots.push({ start: `${startHour}:00`, end: `${endHour}:00` });
-        }
 
-        // Filter out booked slots
-        let availableSlots = allSlots.filter(slot =>
-            !bookedSlots.some(booked => {
-                const bookedStart24h = convertTo24Hour(booked.start);
-                const bookedEnd24h = convertTo24Hour(booked.end);
-                return slot.start === bookedStart24h && slot.end === bookedEnd24h;
-            })
-        );
-
-        return availableSlots;
+    const handleBookingClick = (doctorId: number, slot: Slot, date: Date) => {
+        navigate('/booking', { state: { doctorId, slot, date } });
     };
-
-
-    const handleCellClick = (date: Date, dayLong: string) => {
-        const slots = getAvailableSlots(availability[dayLong.toLowerCase()] || []);
-        setSelectedDay({ date, slots });
-    };
-
-
-
-    const handleBookingClick = (doctorId: number, slot: string) => {
-        navigate('/booking', { state: { doctorId, slot } });
-    };
-
-
 
     const renderPopup = () => {
         if (!selectedDay) return null;
-
 
         return (
             <>
@@ -126,11 +78,11 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availability, docto
                                 </button>
                             </div>
                             <div className="modal-body">
-                                {selectedDay.slots.length > 0 ? (
-                                    selectedDay.slots.map((slot, index) => (
+                                {slots.length > 0 ? (
+                                    slots.map((slot, index) => (
                                         <div key={index} className="d-flex justify-content-between align-items-center">
                                             <span>{slot.start} - {slot.end}</span>
-                                            <button onClick={() => handleBookingClick(doctor.id, `${slot.start} - ${slot.end}`)}>
+                                            <button onClick={() => handleBookingClick(doctor.id, slot, selectedDay.date)}>
                                                 Book Now
                                             </button>
                                         </div>
@@ -149,29 +101,19 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availability, docto
         );
     };
 
-
-
-
     const renderWeekRow = (weekDates: Date[]): JSX.Element[] => {
         return weekDates.map((date, index) => {
-            const dayOfWeek = date.toLocaleString('en-US', { weekday: 'short' });
-            const day = date.getDate().toString().padStart(2, '0');
-            const month = date.toLocaleString('en-US', { month: 'short' });
-            const monthDay = `${month} ${day}`;
-
-            const dayLong = date.toLocaleString('en-US', { weekday: 'long' });
-            const bookedSlotsForDay = availability[dayLong.toLowerCase()] || [];
-            const availableSlots = getAvailableSlots(bookedSlotsForDay);
+            const dayOfWeek = date.toLocaleString('en-US', { weekday: 'short' }); // e.g., "Wed"
+            const month = date.toLocaleString('en-US', { month: 'short' }); // e.g., "Dec"
+            const dayOfMonth = date.getDate(); // e.g., 13
+            const availableAppointments = availabilitySummary[date.toISOString().split('T')[0]] || 0;
 
             return (
-                <div key={index} className="availability-row col">
-                    <div
-                        className="availability-cell p-1 border rounded text-center"
-                        onClick={() => handleCellClick(date, dayLong)}
-                    >
+                <div key={index} className="availability-row col" onClick={() => handleCellClick(date)}>
+                    <div className="availability-cell p-1 border rounded text-center">
                         <div>{dayOfWeek}</div>
-                        <div className="text-nowrap">{monthDay}</div>
-                        <div>{availableSlots.length}</div>
+                        <div>{month} {dayOfMonth}</div>
+                        <div>{availableAppointments}</div>
                         <div>appts</div>
                     </div>
                 </div>
@@ -179,21 +121,25 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availability, docto
         });
     };
 
-    const dates = getNextTwoWeeksDates(startDate);
-    const firstWeek = dates.slice(0, 7);
-    const secondWeek = dates.slice(7, 14);
-
     const renderNavigationButtons = () => {
-        const isPrevDisabled = new Date(startDate) <= new Date();
-        const isNextDisabled = new Date(startDate.getTime() + 14 * 24 * 60 * 60 * 1000).getTime() > new Date().getTime() + maxRangeInDays * 24 * 60 * 60 * 1000;
+        const startIndex = weekOffset * 14;
+        const displayedWeeks = dates.slice(startIndex, startIndex + 14);
+
+        // Get the start and end date of the current two-week period
+        const startDateRange = displayedWeeks[0];
+        const endDateRange = displayedWeeks[13];
+
+        // Format dates for display
+        const formatDate = (date: Date) => date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const dateRangeString = `${formatDate(startDateRange)} - ${formatDate(endDateRange)}`;
 
         return (
             <div className="date-navigation">
-                <button onClick={goToPreviousTwoWeeks} disabled={isPrevDisabled}>
+                <button onClick={handlePreviousWeeks} disabled={weekOffset === 0}>
                     <FontAwesomeIcon icon={faArrowLeft} />
                 </button>
-                <span>{startDate.toDateString()}</span>
-                <button onClick={goToNextTwoWeeks} disabled={isNextDisabled}>
+                <span><strong>{dateRangeString}</strong></span> {/* Displaying the date range */}
+                <button onClick={handleNextWeeks} disabled={weekOffset === 1}>
                     <FontAwesomeIcon icon={faArrowRight} />
                 </button>
             </div>
@@ -201,11 +147,16 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availability, docto
     };
 
 
+    const dates = getNextFourWeeksDates(startDate);
+    const startIndex = weekOffset * 14; // 0 for the first two weeks, 14 for the next two
+    const displayedWeeks = dates.slice(startIndex, startIndex + 14);
+
+
     return (
         <div>
             {renderNavigationButtons()}
-            <div className="row g-2 mb-1">{renderWeekRow(firstWeek)}</div>
-            <div className="row g-2">{renderWeekRow(secondWeek)}</div>
+            <div className="row g-2 mb-1">{renderWeekRow(displayedWeeks.slice(0, 7))}</div>
+            <div className="row g-2">{renderWeekRow(displayedWeeks.slice(7, 14))}</div>
             {renderPopup()}
         </div>
     );

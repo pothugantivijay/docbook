@@ -1,45 +1,44 @@
-/* SearchForm.css - Professional and Elegant Color Scheme */
+/* SearchForm.css - Twitter Theme */
 
 .form-inline {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 10px;
+    /* Spacing between form elements */
 }
 
-.form-group input {
-    border: 1px solid #e0e0e0;
-    /* Light Grey for borders */
-    background-color: #f5f5f5;
-    /* Off White for input background */
-    color: #212529;
-    /* Dark for text */
-    width: 16vw;
+.form-group input.form-control {
+    border: 1px solid #E1E8ED;
+    /* Light Grey Border */
+    box-shadow: none;
+    /* Remove default Bootstrap shadow */
+    transition: border-color 0.2s ease-in-out;
 }
 
-.form-group input::placeholder {
-    color: #6c757d;
+.form-group input.form-control:focus {
+    border-color: #1DA1F2;
+    /* Twitter Blue for focus */
+    outline: none;
+    /* Remove default focus outline */
+}
+
+.form-group input.form-control::placeholder {
+    color: #657786;
     /* Placeholder text color */
 }
 
-.form-group input:focus {
-    border-color: #007bff;
-    /* Bootstrap Primary Blue for focus */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-    /* Subtle focus shadow */
-}
-
 .btn-primary {
-    background-color: #007bff;
-    /* Bootstrap Primary Blue for button */
-    border-color: #007bff;
-    /* Bootstrap Primary Blue for button border */
+    background-color: #1DA1F2;
+    /* Twitter Blue */
+    border-color: #1DA1F2;
+    /* Twitter Blue Border */
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
-    /* Darker blue on hover */
-    border-color: #0056b3;
-    /* Darker blue border on hover */
+    background-color: #1A91DA;
+    /* Darker Twitter Blue on hover */
+    border-color: #1A91DA;
 }
 
-/* Additional styling as needed */
+/* Responsive adjustments and additional styling as needed */

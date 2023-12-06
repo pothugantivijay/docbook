@@ -12,6 +12,47 @@ const get = async (request, response) => {
     }
 };
 
+const search = async (request, response) => {
+    try {
+        const searchCriteria = request.body; // Assuming the criteria are sent in the request body
+        const doctorResults = await DoctorService.searchDoctors(searchCriteria);
+        response.status(200).json(doctorResults);
+    }
+    catch (error) {
+        console.error(error.message);
+        response.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+const create = async (req, res) => {
+    try {
+        const doctorData = req.body;
+        const newDoctor = await DoctorService.createDoctor(doctorData);
+        res.status(201).json(newDoctor);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: error.message });
+    }
+}
+
+const getSlots = async (req, res) => {
+    try {
+        const doctorId = req.params.Id; // Use 'Id' to match the route parameter
+        const date = req.query.date; // Date as a query parameter
+
+        console.log(doctorId);
+        const slotDetails = await DoctorService.getSlotDetailsForDay(doctorId, new Date(date));
+        res.status(200).json(slotDetails);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
 module.exports = {
-    get
+    get,
+    search,
+    create,
+    getSlots
 };

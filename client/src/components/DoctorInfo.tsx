@@ -22,8 +22,8 @@ const DoctorInfo: React.FC<DoctorInfoProps> = ({ doctor }) => {
                     <div className="card-body">
                         <h5 className="card-title">{doctor.name}</h5>
                         <p className="card-text">{doctor.specialty}</p>
-                        <p className="card-text"><small className="text-muted">{doctor.location}</small></p>
-                        <AvailabilityGrid availability={doctor.availability} doctor={doctor} />
+                        <p className="card-text"><small className="text-muted">{doctor.address}</small></p>
+                        <AvailabilityGrid doctor={doctor} availabilitySummary={doctor.availabilitySummary} />
                     </div>
                 </div>
             </div>
