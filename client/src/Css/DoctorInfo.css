@@ -1,4 +1,4 @@
-.container-fluid,
+.customContainerFluid,
 #search-results,
 #map {
     height: 100vh;
@@ -14,7 +14,7 @@
     overflow-y: auto;
 }
 
-.container-fluid {
+.customContainerFluid {
     background-color: rgb(235, 249, 252);
 }
 

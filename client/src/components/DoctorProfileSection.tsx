@@ -9,6 +9,7 @@ interface DoctorDetailsProps {
 }
 
 const DoctorProfileSection: React.FC<DoctorDetailsProps> = ({ doctor }) => {
+  const isProfileLinkVisible = window.localStorage.getItem("Type") !== null;
   return (
     <div className="profileSection">
       <div className="header">
@@ -16,7 +17,11 @@ const DoctorProfileSection: React.FC<DoctorDetailsProps> = ({ doctor }) => {
         <div className="navigation">
           <a href="#">Browse</a>
           <a href="/help">Help</a>
-          <a href="/login">Log in / Sign up</a>
+          {isProfileLinkVisible ? (
+            <a href="/profile">Profile</a>
+          ) : (
+            <a href="/login">Log in / Sign up</a>
+          )}
         </div>
       </div>
       <div className="container text-center">

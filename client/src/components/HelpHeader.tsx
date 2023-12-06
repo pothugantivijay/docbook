@@ -1,12 +1,20 @@
 function HelpHeader() {
+  const isProfileLinkVisible = window.localStorage.getItem("Type") !== null;
   return (
     <div
       style={{ backgroundColor: "#f8fcfd", minHeight: "60vh", width: "100%" }}
     >
       <div className="container">
-        <div className="row">
-          <div className="col-12 mt-4">
-            <h1>DocBook</h1>
+        <div className="header">
+          <div className="DocBook">DocBook</div>
+          <div className="navigation">
+            <a href="#">Browse</a>
+            <a href="/help">Help</a>
+            {isProfileLinkVisible ? (
+              <a href="/profile">Profile</a>
+            ) : (
+              <a href="/login">Log in / Sign up</a>
+            )}
           </div>
         </div>
         <div
