@@ -1,0 +1,277 @@
+/* HomePage.css */
+
+/* Resetting default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Styles for the overall homepage container */
+  .homepage {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  /* Styles for the header section */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styles for the Zocdoc logo */
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Styles for the header buttons */
+  .header-buttons .btn {
+    margin-left: 10px;
+  }
+  
+  /* Styles for the search bar */
+  .search-bar {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .search-bar input {
+    width: 200px;
+    margin-right: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .search-bar .search-btn {
+    padding: 8px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Styles for doctor profiles section */
+  .doctor-profiles {
+    margin-top: 20px;
+    /* Add styles for displaying doctor profiles */
+  }
+  
+  .doctor-profiles {
+    margin-top: 20px;
+  }
+  
+  .doctor-row {
+    margin-bottom: 20px;
+  }
+  
+  .doctor-row-label {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .doctor-cards {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 10px;
+    scrollbar-width: none; /* Hide scrollbar for browsers that support it */
+    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+  }
+
+  .scroll-arrows {
+    
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 4%;
+  }
+  
+  .scroll-arrows button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    
+  }
+  
+  .scroll-arrows button:hover {
+    color: #000;
+  }
+
+/* Style for the specialty cards section */
+.specialty-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  /* Style for each individual specialty card */
+  .specialty-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+  }
+  
+  /* Style for the logo image within the specialty card */
+  .specialty-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%; /* Adjust as needed */
+    margin-bottom: 10px;
+  }
+  
+  /* Style for the specialty name within the specialty card */
+  .specialty-name {
+    font-weight: bold;
+  }
+
+  .specialty-card-link {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit text color */
+    /* Optionally, you can set other properties to reset styles */
+  }
+  
+  /* HomePage.css */
+
+/* Styles for the doctor section */
+.doctor-section {
+    text-align: center;
+    margin-top: 40px;
+  }
+  
+  .doctor-section-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Styles for the doctor cards */
+  .doctor-cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .doctor-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    width: 250px;
+  }
+  
+  .doctor-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+  
+  .doctor-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .doctor-description {
+    margin-bottom: 15px;
+  }
+  
+  .doctor-btn {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .doctor-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .information-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+
+
+/* Styles for the visit reasons section */
+.visit-reasons-section {
+    margin-top: 40px;
+  }
+  
+  .visit-reasons-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .visit-reasons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .visit-reason {
+    width: 10%;
+    margin-bottom: 15px;
+
+    
+  }
+  
+  .reason-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .arrow {
+    transition: transform 0.3s ease;
+  }
+  
+  .expanded {
+    transform: rotate(90deg);
+  }
+  
+  /* .sub-reasons {
+    list-style: none;
+    padding-left: 20px;
+    display: none;
+  } */
+  
+  .expanded .sub-reasons {
+    display: block;
+  }
+  
+  .sub-reasons li {
+    margin-bottom: 5px;
+  }
+  
+  .sub-reasons li a {
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  .sub-reasons li a:hover {
+    text-decoration: underline;
+  }
+  
