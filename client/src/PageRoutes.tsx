@@ -11,11 +11,14 @@ import DoctorProfile from "./DoctorProfile";
 import PatientRegistrationForm from "./PatientRegistration";
 import DoctorSearchPage from "./components/DoctorSearchPage";
 import BookingPage from "./components/BookingPage";
+import HomePage from "./components/Homepage";
+
 
 const Routes: React.FC = () => {
   return (
     <Router>
       <RouterRoutes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/" element={<App />} />
         <Route path="/login" element={<Login />} />
         <Route path="/help" element={<Help />} />
