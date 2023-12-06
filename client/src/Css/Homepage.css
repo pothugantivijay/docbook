@@ -11,7 +11,6 @@
   .homepage {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    padding: 20px;
   }
   
   /* Styles for the header section */
@@ -19,11 +18,34 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fff;
     padding: 10px 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
+  .upper {
+    background-color: rgb(253, 249, 236);
+    width: 100%;
+    left: 10px;
+
+    .btn {
+        border: #e1e081;
+        margin: 0;
+        padding: 0;
+    }
+    .btn:hover {
+        background-color: #e1e081;
+    }
+    .me-2{
+        color: #000;
+    }
+  }
+
+  .uppertext {
+    font-size: xx-large;
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+  }
+
   /* Styles for the Zocdoc logo */
   .logo {
     font-size: 24px;
@@ -39,25 +61,32 @@
   .search-bar {
     margin-top: 20px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
+
+    .mb-2 {
+        border-radius: 0;
+        margin-bottom: 0;
+    }
   }
   
   .search-bar input {
     width: 200px;
-    margin-right: 10px;
     padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid black;
+    border-right: #fff;
   }
   
   .search-bar .search-btn {
     padding: 8px 20px;
     background-color: #007bff;
+    align-items: center;
     color: #fff;
-    border: none;
-    border-radius: 4px;
+    
+    border-radius: 0;
     cursor: pointer;
+    margin-bottom: 0.5rem!important;
+    height: 42px;
   }
   
   /* Styles for doctor profiles section */
