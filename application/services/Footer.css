@@ -1,0 +1,146 @@
+footer { 
+    background-color: rgb(51,51,51);
+    font-family: Arial, sans-serif; 
+    color:rgb(255, 255, 255);
+    margin: 0; 
+    padding: 5px;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 20px;
+    position: fixed;
+}
+
+h1 {
+    text-align: center;
+    font-size: 32px;
+    color: #007bff;
+}
+
+h2 {
+    font-size: 24px;
+    color: #fcfdfe;
+}
+
+p {
+    line-height: 1.6;
+    color:rgb(191, 187, 187);
+    line-height: 5px;
+}
+p:hover{
+    color:rgb(255, 255, 255);
+}
+a{
+    text-decoration: none;
+    color:rgb(191, 187, 187);
+}
+a:hover{
+    color:rgb(255, 255, 255);
+}
+
+.nav-links {
+    padding: 0;
+}
+
+.nav-links li {
+    display: inline;
+    margin-right: 10px;
+}
+
+/* .playstore {
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    top: -1360px;
+}
+
+.googleplay {
+    padding: 10px 20px;
+    background-color: #010101;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+} */
+/*apps button*/
+.app{
+    width:120px;
+}
+/*privacy image*/
+.privacy-image{
+    margin-bottom:-10px;
+    height: 35px;
+}
+/*the bottom footer position*/
+.footer{
+    position: fixed;
+    bottom:5px;
+    background-color: rgb(0,0,0);
+    width: 100%;
+    padding:5px;
+    border-radius:5px;
+}
+.image{
+    position: absolute;
+    right:0;
+}
+/*setting the position of the nav bars*/
+.section2{
+    position:relative;
+    bottom:230px;
+    left:200px;
+}
+.section3{
+    position:relative;
+    bottom: 430px;
+    left: 500px;
+}
+.section4{
+    position:relative;
+    bottom: 890px;
+    left:825px;
+}
+.section5{
+    position:relative;
+    bottom: 1370px;
+    left: 1075px;
+}
+.section6{
+    position:relative;
+    bottom: 1365px;
+    left: 1075px;
+}
+.section7{
+    position: relative;
+    bottom: 1350px;
+    left: 1075px;
+}
+/*adjusting the font size*/
+.heading{
+    font-size: medium;
+}
+/*adjusting the logo size of the footer*/
+.twitter{
+    position: fixed;
+    height: 40px;
+    right: 150px;;
+}
+.insta{
+    align-items: center;
+    position:fixed;
+    height: 40px;
+    right:110px;
+}
+.fb{
+    position:fixed;
+    height: 35px;
+    right: 70px;
+}
+.linkedin{
+    position:fixed;
+    height:40px;
+    right: 35px;
+}
