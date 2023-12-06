@@ -1,0 +1,94 @@
+/* AvailabilityGrid.css - Professional and Elegant Color Scheme */
+
+.availability-row {
+    overflow-x: auto;
+    /* Allows horizontal scrolling */
+    width: auto;
+    /* Adjust this value to control space between cells */
+}
+
+.availability-cell {
+
+    border: 1px solid #e0e0e0;
+    /* Example border */
+    border-radius: 5px;
+    /* Rounded corners */
+    text-align: center;
+    min-width: 68px;
+    /* Adjust minimum width as necessary */
+}
+
+.availability-cell:hover {
+    background-color: #e2e6ea;
+    /* Slightly darker background on hover */
+}
+
+.date-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    color: #212529;
+    /* Dark for text */
+}
+
+.date-navigation button {
+    background: none;
+    border: none;
+    color: #007bff;
+    /* Bootstrap Primary Blue for buttons */
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.date-navigation button:disabled {
+    color: #6c757d;
+    /* Bootstrap Secondary Color for disabled buttons */
+}
+
+.date-navigation span {
+    font-weight: bold;
+}
+
+.modal-dialog {
+    max-width: 500px;
+    /* Adjust modal width */
+}
+
+.modal-header {
+    background-color: #007bff;
+    /* Bootstrap Primary Blue for header */
+    color: white;
+}
+
+.modal-body {
+    padding: 15px;
+    color: #212529;
+    /* Dark for body text */
+}
+
+.modal-body div {
+    margin-bottom: 10px;
+    /* Spacing between slots */
+}
+
+.modal-body button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    /* Bootstrap Primary Blue for buttons */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-body button:hover {
+    background-color: #3399ff;
+    /* Brighter Blue on hover */
+}
+
+.modal-footer {
+    justify-content: flex-end;
+}
+
+/* Add more styling as needed */
