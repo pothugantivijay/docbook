@@ -74,6 +74,16 @@ const PatientDetails: React.FC<PatientDetailsProps> = ({ patient }) => {
     window.location.href = "/login";
   };
 
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "UTC",
+  };
+
   return (
     <>
       <div className="header">
@@ -299,7 +309,10 @@ const PatientDetails: React.FC<PatientDetailsProps> = ({ patient }) => {
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {patient.dob
-                      ? new Date(patient.dob).toLocaleDateString()
+                      ? new Date(patient.dob).toLocaleDateString(
+                          "en-US",
+                          options
+                        )
                       : ""}
                   </dd>
 

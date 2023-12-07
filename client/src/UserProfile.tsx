@@ -3,6 +3,7 @@ import Patient from "./interfaces/Patient";
 import ImageAndText from "./components/ImageAndText";
 import HelloImg from "./media/3568984.jpg";
 import PatientDetails from "./components/PatientUserProfile";
+import PatientAppointments from "./components/PatientUserAppointments";
 
 function Profile() {
   const [patientData, setPatientData] = useState<Patient | null>(null);
@@ -44,6 +45,7 @@ function Profile() {
     // </div>
     <>
       <PatientDetails patient={patientData}></PatientDetails>
+      <PatientAppointments></PatientAppointments>
     </>
   );
 }

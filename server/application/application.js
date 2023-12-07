@@ -15,6 +15,8 @@ const initialize = ( application ) => {
     
     application.use(session({
         secret: 'your-secret-key',
+        resave: false,
+        saveUninitialized: true,
     }));
 
     mongoose.connect('mongodb+srv://chebrolus:sai123@testcluster.tcwunuu.mongodb.net/coursedb?retryWrites=true&w=majority');

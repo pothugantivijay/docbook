@@ -16,6 +16,10 @@ interface FormData {
 }
 
 const PatientRegistrationForm: React.FC = () => {
+  if (localStorage.getItem("Type")) {
+    window.location.href = "/profile";
+  }
+
   const [formData, setFormData] = useState<FormData>({
     username: "",
     password: "",
@@ -55,7 +59,7 @@ const PatientRegistrationForm: React.FC = () => {
 
       if (response.ok) {
         console.log("Patient registered successfully!");
-        window.location.href = "/help";
+        window.location.href = "/login";
       } else {
         console.error("Error registering patient.");
       }
