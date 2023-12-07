@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import { mockDoctorData } from '../data';
+import { useLocation } from 'react-router-dom';
 import { Doctor } from '../types/DoctorTypes';
+import { createAppointment, fetchDoctorDetails } from '../api';
 
 interface BookingFormData {
     name: string;
@@ -9,7 +9,6 @@ interface BookingFormData {
     condition: string;
     insuranceProvider: string;
     insuranceNumber: string;
-    // Other fields as necessary
 }
 
 const BookingPage: React.FC = () => {
@@ -19,30 +18,64 @@ const BookingPage: React.FC = () => {
         condition: '',
         insuranceProvider: '',
         insuranceNumber: ''
-        // Initialize other fields as necessary
     });
     const location = useLocation();
-    const { doctorId, slot } = location.state || {};
+    const { doctorId, slot, date } = location.state || {};
 
     const [doctor, setDoctor] = useState<Doctor | null>(null);
 
     useEffect(() => {
-        if (doctorId) {
-            const foundDoctor = mockDoctorData.find(doc => doc.id === parseInt(doctorId, 10));
-            setDoctor(foundDoctor || null);
-        }
+        const fetchAndSetDoctor = async () => {
+            if (doctorId) {
+                const doctorData = await fetchDoctorDetails(doctorId);
+                setDoctor(doctorData);
+            }
+        };
+
+        fetchAndSetDoctor();
     }, [doctorId]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    function combineDateAndTimeUTC(dateString: string, timeString: string) {
+        const [hours, minutes] = timeString.split(':').map(Number);
+        const date = new Date(dateString);
+
+        // Convert the date to UTC
+        date.setUTCHours(hours, minutes, 0, 0);
+
+        return date;
+    }
+
+
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Process the booking data
-        console.log(formData);
-        // Redirect or handle the submission as needed
+
+        const formattedDate = (typeof date === 'string') ? date : date.toISOString();
+
+        const appointmentData = {
+            ...formData,
+            doctorId: doctorId,
+            startTime: combineDateAndTimeUTC(formattedDate, slot.start),
+            endTime: combineDateAndTimeUTC(formattedDate, slot.end),
+            date: formattedDate
+        };
+
+        try {
+            const result = await createAppointment(appointmentData);
+            console.log('Appointment created:', result);
+            // Handle success - redirect or show a success message
+        } catch (error) {
+            console.error('Error creating appointment:', error);
+            // Handle errors - show an error message to the user
+        }
     };
+
+
+
 
     return (
         <div className="container my-5">
@@ -50,8 +83,8 @@ const BookingPage: React.FC = () => {
                 <div className="mb-4">
                     <h2 className="mb-3">Booking Appointment with {doctor.name}</h2>
                     <p><strong>Specialty:</strong> {doctor.specialty}</p>
-                    <p><strong>Location:</strong> {doctor.location}</p>
-                    <p><strong>Selected Slot:</strong> {slot}</p>
+                    <p><strong>Location:</strong> {doctor.address}</p>
+                    <p><strong>Selected Slot:</strong> {slot.start} - {slot.end} </p>
                     {/* Other doctor details */}
                 </div>
             )}

@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet'; // Import Leaflet
-import { Doctor } from '../types/DoctorTypes'; // Import the Doctor type
+import L from 'leaflet';
+import { Doctor } from '../types/DoctorTypes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import ReactDOMServer from 'react-dom/server';
 
-
 interface DoctorMapProps {
-    doctors: Doctor[];
-}
-interface MapBoundsSetterProps {
     doctors: Doctor[];
 }
 
@@ -21,17 +17,17 @@ const doctorIcon = new L.Icon({
             <FontAwesomeIcon icon={faMapMarkerAlt} size="2x" color="red" />
         )
     )}`,
-    iconSize: [30, 30], // Size of the icon
-    iconAnchor: [15, 30], // Point of the icon which will correspond to marker's location
-    popupAnchor: [0, -30], // Point from which the popup should open relative to the iconAnchor
+    iconSize: [30, 30],
+    iconAnchor: [15, 30],
+    popupAnchor: [0, -30],
 });
 
-const MapBoundsSetter: React.FC<MapBoundsSetterProps> = ({ doctors }) => {
+const MapBoundsSetter: React.FC<DoctorMapProps> = ({ doctors }) => {
     const map = useMap();
 
     useEffect(() => {
         if (doctors.length > 0) {
-            const bounds = L.latLngBounds(doctors.map((doctor: Doctor) => doctor.position));
+            const bounds = L.latLngBounds(doctors.map((doctor: Doctor) => [doctor.location.latitude, doctor.location.longitude]));
             map.fitBounds(bounds);
         }
     }, [doctors, map]);
@@ -39,9 +35,8 @@ const MapBoundsSetter: React.FC<MapBoundsSetterProps> = ({ doctors }) => {
     return null;
 };
 
-
 const DoctorMap: React.FC<DoctorMapProps> = ({ doctors }) => {
-    const [userPosition, setUserPosition] = useState<[number, number]>([51.505, -0.09]); // Default position
+    const [userPosition, setUserPosition] = useState<[number, number]>([51.505, -0.09]);
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -58,12 +53,13 @@ const DoctorMap: React.FC<DoctorMapProps> = ({ doctors }) => {
         <MapContainer center={userPosition} zoom={13} style={{ height: '100%', width: '100%' }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {doctors.map((doctor) => (
-                <Marker key={doctor.id} position={doctor.position} icon={doctorIcon}>
+                <Marker key={doctor.id} position={[doctor.location.latitude, doctor.location.longitude]} icon={doctorIcon}>
                     <Popup>
                         <div>
                             <h3>{doctor.name}</h3>
                             <p>{doctor.specialty}</p>
-                            <p>{doctor.location}</p>
+                            {/* Display latitude and longitude */}
+                            <p>Latitude: {doctor.location.latitude}, Longitude: {doctor.location.longitude}</p>
                         </div>
                     </Popup>
                 </Marker>

@@ -16,35 +16,66 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearchSubmit }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="form-inline d-flex">
-            <div className="form-group mb-2">
-                <input
-                    type="text"
-                    className="form-control"
-                    value={name}
-                    placeholder="Name"
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-                />
+        <form onSubmit={handleSubmit}>
+            <div className='uppertext'>Book local doctors who accept your Insurance</div>
+            <div className="search-bar">
+                <div className="mb-2">
+                    <input
+                        type="text"
+                        className="form-control search-input"
+                        value={name}
+                        placeholder="Name"
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                    />
+                </div>
+                <div className="mb-2">
+                    <input
+                        type="text"
+                        className="form-control search-input"
+                        value={specialty}
+                        placeholder="Specialty"
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setSpecialty(e.target.value)}
+                    />
+                </div>
+                <div className="mb-2">
+                    <input
+                        type="text"
+                        className="form-control search-input"
+                        value={location}
+                        placeholder="Location"
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setLocation(e.target.value)}
+                    />
+                </div>
+                <button className="btn btn-primary search-btn">Search</button>
             </div>
-            <div className="form-group mx-sm-3 mb-2">
-                <input
-                    type="text"
-                    className="form-control"
-                    value={specialty}
-                    placeholder="Specialty"
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setSpecialty(e.target.value)}
-                />
-            </div>
-            <div className="form-group mb-2">
-                <input
-                    type="text"
-                    className="form-control"
-                    value={location}
-                    placeholder="Location"
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setLocation(e.target.value)}
-                />
-            </div>
-            <button type="submit" className="btn btn-primary mb-2">Search</button>
+
+            {/* <div className="search-bar">
+            <input
+            type="text"
+            className="form-control mb-2"
+            placeholder="Location"
+            name="location"
+            value={searchParams.location}
+            onChange={handleSearchChange}
+            />
+            <input
+            type="text"
+            className="form-control mb-2"
+            placeholder="Specialty"
+            name="specialty"
+            value={searchParams.specialty}
+            onChange={handleSearchChange}
+            />
+            <input
+            type="text"
+            className="form-control mb-2"
+            placeholder="Insurance"
+            name="insurance"
+            value={searchParams.insurance}
+            onChange={handleSearchChange}
+            />
+            <button className="btn btn-primary search-btn">Search</button>
+        </div> */}
         </form>
     );
 };
