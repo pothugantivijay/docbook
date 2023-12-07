@@ -377,18 +377,6 @@ const DoctorRegistrationForm: React.FC = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="rating" className="form-label">
-                    Rating
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    id="rating"
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
                   <label htmlFor="profilePicture" className="form-label">
                     Profile Picture
                   </label>

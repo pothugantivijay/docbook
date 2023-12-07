@@ -4,18 +4,19 @@ footer {
     color:rgb(255, 255, 255);
     margin: 0; 
     padding: 5px;
-    height: 100vh;
+    height: auto;
 }
 
-.container {
-    width: 100%;
-    height: 100vh;
-    margin: 0 auto;
-    padding: 20px;
-    position: fixed;
+.nav-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 20px;
+    /*padding: 20px;*/
+    grid-auto-rows: minmax(100px, auto);
 }
 
 h1 {
+    grid-column: 1 / span 5;
     text-align: center;
     font-size: 32px;
     color: #007bff;
@@ -75,72 +76,78 @@ a:hover{
     height: 35px;
 }
 /*the bottom footer position*/
-.footer{
-    position: fixed;
-    bottom:5px;
-    background-color: rgb(0,0,0);
+.footer {
+    grid-column: 7 ;
+    grid-row: 3 ;
+    left:-10px;
+    background-color: rgb(0, 0, 0);
     width: 100%;
-    padding:5px;
-    border-radius:5px;
+    padding: 5px;
+    border-radius: 5px;
 }
 .image{
     position: absolute;
     right:0;
 }
 /*setting the position of the nav bars*/
-.section2{
-    position:relative;
-    bottom:230px;
-    left:200px;
+.section0 {
+    grid-column: 1;
+    grid-row: 1/2;
 }
-.section3{
-    position:relative;
-    bottom: 430px;
-    left: 500px;
+
+.section1 {
+    grid-column: 8/10;
+    grid-row: 1;
 }
-.section4{
-    position:relative;
-    bottom: 890px;
-    left:825px;
+
+.section2 {
+    grid-column: 2/4;
+    grid-row: 1;
 }
-.section5{
-    position:relative;
-    bottom: 1370px;
-    left: 1075px;
+
+.section3 {
+    grid-column: 4/6;
+    grid-row: 1;
 }
-.section6{
-    position:relative;
-    bottom: 1365px;
-    left: 1075px;
+
+.section4 {
+    grid-column: 6/8;
+    grid-row: 1;
 }
-.section7{
-    position: relative;
-    bottom: 1350px;
-    left: 1075px;
+
+.section5 {
+    grid-column: 8/10;
+    grid-row: 1;
 }
+
+.section6 {
+    grid-column: 8/10 ;
+    grid-row: 2;
+}
+
+.section7 {
+    grid-column: 11/13 ;
+    grid-row: 1;
+}
+
 /*adjusting the font size*/
 .heading{
     font-size: medium;
 }
 /*adjusting the logo size of the footer*/
 .twitter{
-    position: fixed;
     height: 40px;
-    right: 150px;;
-}
-.insta{
-    align-items: center;
-    position:fixed;
-    height: 40px;
-    right:110px;
-}
-.fb{
-    position:fixed;
-    height: 35px;
     right: 70px;
 }
+.insta{
+    height: 40px;
+    right:50px;
+}
+.fb{
+    height: 35px;
+    right: 30px;
+}
 .linkedin{
-    position:fixed;
     height:40px;
-    right: 35px;
+    right: 10px;
 }
