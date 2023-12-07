@@ -13,6 +13,7 @@ import Profile from "./UserProfile";
 import DoctorSearchPage from "./components/DoctorSearchPage";
 import BookingPage from "./components/BookingPage";
 import HomePage from "./components/Homepage";
+import DoctorRegistrationForm from "./components/DoctorRegistration";
 
 
 const Routes: React.FC = () => {
@@ -28,6 +29,7 @@ const Routes: React.FC = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/search" element={<DoctorSearchPage />} />
         <Route path="/booking" element={<BookingPage />} />
+        <Route path ="/registerdoctor" element={<DoctorRegistrationForm />}/>
       </RouterRoutes>
     </Router>
   );
