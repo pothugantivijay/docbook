@@ -16,46 +16,56 @@ const Footer: React.FC = () => {
         <div className="nav-container">
           <nav className="section0">
             <h2 className="heading">DocBook</h2>
-            <p><a href="./">Home</a></p>
-            <p><a href="#">About us</a></p>
-            <p><a href="#">Press</a></p>
-            <p><a href="#">Careers</a></p>
-            <p><a href="./help">Help</a></p>
+            <div className="elementstyle">
+              <p><a href="./">Home</a></p>
+              <p><a href="#">About us</a></p>
+              <p><a href="#">Press</a></p>
+              <p><a href="#">Careers</a></p>
+              <p><a href="./help">Help</a></p>
+            </div>
           </nav>
 
           <nav className="section1">
             <h2 className="heading">Contact</h2>
-            <p><a href="#">service@zocdoc.com</a></p>
-            <p>855-962-3621</p>
+            <div className="elementstyle">
+              <p><a href="#">service@zocdoc.com</a></p>
+              <p>855-962-3621</p>
+            </div>
           </nav>
 
           <nav className="section2">
             <h2 className="heading">Discover</h2>
-            <p><a href="#">The Paper Gown <br /><br /><br /><br /><br />
-            Stories for and about patients</a></p>
-            <p><a href="#">Community Standards</a></p>
-            <p><a href="#">Data and privacy</a></p>
-            <p><a href="#">Verified reviews</a></p>
+            <div className="elementstyle">
+              <p><a href="#">The Paper Gown <br /><br /><br /><br /><br />
+              Stories for and about patients</a></p>
+              <p><a href="#">Community Standards</a></p>
+              <p><a href="#">Data and privacy</a></p>
+              <p><a href="#">Verified reviews</a></p>
+            </div>
           </nav>
 
           <nav className="section3">
             <h2 className="heading">Insurance Carriers</h2>
-            <p><a href="#">Aetna</a></p>
-            <p><a href="#">Ambetter</a></p>
-            <p><a href="#">Anthem Blue Cross Blue Shield</a></p>
-            <p><a href="#">Blue Cross Blue Shield</a></p>
-            <p><a href="#">Cigna</a></p>
+            <div className="elementstyle">
+              <p><a href="#">Aetna</a></p>
+              <p><a href="#">Ambetter</a></p>
+              <p><a href="#">Anthem Blue Cross Blue Shield</a></p>
+              <p><a href="#">Blue Cross Blue Shield</a></p>
+              <p><a href="#">Cigna</a></p>
+            </div>
           </nav>
 
           <nav className="section4">
             <h2 className="heading">Top Specialties</h2>
-            <p><a href="#">Primary Care Doctor</a></p>
-            <p><a href="#">Urgent Care</a></p>
-            <p><a href="#">Dermatologist</a></p>
-            <p><a href="#">Psychiatrist</a></p>
-            <p><a href="#">Ear, Nose & Throat Doctor</a></p>
-            <p><a href="#">Pediatrist</a></p>
-            <p><a href="#">Urologist</a></p>
+            <div className="elementstyle">
+              <p><a href="#">Primary Care Doctor</a></p>
+              <p><a href="#">Urgent Care</a></p>
+              <p><a href="#">Dermatologist</a></p>
+              <p><a href="#">Psychiatrist</a></p>
+              <p><a href="#">Ear, Nose & Throat Doctor</a></p>
+              <p><a href="#">Pediatrist</a></p>
+              <p><a href="#">Urologist</a></p>
+            </div>
           </nav>
 
           {/* <nav className="section5">
