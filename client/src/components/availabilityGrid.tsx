@@ -113,7 +113,7 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary
                     <div className="availability-cell p-1 border rounded text-center">
                         <div>{dayOfWeek}</div>
                         <div>{month} {dayOfMonth}</div>
-                        <div>{availableAppointments}</div>
+                        <div><strong>{availableAppointments}</strong></div>
                         <div>appts</div>
                     </div>
                 </div>
