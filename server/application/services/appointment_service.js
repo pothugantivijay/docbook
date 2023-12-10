@@ -17,7 +17,24 @@ const getAppointments = async (username) => {
 
 }
 
+const patchAppointment = async(appointmentData) => {
+    const { _id, ...updateData } = appointmentData;
+
+    try {
+        const updatedAppointment = await Appointment.findByIdAndUpdate(
+            _id,
+            { $set: updateData },
+            { new: true } 
+        );
+
+        return updatedAppointment;
+    } catch (err) {
+        throw err;
+    }
+}
+
 module.exports = {
     createAppointment,
-    getAppointments
+    getAppointments,
+    patchAppointment,
 };

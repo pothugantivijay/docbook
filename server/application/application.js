@@ -14,7 +14,7 @@ const initialize = ( application ) => {
     application.use(express.static(path.join(__dirname ,'..','public')));
     
     application.use(session({
-        secret: 'your-secret-key',
+        secret: 'my-secret',
         resave: false,
         saveUninitialized: true,
     }));

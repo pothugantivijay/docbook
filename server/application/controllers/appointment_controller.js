@@ -21,8 +21,19 @@ const getAppointments = async ( request, response) => {
     }
 }
 
+const patchAppointment = async ( request, response) => {
+    try {
+        const appointments = await AppointmentService.patchAppointment(request.body);
+        response.status(201).json(appointments);
+    } catch (error) {
+        console.error(error);
+        response.status(500).json({ message: 'Error patching appointment' });
+    }
+}
+
 
 module.exports = {
     createAppointment,
     getAppointments,
+    patchAppointment,
 };
