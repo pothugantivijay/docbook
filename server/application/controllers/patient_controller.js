@@ -14,6 +14,30 @@ const post = async (request, response) => {
   }
 };
 
+const get = async (request, response) => {
+    if (request.session.username) {
+        const patient = await patientService.getPatient(request.session.username);
+        response.status(200).json(patient);
+    }
+    else {
+      console.log("Missing");
+      response.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+const patch = async (request, response) => {
+  if (request.session.username) {
+      const patient = await patientService.updatePatient(request.session.username,request.body);
+      response.status(200).json(patient);
+  }
+  else {
+    console.log("Missing");
+    response.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports = {
   post,
+  get,
+  patch,
 };

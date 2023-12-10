@@ -1,4 +1,3 @@
-.container-fluid,
 #search-results,
 #map {
     height: 100vh;
@@ -9,42 +8,80 @@
     top: 0;
 }
 
-
 #search-results {
     overflow-y: auto;
+    padding: 10px;
 }
 
-.container-fluid {
-    background-color: rgb(235, 249, 252);
+.customContainerFluid {
+    background-color: rgb(248, 248, 243);
 }
 
-.doctor-card {
+.header-btn {
+    border: 0px;
+    color: black;
+}
+
+.header-btn :hover {
+    background-color: #cccccc74;
+}
+
+.doctor-card-search {
     border: 1px solid #e0e0e0;
-    /* Light grey border */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Subtle shadow for depth */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.doctor-card .doctor-image {
+.doctor-card-search .doctor-image {
     object-fit: cover;
-    /* Ensures the image covers the area */
-    height: 100%;
-    /* Equal height for image and content */
+    width: 100%;
+    /* Full width of the column */
+    height: auto;
+    /* Maintain aspect ratio */
+    max-height: 200px;
+    /* Maximum height */
 }
 
-.doctor-card .card-body {
+.doctor-card-search .card-body {
     padding: 20px;
-    /* Spacing inside the card */
 }
 
-.doctor-card .card-title {
+.doctor-card-search .card-title {
     font-size: 1.5rem;
-    /* Larger text for doctor's name */
     color: #333;
-    /* Darker text for emphasis */
 }
 
-.doctor-card .card-text {
+.doctor-card-search .card-text {
     margin-bottom: 10px;
-    /* Spacing between text elements */
+}
+
+.availability-heading {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: #555;
+    text-decoration: underline;
+    text-align: center;
+}
+
+.doctor-details {
+    margin-top: 3rem;
+}
+
+.filled-star,
+.half-filled-star {
+    color: rgb(255, 217, 0);
+    /* Or any color you prefer for filled and half-filled stars */
+}
+
+.empty-star {
+    color: #ccc;
+    /* Light grey for empty stars */
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .doctor-card-search .doctor-image {
+        max-height: 150px;
+    }
 }

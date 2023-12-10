@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, useRef } from 'react';
 import '../Css/Homepage.css'; // Import the corresponding CSS file for styling
-
+import Footer from "./Footer";
 type ExpandedState = {
     medical: boolean;
     dental: boolean;
@@ -319,7 +319,8 @@ const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
               )}
             </div>
           </div>
-        </div>
+        </div> 
+        <Footer/>
     </div>
   );
 };

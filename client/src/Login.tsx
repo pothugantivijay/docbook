@@ -1,11 +1,16 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import "./Css/login.css";
+import Cookies from "js-cookie";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  if (localStorage.getItem("Type")) {
+    window.location.href = "/profile";
+  }
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -36,9 +41,11 @@ function Login() {
       const data = await response.json();
       console.log("Login successful:", data);
 
+      localStorage.setItem("Type", data);
+
       setLoginSuccess(true);
       setError(null);
-      window.location.href = "/help";
+      window.location.href = "/profile";
     } catch (error) {
       console.error("Login error:", (error as Error).message);
 
