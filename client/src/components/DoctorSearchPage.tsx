@@ -1,4 +1,3 @@
-// DoctorSearchPage.tsx
 import React, { useState } from "react";
 import SearchForm from "./SearchForm";
 import DoctorProfile from "./DoctorProfile";

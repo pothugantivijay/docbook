@@ -5,11 +5,19 @@ const mongoose = require('mongoose');
 
 const totalSlotsPerDay = 8;
 
+function convertToLocalTime(date, offset) {
+  return new Date(date.getTime() - offset * 60 * 60 * 1000);
+}
+
 async function getBookedSlotsCount(id) {
-  let startDate = new Date();
+  const utcOffsetForEST = 5; // EST is UTC-5
+
+  // Set startDate to the current date in EST
+  let startDate = convertToLocalTime(new Date(), utcOffsetForEST);
   startDate.setHours(0, 0, 0, 0);
 
-  let endDate = new Date();
+  // Set endDate to 28 days later
+  let endDate = new Date(startDate);
   endDate.setDate(startDate.getDate() + 28);
   endDate.setHours(23, 59, 59, 999);
 
@@ -27,6 +35,7 @@ async function getBookedSlotsCount(id) {
 
   return bookedCountPerDay;
 }
+
 
 async function getDoctorDetailsWithReviews(doctorId) {
   try {
@@ -75,7 +84,7 @@ async function searchDoctors(criteria) {
 
       // Calculate available slots for the next 28 days
       for (let i = 0; i < 28; i++) {
-        let day = new Date();
+        let day = convertToLocalTime(new Date(), 5);
         day.setDate(day.getDate() + i);
         const dayStr = day.toISOString().split('T')[0];
 
@@ -109,44 +118,47 @@ function formatTime(date) {
 }
 
 async function getSlotDetailsForDay(id, dateString) {
-  const workingHoursStart = 9; // 9:00 AM UTC
-  const workingHoursEnd = 17; // 5:00 PM UTC
+  const estToUtcOffset = 5; // EST is UTC-5
+  const workingHoursStart = 9; // 9:00 AM EST
+  const workingHoursEnd = 17; // 5:00 PM EST
 
-  let startOfDay = new Date(dateString);
-  startOfDay.setUTCHours(workingHoursStart, 0, 0, 0);
+  // Convert EST working hours to UTC
+  let startOfDayUtc = new Date(dateString);
+  startOfDayUtc.setUTCHours(workingHoursStart + estToUtcOffset, 0, 0, 0);
 
-  let endOfDay = new Date(dateString);
-  endOfDay.setUTCHours(workingHoursEnd, 0, 0, 0);
+  let endOfDayUtc = new Date(dateString);
+  endOfDayUtc.setUTCHours(workingHoursEnd + estToUtcOffset, 0, 0, 0);
 
+  // Fetch appointments within the UTC time range
   const appointments = await Appointment.find({
     doctorId: id,
-    startTime: { $gte: startOfDay },
-    endTime: { $lte: endOfDay }
+    startTime: { $gte: startOfDayUtc },
+    endTime: { $lte: endOfDayUtc }
   });
 
   let slots = [];
   for (let hour = workingHoursStart; hour < workingHoursEnd; hour++) {
-    let slotStart = new Date(dateString);
-    slotStart.setUTCHours(hour, 0, 0, 0);
+    let slotStartUtc = new Date(dateString);
+    slotStartUtc.setUTCHours(hour + estToUtcOffset, 0, 0, 0);
 
-    let slotEnd = new Date(dateString);
-    slotEnd.setUTCHours(hour + 1, 0, 0, 0);
+    let slotEndUtc = new Date(dateString);
+    slotEndUtc.setUTCHours(hour + 1 + estToUtcOffset, 0, 0, 0);
 
-    slots.push({ start: slotStart, end: slotEnd });
+    slots.push({ start: slotStartUtc, end: slotEndUtc });
   }
 
   let availableSlots = slots.filter(slot =>
     !appointments.some(appointment =>
-      appointment.startTime.getTime() === slot.start.getTime() &&
-      appointment.endTime.getTime() === slot.end.getTime()
+      appointment.startTime <= slot.start &&
+      appointment.endTime >= slot.end
     )
-  ).map(slot => ({ start: formatTime(slot.start), end: formatTime(slot.end) }));
+  ).map(slot => ({
+    start: slot.start.toISOString(),
+    end: slot.end.toISOString()
+  }));
 
   return availableSlots;
 }
-
-
-
 
 
 module.exports = {

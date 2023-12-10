@@ -39,13 +39,10 @@ const BookingPage: React.FC = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    function combineDateAndTimeUTC(dateString: string, timeString: string) {
-        const [hours, minutes] = timeString.split(':').map(Number);
-        const date = new Date(dateString);
-
-        // Convert the date to UTC
-        date.setUTCHours(hours, minutes, 0, 0);
-
+    function combineDateAndTime(dateString: string, timeString: string) {
+        console.log(dateString, timeString);
+        let dateTimeString = dateString + 'T' + timeString + ':00-05:00';
+        const date = new Date(dateTimeString);
         return date;
     }
 
@@ -54,13 +51,18 @@ const BookingPage: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const formattedDate = (typeof date === 'string') ? date : date.toISOString();
+        const formattedDate = date.toLocaleDateString('en-CA', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        });
+        console.log(formattedDate, slot.start, slot.end);
 
         const appointmentData = {
             ...formData,
             doctorId: doctorId,
-            startTime: combineDateAndTimeUTC(formattedDate, slot.start),
-            endTime: combineDateAndTimeUTC(formattedDate, slot.end),
+            startTime: combineDateAndTime(formattedDate, slot.start),
+            endTime: combineDateAndTime(formattedDate, slot.end),
             date: formattedDate
         };
 

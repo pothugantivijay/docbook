@@ -42,13 +42,32 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary
         setWeekOffset((prevOffset) => prevOffset - 1);
     };
 
+    function convertUtcToEstAndFormat(slots: Slot[]) {
+        const utcToEstOffset = -5; // EST is UTC-5 hours
+        const estSlots = slots.map(slot => {
+            return {
+                start: convertAndFormatTime(slot.start, utcToEstOffset),
+                end: convertAndFormatTime(slot.end, utcToEstOffset)
+            };
+        });
+        return estSlots;
+    }
+
+    function convertAndFormatTime(dateTimeString: string, offset: number) {
+        const date = new Date(dateTimeString);
+        date.setHours(date.getHours() + offset);
+        return date.toISOString().substring(11, 16); // Extracts the HH:MM part
+    }
+
 
     const handleCellClick = async (date: Date) => {
         setSelectedDay({ date, slots: [] });
         try {
             const slotDetails = await fetchSlotDetails(doctor.id.toString(), date);
 
-            setSlots(slotDetails);
+            setSlots(convertUtcToEstAndFormat(slotDetails));
+
+
         } catch (error) {
             console.error("Error fetching slot details: ", error);
             setSlots([]);
@@ -60,6 +79,20 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary
 
     const handleBookingClick = (doctorId: number, slot: Slot, date: Date) => {
         navigate('/booking', { state: { doctorId, slot, date } });
+    };
+
+    const isSlotTimePast = (end: string, date: Date) => {
+        const currentTime = new Date();
+        const endTime = new Date();
+        if (date > currentTime) {
+            return false;
+        }
+        // Extract hours and minutes from slot.end and set them to endTime
+        const [hours, minutes] = end.split(':').map(Number);
+        endTime.setHours(hours, minutes, 0, 0); // Reset seconds and milliseconds to 0
+
+        // Compare and return if current time is past slot end time
+        return currentTime > endTime;
     };
 
     const renderPopup = () => {
@@ -82,11 +115,14 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary
                                     slots.map((slot, index) => (
                                         <div key={index} className="d-flex justify-content-between align-items-center">
                                             <span>{slot.start} - {slot.end}</span>
-                                            <button onClick={() => handleBookingClick(doctor.id, slot, selectedDay.date)}>
+                                            <button
+                                                onClick={() => handleBookingClick(doctor.id, slot, selectedDay.date)}
+                                                disabled={isSlotTimePast(slot.end, selectedDay.date)} // Disable button if current time is past slot.end
+                                                className={`btn ${isSlotTimePast(slot.end, selectedDay.date) ? 'button-disabled' : ''}`}
+                                            >
                                                 Book Now
                                             </button>
-                                        </div>
-                                    ))
+                                        </div>))
                                 ) : (
                                     <div>No available slots</div>
                                 )}
