@@ -334,6 +334,26 @@ function PatientAppointments() {
                         Submit Review
                       </button>
                     )}
+                    {getStatus(
+                    new Date(appointment.startTime).toLocaleString(
+                      "en-US",
+                      options
+                    ),
+                    new Date(appointment.endTime).toLocaleString(
+                      "en-US",
+                      options
+                    )
+                  ) === "Completed" &&
+                    appointment.reviewed && (
+                      <button
+                        type="button"
+                        className="btn disabled btn-success m-4"
+                        onClick={() => handleShowModal(appointment)}
+                        style={{ fontSize: "0.8em", padding: "0.1em 0.2em" }}
+                      >
+                        Review Submitted
+                      </button>
+                    )}
                 </td>
               </tr>
             ))}
