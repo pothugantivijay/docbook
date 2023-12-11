@@ -1,4 +1,5 @@
 interface Appointment {
+    _id: number;
     doctorId: number;
     doctorName: String;
     doctorSpecialty: String;
@@ -11,6 +12,7 @@ interface Appointment {
     date: Date;
     insuranceProvider: string;
     insuranceNumber: string;
+    reviewed: Boolean;
 }
 
 export default Appointment;

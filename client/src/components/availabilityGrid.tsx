@@ -42,24 +42,55 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary
         setWeekOffset((prevOffset) => prevOffset - 1);
     };
 
+    function convertUtcToEstAndFormat(slots: Slot[]) {
+        const utcToEstOffset = -5; // EST is UTC-5 hours
+        const estSlots = slots.map(slot => {
+            return {
+                start: convertAndFormatTime(slot.start, utcToEstOffset),
+                end: convertAndFormatTime(slot.end, utcToEstOffset)
+            };
+        });
+        return estSlots;
+    }
+
+    function convertAndFormatTime(dateTimeString: string, offset: number) {
+        const date = new Date(dateTimeString);
+        date.setHours(date.getHours() + offset);
+        return date.toISOString().substring(11, 16); // Extracts the HH:MM part
+    }
+
 
     const handleCellClick = async (date: Date) => {
+        console.log(date);
         setSelectedDay({ date, slots: [] });
         try {
             const slotDetails = await fetchSlotDetails(doctor.id.toString(), date);
 
-            setSlots(slotDetails);
+            setSlots(convertUtcToEstAndFormat(slotDetails));
+
+
         } catch (error) {
             console.error("Error fetching slot details: ", error);
             setSlots([]);
         }
     };
 
-
-
-
     const handleBookingClick = (doctorId: number, slot: Slot, date: Date) => {
         navigate('/booking', { state: { doctorId, slot, date } });
+    };
+
+    const isSlotTimePast = (end: string, date: Date) => {
+        const currentTime = new Date();
+        const endTime = new Date();
+        if (date > currentTime) {
+            return false;
+        }
+        // Extract hours and minutes from slot.end and set them to endTime
+        const [hours, minutes] = end.split(':').map(Number);
+        endTime.setHours(hours, minutes, 0, 0); // Reset seconds and milliseconds to 0
+
+        // Compare and return if current time is past slot end time
+        return currentTime > endTime;
     };
 
     const renderPopup = () => {
@@ -82,11 +113,14 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary
                                     slots.map((slot, index) => (
                                         <div key={index} className="d-flex justify-content-between align-items-center">
                                             <span>{slot.start} - {slot.end}</span>
-                                            <button onClick={() => handleBookingClick(doctor.id, slot, selectedDay.date)}>
+                                            <button
+                                                onClick={() => handleBookingClick(doctor.id, slot, selectedDay.date)}
+                                                disabled={isSlotTimePast(slot.end, selectedDay.date)} // Disable button if current time is past slot.end
+                                                className={`btn ${isSlotTimePast(slot.end, selectedDay.date) ? 'button-disabled' : ''}`}
+                                            >
                                                 Book Now
                                             </button>
-                                        </div>
-                                    ))
+                                        </div>))
                                 ) : (
                                     <div>No available slots</div>
                                 )}
@@ -106,7 +140,11 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary
             const dayOfWeek = date.toLocaleString('en-US', { weekday: 'short' }); // e.g., "Wed"
             const month = date.toLocaleString('en-US', { month: 'short' }); // e.g., "Dec"
             const dayOfMonth = date.getDate(); // e.g., 13
-            const availableAppointments = availabilitySummary[date.toISOString().split('T')[0]] || 0;
+            const availableAppointments = availabilitySummary[date.toLocaleDateString('en-CA', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            })] || 0;
 
             return (
                 <div key={index} className="availability-row col" onClick={() => handleCellClick(date)}>

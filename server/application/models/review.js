@@ -5,8 +5,8 @@ const reviewSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  patientId: {
-    type: Number,
+  username: {
+    type: String,
     required: true,
   },
   rating: {

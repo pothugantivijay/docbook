@@ -1,22 +1,11 @@
+import DocBookHeader from "./DocBookHeader";
 function HelpHeader() {
-  const isProfileLinkVisible = window.localStorage.getItem("Type") !== null;
   return (
     <div
       style={{ backgroundColor: "#f8fcfd", minHeight: "60vh", width: "100%" }}
     >
+      <DocBookHeader></DocBookHeader>
       <div className="container">
-        <div className="header">
-          <div className="DocBook">DocBook</div>
-          <div className="navigation">
-            <a href="#">Browse</a>
-            <a href="/help">Help</a>
-            {isProfileLinkVisible ? (
-              <a href="/profile">Profile</a>
-            ) : (
-              <a href="/login">Log in / Sign up</a>
-            )}
-          </div>
-        </div>
         <div
           className="row justify-content-center align-items-center"
           style={{ minHeight: "calc(60vh - 60px)" }}

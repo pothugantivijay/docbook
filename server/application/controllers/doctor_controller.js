@@ -12,6 +12,18 @@ const get = async (request, response) => {
     }
 };
 
+const getProfile = async (request, response) => {
+    try {
+        console.log('recieved profile request');
+        const doctorDetails = await DoctorService.getDoctorProfile(request.session.username);
+        response.status(200).json(doctorDetails);
+    }
+    catch (error) {
+        console.error(error.message);
+        response.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 const search = async (request, response) => {
     try {
         const searchCriteria = request.body; // Assuming the criteria are sent in the request body
@@ -23,6 +35,16 @@ const search = async (request, response) => {
         response.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+const fetchall = async (req, res) => {
+    try {
+        const result = await DoctorService.allDoctors(); 
+        res.status(200).json({ result });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: error.message });
+    }
+}
 
 const create = async (req, res) => {
     try {
@@ -54,5 +76,7 @@ module.exports = {
     get,
     search,
     create,
-    getSlots
+    fetchall,
+    getSlots,
+    getProfile
 };

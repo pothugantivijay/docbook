@@ -3,6 +3,7 @@ import "../Css/card.css";
 import DoctorCard from "./DoctorCard";
 
 import DoctorInterface from "../interfaces/Doctor";
+import DocBookHeader from "./DocBookHeader";
 
 interface DoctorDetailsProps {
   doctor: DoctorInterface;
@@ -12,18 +13,7 @@ const DoctorProfileSection: React.FC<DoctorDetailsProps> = ({ doctor }) => {
   const isProfileLinkVisible = window.localStorage.getItem("Type") !== null;
   return (
     <div className="profileSection">
-      <div className="header">
-        <div className="DocBook">DocBook</div>
-        <div className="navigation">
-          <a href="#">Browse</a>
-          <a href="/help">Help</a>
-          {isProfileLinkVisible ? (
-            <a href="/profile">Profile</a>
-          ) : (
-            <a href="/login">Log in / Sign up</a>
-          )}
-        </div>
-      </div>
+      <DocBookHeader></DocBookHeader>
       <div className="container text-center">
         <div className="row">
           <div className="col">

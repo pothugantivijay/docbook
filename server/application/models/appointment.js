@@ -10,7 +10,11 @@ const appointmentSchema = new mongoose.Schema({
     endTime: Date,
     date: Date,
     insuranceProvider: String,
-    insuranceNumber: String
+    insuranceNumber: String,
+    reviewed : {
+        type: Boolean,
+        default: false,
+    }
 });
 
 const combineDateAndTime = (date, time) => {
