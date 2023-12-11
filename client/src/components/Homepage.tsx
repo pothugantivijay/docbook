@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useRef } from "react";
+import React, { useState, useEffect, ChangeEvent, useRef } from "react";
 import "../Css/Homepage.css"; // Import the corresponding CSS file for styling
 import Footer from "./Footer";
 import DocBookHeader from "./DocBookHeader";
@@ -15,12 +15,72 @@ type ExpandedState = {
   vision: boolean;
 };
 
+interface User {
+    location: {
+      latitude: number;
+      longitude: number;
+    };
+    _id: string;
+    id: number;
+    username: string;
+    name: string;
+    specialty: string;
+    address: string;
+    email: string;
+    rating: number;
+    profilePicture: string;
+    availability: {
+      _id: string;
+      slots: any[];
+    }[];
+    insuranceProviders: any[];
+    education: {
+      degree: string;
+      university: string;
+      _id: string;
+    }[];
+    experience: {
+      position: string;
+      hospital: string;
+      duration: string;
+      _id: string;
+    }[];
+    about: string;
+    __v: number;
+  }
+  
+
 const HomePage = () => {
   const [searchParams, setSearchParams] = useState({
     location: "",
     specialty: "",
     insurance: "",
   });
+
+  const [users, setUsers] = useState<User[]>([]);
+  const minRating = 0; 
+
+  // Function to fetch data 
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/doctor/alldoc');
+      const data = await response.json();
+      setUsers(data.result); // Update users state with fetched data
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(); // Fetch data when the component mounts
+  }, []);
+
+  // Function to filter users based on rating
+  const filterUsersByRating = () => {
+    return users.filter(user => user.rating >= minRating);
+  };
+
+  const filteredUsers = filterUsersByRating();
 
   const [expanded, setExpanded] = useState<ExpandedState>({
     medical: false,
@@ -200,6 +260,12 @@ const HomePage = () => {
         <div className="doctor-row">
           <div className="doctor-row-label">Top Rated Doctors</div>
           <div className="doctor-cards" ref={doctorScrollRef}>
+            {filteredUsers.map(user => (
+            <div className="doctor-card" key={user.id}>
+                <h3>Dr. {user.name}</h3>
+                <p>{user.specialty}</p>
+            </div>
+            ))}
             {topRatedDoctors.map((doctor) => (
               <div className="doctor-card">
                 <h3>{doctor.name}</h3>
