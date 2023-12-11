@@ -61,6 +61,7 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary
 
 
     const handleCellClick = async (date: Date) => {
+        console.log(date);
         setSelectedDay({ date, slots: [] });
         try {
             const slotDetails = await fetchSlotDetails(doctor.id.toString(), date);
@@ -73,9 +74,6 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary
             setSlots([]);
         }
     };
-
-
-
 
     const handleBookingClick = (doctorId: number, slot: Slot, date: Date) => {
         navigate('/booking', { state: { doctorId, slot, date } });
@@ -142,7 +140,11 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary
             const dayOfWeek = date.toLocaleString('en-US', { weekday: 'short' }); // e.g., "Wed"
             const month = date.toLocaleString('en-US', { month: 'short' }); // e.g., "Dec"
             const dayOfMonth = date.getDate(); // e.g., 13
-            const availableAppointments = availabilitySummary[date.toISOString().split('T')[0]] || 0;
+            const availableAppointments = availabilitySummary[date.toLocaleDateString('en-CA', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            })] || 0;
 
             return (
                 <div key={index} className="availability-row col" onClick={() => handleCellClick(date)}>
