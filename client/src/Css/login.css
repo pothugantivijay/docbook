@@ -43,7 +43,7 @@
     display: inline-block;
 }
 
-.heading {
+.docHeading {
     padding: 10px;
     font-size: 60px;
     font-weight: bold;
@@ -126,15 +126,13 @@ a:hover {
 }
 
 .alert-top {
-    position: fixed;
+    position: fixed !important;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     width: 100%;
     text-align: center;
   }
   
-  /* Additional styling for better visibility */
   .alert {
     padding: 15px;
     margin-bottom: 20px;

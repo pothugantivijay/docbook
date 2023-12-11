@@ -1,51 +1,62 @@
 import React, { useState, useEffect } from "react";
 import Patient from "./interfaces/Patient";
+import DoctorDetails from "./interfaces/Doctor";
 import ImageAndText from "./components/ImageAndText";
 import HelloImg from "./media/3568984.jpg";
 import PatientDetails from "./components/PatientUserProfile";
 import PatientAppointments from "./components/PatientUserAppointments";
+import DoctorUserProfile from "./components/DoctorUserProfile";
 
 function Profile() {
   const [patientData, setPatientData] = useState<Patient | null>(null);
+  const [doctorDetails, setDoctorDetails] = useState<DoctorDetails | null>(
+    null
+  );
 
   useEffect(() => {
-    const fetchPatientData = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch("/patient");
+        if (window.localStorage.Type === "patient") {
+          const response = await fetch("/patient");
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch patient data");
+          if (!response.ok) {
+            throw new Error("Failed to fetch patient data");
+          }
+
+          const data = await response.json();
+          setPatientData(data);
+          console.log(data);
+        } else if (window.localStorage.Type === "doctor") {
+          const doctorResponse = await fetch("/doctor/profile");
+
+          if (!doctorResponse.ok) {
+            throw new Error("Failed to fetch doctor details");
+          }
+
+          const doctorData = await doctorResponse.json();
+          setDoctorDetails(doctorData);
+          console.log(doctorData);
         }
-
-        const data = await response.json();
-        setPatientData(data);
-        console.log(data);
       } catch (error) {
-        console.error("Error fetching patient data");
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchPatientData();
+    fetchData();
   }, []);
 
   return (
-    // <div>
-    //   <div className="header">
-    //     <div className="DocBook">DocBook</div>
-    //     <div className="navigation">
-    //       <a href="#">Browse</a>
-    //       <a href="/help">Help</a>
-    //     </div>
-    //   </div>
-    //   <ImageAndText
-    //     imagePath={HelloImg}
-    //     text={`Hi, ${patientData?.name}`}
-    //   ></ImageAndText>
-    //   {patientData && <PatientDetails patient={patientData}></PatientDetails>}
-    // </div>
     <>
-      <PatientDetails patient={patientData}></PatientDetails>
-      <PatientAppointments></PatientAppointments>
+      {window.localStorage.Type === "patient" ? (
+        <>
+          <PatientDetails patient={patientData} />
+          <PatientAppointments />
+        </>
+      ) : (
+        <>
+          <DoctorUserProfile doctor={doctorDetails}></DoctorUserProfile>
+        </>
+      )}
     </>
   );
 }

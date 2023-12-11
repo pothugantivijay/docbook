@@ -160,10 +160,23 @@ async function getSlotDetailsForDay(id, dateString) {
   return availableSlots;
 }
 
+async function getDoctorProfile (username) {
+
+  try {
+    const doctor = await Doctor.findOne({username});
+    return doctor;
+  }
+  catch (err) {
+    throw new Error(err.message);
+  }
+
+}
+
 
 module.exports = {
   getDoctorDetailsWithReviews,
   searchDoctors,
   createDoctor,
-  getSlotDetailsForDay
+  getSlotDetailsForDay,
+  getDoctorProfile,
 };

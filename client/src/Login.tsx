@@ -56,7 +56,7 @@ function Login() {
   return (
     <div className="body">
       <div className="headingContainer">
-        <div className="heading">DocBook</div>
+        <div className="docHeading">DocBook</div>
       </div>
       <div className="centerWrap">
         {error && (

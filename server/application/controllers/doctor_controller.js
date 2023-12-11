@@ -12,6 +12,18 @@ const get = async (request, response) => {
     }
 };
 
+const getProfile = async (request, response) => {
+    try {
+        console.log('recieved profile request');
+        const doctorDetails = await DoctorService.getDoctorProfile(request.session.username);
+        response.status(200).json(doctorDetails);
+    }
+    catch (error) {
+        console.error(error.message);
+        response.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 const search = async (request, response) => {
     try {
         const searchCriteria = request.body; // Assuming the criteria are sent in the request body
@@ -54,5 +66,6 @@ module.exports = {
     get,
     search,
     create,
-    getSlots
+    getSlots,
+    getProfile
 };

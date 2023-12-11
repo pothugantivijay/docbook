@@ -17,6 +17,18 @@ const getAppointments = async (username) => {
 
 }
 
+const getDoctorAppointments = async (id) => {
+    
+    try {
+        const appointments = await Appointment.find({ doctorId: id });
+        return appointments;
+    }
+    catch(err) {
+        throw err;
+    }
+
+}
+
 const patchAppointment = async(appointmentData) => {
     const { _id, ...updateData } = appointmentData;
 
@@ -37,4 +49,5 @@ module.exports = {
     createAppointment,
     getAppointments,
     patchAppointment,
+    getDoctorAppointments,
 };
