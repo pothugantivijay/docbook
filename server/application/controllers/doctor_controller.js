@@ -61,8 +61,6 @@ const getSlots = async (req, res) => {
     try {
         const doctorId = req.params.Id; // Use 'Id' to match the route parameter
         const date = req.query.date; // Date as a query parameter
-
-        console.log(doctorId);
         const slotDetails = await DoctorService.getSlotDetailsForDay(doctorId, new Date(date));
         res.status(200).json(slotDetails);
     } catch (error) {
@@ -71,6 +69,22 @@ const getSlots = async (req, res) => {
     }
 };
 
+async function getDoctorByIdController(req, res) {
+    try {
+        const doctorId = req.params.Id; // Get the doctor ID from request parameters
+        const doctor = await DoctorService.getDoctorById(doctorId);
+
+        if (!doctor) {
+            return res.status(404).send('Doctor not found');
+        }
+
+        res.json(doctor);
+    } catch (error) {
+        console.error('Error in getDoctorByIdController:', error);
+        res.status(500).send(error.message);
+    }
+}
+
 
 module.exports = {
     get,
@@ -78,5 +92,6 @@ module.exports = {
     create,
     fetchall,
     getSlots,
-    getProfile
+    getProfile,
+    getDoctorByIdController
 };
