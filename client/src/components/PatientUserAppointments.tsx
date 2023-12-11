@@ -166,7 +166,7 @@ function PatientAppointments() {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    timeZone: "UTC",
+    timeZone: "America/New_York",
   };
   const getStatus = (startTime: string, endTime: string): string => {
     const currentDateTime = new Date();
