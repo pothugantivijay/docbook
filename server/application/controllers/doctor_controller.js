@@ -36,6 +36,16 @@ const search = async (request, response) => {
     }
 };
 
+const fetchall = async (req, res) => {
+    try {
+        const result = await DoctorService.allDoctors(); 
+        res.status(200).json({ result });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: error.message });
+    }
+}
+
 const create = async (req, res) => {
     try {
         const doctorData = req.body;
@@ -66,6 +76,7 @@ module.exports = {
     get,
     search,
     create,
+    fetchall,
     getSlots,
     getProfile
 };
