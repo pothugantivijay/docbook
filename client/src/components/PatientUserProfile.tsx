@@ -5,6 +5,7 @@ import HelloImg from "../media/3568984.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/slices/login_slice";
 import { RootState } from "../store";
+import { clearPatient } from "../store/slices/patient_slice";
 
 interface PatientDetailsProps {
   patient: Patient | null;
@@ -76,6 +77,7 @@ const PatientDetails: React.FC<PatientDetailsProps> = ({ patient }) => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(clearPatient());
     window.location.href = "/login";
   };
 

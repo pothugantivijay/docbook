@@ -14,5 +14,7 @@ router.route('/slot/:Id/slots')
     .get(DoctorController.getSlots);
 router.route('/:id')
     .get(DoctorController.get);
+router.route('/get-availability/:Id')
+    .get(DoctorController.getDoctorByIdController);
 
 module.exports = router;
