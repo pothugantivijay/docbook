@@ -4,6 +4,8 @@ const DoctorController = require('../controllers/doctor_controller.js');
 
 router.route('/alldoc')
     .get(DoctorController.fetchall);
+router.route('/profile')
+    .get(DoctorController.getProfile);
 router.route('/:id')
     .get(DoctorController.get);
 router.route('/search')

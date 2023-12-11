@@ -27,9 +27,9 @@ async function getBookedSlotsCount(id) {
   });
 
   let bookedCountPerDay = {};
-
   appointments.forEach(appointment => {
     const dayStr = appointment.date.toISOString().split('T')[0];
+    console.log(dayStr);
     bookedCountPerDay[dayStr] = (bookedCountPerDay[dayStr] || 0) + 1;
   });
 
@@ -69,10 +69,10 @@ async function searchDoctors(criteria) {
 
     // Adding filters to the query if they are provided in the criteria
     if (criteria.specialty) {
-      query.specialty = criteria.specialty;
+      query.specialty = { $regex: criteria.specialty, $options: 'i' };
     }
     if (criteria.location) {
-      query.location = criteria.location;
+      query.address = { $regex: criteria.location, $options: 'i' };
     }
     if (criteria.name) {
       // Assuming name is a full or partial match and using a regular expression for flexibility
@@ -87,12 +87,17 @@ async function searchDoctors(criteria) {
       console.log(bookedCount);
       let availabilitySummary = {};
 
+
       // Calculate available slots for the next 28 days
       for (let i = 0; i < 28; i++) {
-        let day = convertToLocalTime(new Date(), 5);
+        let day = convertToLocalTime(new Date(), 0);
         day.setDate(day.getDate() + i);
-        const dayStr = day.toISOString().split('T')[0];
-
+        const dayStr = day.toLocaleDateString('en-CA', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit'
+        });
+        let totalSlotsPerDay = 8;
         availabilitySummary[dayStr] = totalSlotsPerDay - (bookedCount[dayStr] || 0);
       }
 
@@ -121,6 +126,43 @@ async function createDoctor(doctorData) {
 function formatTime(date) {
   return date.getUTCHours().toString().padStart(2, '0') + ':' + date.getUTCMinutes().toString().padStart(2, '0');
 }
+
+// async function getSlotDetailsForDay(id, dateString) {
+//   const workingHoursStart = 9; // 9:00 AM UTC
+//   const workingHoursEnd = 17; // 5:00 PM UTC
+
+//   let startOfDay = new Date(dateString);
+//   startOfDay.setUTCHours(workingHoursStart, 0, 0, 0);
+
+//   let endOfDay = new Date(dateString);
+//   endOfDay.setUTCHours(workingHoursEnd, 0, 0, 0);
+
+//   const appointments = await Appointment.find({
+//     doctorId: id,
+//     startTime: { $gte: startOfDay },
+//     endTime: { $lte: endOfDay }
+//   });
+
+//   let slots = [];
+//   for (let hour = workingHoursStart; hour < workingHoursEnd; hour++) {
+//     let slotStart = new Date(dateString);
+//     slotStart.setUTCHours(hour, 0, 0, 0);
+
+//     let slotEnd = new Date(dateString);
+//     slotEnd.setUTCHours(hour + 1, 0, 0, 0);
+
+//     slots.push({ start: slotStart, end: slotEnd });
+//   }
+
+//   let availableSlots = slots.filter(slot =>
+//     !appointments.some(appointment =>
+//       appointment.startTime.getTime() === slot.start.getTime() &&
+//       appointment.endTime.getTime() === slot.end.getTime()
+//     )
+//   ).map(slot => ({ start: formatTime(slot.start), end: formatTime(slot.end) }));
+
+//   return availableSlots;
+// }
 
 async function getSlotDetailsForDay(id, dateString) {
   const estToUtcOffset = 5; // EST is UTC-5
@@ -165,11 +207,24 @@ async function getSlotDetailsForDay(id, dateString) {
   return availableSlots;
 }
 
+async function getDoctorProfile(username) {
+
+  try {
+    const doctor = await Doctor.findOne({ username });
+    return doctor;
+  }
+  catch (err) {
+    throw new Error(err.message);
+  }
+
+}
+
 
 module.exports = {
   getDoctorDetailsWithReviews,
   searchDoctors,
   createDoctor,
   allDoctors,
-  getSlotDetailsForDay
+  getSlotDetailsForDay,
+  getDoctorProfile
 };
