@@ -351,7 +351,7 @@ function PatientAppointments() {
                         onClick={() => handleShowModal(appointment)}
                         style={{ fontSize: "0.8em", padding: "0.1em 0.2em" }}
                       >
-                        Review Submitted
+                        Reviewed
                       </button>
                     )}
                 </td>
