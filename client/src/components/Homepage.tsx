@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 import { faHospital } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from "react-i18next";
 
 type ExpandedState = {
   medical: boolean;
@@ -56,6 +57,8 @@ const HomePage = () => {
     specialty: "",
     insurance: "",
   });
+
+  const { t } = useTranslation('common');
 
   const [users, setUsers] = useState<User[]>([]);
   const minRating = 0; 
@@ -212,7 +215,7 @@ const HomePage = () => {
       <div className="upper">
         <DocBookHeader></DocBookHeader>
         <div className="uppertext">
-          Book local doctors who accept your Insurance
+          {t('title')}
         </div>
         <div className='uppertext'>Book local doctors who accept your Insurance</div>
         <div className='searchframe'>
@@ -265,13 +268,6 @@ const HomePage = () => {
                 <h3>Dr. {user.name}</h3>
                 <p>{user.specialty}</p>
             </div>
-            ))}
-            {topRatedDoctors.map((doctor) => (
-              <div className="doctor-card">
-                <h3>{doctor.name}</h3>
-                <p>{doctor.specialty}</p>
-                {/* Add more doctor details */}
-              </div>
             ))}
           </div>
           <div className="scroll-arrows">
