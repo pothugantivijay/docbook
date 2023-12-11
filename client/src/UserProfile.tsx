@@ -6,6 +6,7 @@ import HelloImg from "./media/3568984.jpg";
 import PatientDetails from "./components/PatientUserProfile";
 import PatientAppointments from "./components/PatientUserAppointments";
 import DoctorUserProfile from "./components/DoctorUserProfile";
+import DocBookHeader from "./components/DocBookHeader";
 
 function Profile() {
   const [patientData, setPatientData] = useState<Patient | null>(null);
@@ -47,6 +48,7 @@ function Profile() {
 
   return (
     <>
+      <DocBookHeader></DocBookHeader>
       {window.localStorage.Type === "patient" ? (
         <>
           <PatientDetails patient={patientData} />

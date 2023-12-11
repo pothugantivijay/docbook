@@ -160,13 +160,6 @@ const DoctorUserProfile: React.FC<DoctorDetailsProps> = ({ doctor }) => {
 
   return (
     <>
-      <div className="header">
-        <div className="DocBook">DocBook</div>
-        <div className="navigation">
-          <a href="#">Browse</a>
-          <a href="/help">Help</a>
-        </div>
-      </div>
       <ImageAndText
         imagePath={HelloImg}
         text={`Hi, ${doctor?.name}`}

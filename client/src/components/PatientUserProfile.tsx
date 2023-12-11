@@ -86,13 +86,6 @@ const PatientDetails: React.FC<PatientDetailsProps> = ({ patient }) => {
 
   return (
     <>
-      <div className="header">
-        <div className="DocBook">DocBook</div>
-        <div className="navigation">
-          <a href="#">Browse</a>
-          <a href="/help">Help</a>
-        </div>
-      </div>
       <div
         className={`modal fade${showModal ? " show" : ""}`}
         aria-labelledby="contained-modal-title-vcenter"
