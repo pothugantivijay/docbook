@@ -7,6 +7,8 @@ import PatientDetails from "./components/PatientUserProfile";
 import PatientAppointments from "./components/PatientUserAppointments";
 import DoctorUserProfile from "./components/DoctorUserProfile";
 import DocBookHeader from "./components/DocBookHeader";
+import { useSelector } from "react-redux";
+import { selectUser } from "./store/slices/login_slice";
 
 function Profile() {
   const [patientData, setPatientData] = useState<Patient | null>(null);
@@ -14,10 +16,16 @@ function Profile() {
     null
   );
 
+  const userType = useSelector(selectUser);
+
+  if (userType == null) {
+    window.location.href = "/login";
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (window.localStorage.Type === "patient") {
+        if (userType === "patient") {
           const response = await fetch("/patient");
 
           if (!response.ok) {
@@ -27,7 +35,7 @@ function Profile() {
           const data = await response.json();
           setPatientData(data);
           console.log(data);
-        } else if (window.localStorage.Type === "doctor") {
+        } else if (userType === "doctor") {
           const doctorResponse = await fetch("/doctor/profile");
 
           if (!doctorResponse.ok) {
@@ -49,7 +57,7 @@ function Profile() {
   return (
     <>
       <DocBookHeader></DocBookHeader>
-      {window.localStorage.Type === "patient" ? (
+      {userType === "patient" ? (
         <>
           <PatientDetails patient={patientData} />
           <PatientAppointments />

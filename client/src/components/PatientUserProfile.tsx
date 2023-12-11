@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Patient from "../interfaces/Patient";
 import ImageAndText from "../components/ImageAndText";
 import HelloImg from "../media/3568984.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../store/slices/login_slice";
+import { RootState } from "../store";
 
 interface PatientDetailsProps {
   patient: Patient | null;
@@ -16,6 +19,8 @@ const PatientDetails: React.FC<PatientDetailsProps> = ({ patient }) => {
     height: "",
     weight: "",
   });
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (patient) {
@@ -70,7 +75,7 @@ const PatientDetails: React.FC<PatientDetailsProps> = ({ patient }) => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("Type");
+    dispatch(logout());
     window.location.href = "/login";
   };
 

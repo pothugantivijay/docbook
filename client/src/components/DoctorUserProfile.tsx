@@ -7,6 +7,9 @@ import ReviewSection from "./Reviews";
 import DoctorInfoSection from "./DoctorInfoSection";
 import Appointment from "../interfaces/Appointment";
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../store/slices/login_slice";
+import { RootState } from "../store";
 
 interface DoctorDetailsProps {
   doctor: Doctor | null;
@@ -16,8 +19,10 @@ const DoctorUserProfile: React.FC<DoctorDetailsProps> = ({ doctor }) => {
   const [reviews, setReviews] = useState<Review[]>([] as Review[]);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
-    localStorage.removeItem("Type");
+    dispatch(logout());
     window.location.href = "/login";
   };
   const [loadingReviews, setLoadingReviews] = useState(false);

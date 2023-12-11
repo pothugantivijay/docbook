@@ -1,6 +1,10 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import "./Css/login.css";
 import Cookies from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "./store/slices/login_slice";
+import { RootState } from "./store";
+import { selectUser } from "./store/slices/login_slice";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -8,7 +12,10 @@ function Login() {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  if (localStorage.getItem("Type")) {
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
+
+  if (useSelector(selectUser) != null) {
     window.location.href = "/profile";
   }
 
@@ -41,7 +48,7 @@ function Login() {
       const data = await response.json();
       console.log("Login successful:", data);
 
-      localStorage.setItem("Type", data);
+      dispatch(login({ type: data, loggedIn: true }));
 
       setLoginSuccess(true);
       setError(null);
