@@ -15,9 +15,13 @@ import BookingPage from "./components/BookingPage";
 import HomePage from "./components/Homepage";
 import DoctorRegistrationForm from "./components/DoctorRegistration";
 
+import i18n from './internationalisation';
+import { I18nextProvider } from 'react-i18next';
+
 
 const Routes: React.FC = () => {
   return (
+    <I18nextProvider i18n={i18n}>
     <Router>
       <RouterRoutes>
         <Route path="/" element={<HomePage />} />
@@ -32,6 +36,7 @@ const Routes: React.FC = () => {
         <Route path ="/registerdoctor" element={<DoctorRegistrationForm />}/>
       </RouterRoutes>
     </Router>
+    </I18nextProvider>
   );
 };
 
