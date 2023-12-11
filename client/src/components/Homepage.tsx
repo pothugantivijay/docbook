@@ -1,6 +1,12 @@
 import React, { useState, ChangeEvent, useRef } from 'react';
 import '../Css/Homepage.css'; // Import the corresponding CSS file for styling
 import Footer from "./Footer";
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faUserDoctor } from '@fortawesome/free-solid-svg-icons';
+import { faHospital } from '@fortawesome/free-solid-svg-icons';
+
 type ExpandedState = {
     medical: boolean;
     dental: boolean;
@@ -21,6 +27,12 @@ const HomePage = () => {
     mentalHealth: false,
     vision: false,
   });
+
+    const navigate = useNavigate();
+  
+    const handleRedirect = (path: string) => {
+        navigate(path);
+    };
 
   const toggleExpand = (reason: keyof ExpandedState) => {
     setExpanded((prevExpanded) => ({
@@ -136,43 +148,56 @@ const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
 
   return (
     <div className="homepage">
-      <div className='upper'>
+      <div className='upper aos-init aos-animate' data-aos='zoom-out'>
         <div className="header">
             <div className="logo">DocBook</div>
             <div className="header-buttons">
-            <button className="btn btn-outline-primary me-2">Browse</button>|
-            <button className="btn btn-outline-primary me-2">Help</button>|
-            <button className="btn btn-outline-primary me-2">List your Practice on DocBook</button>|
-            <button className="btn btn-outline-primary me-2">Login/Signup</button>
+            <button onClick={() => handleRedirect('/search')} className="btn btn-outline-primary me-2">Browse</button>|
+            <button onClick={() => handleRedirect('/help')} className="btn btn-outline-primary me-2">Help</button>|
+            <button onClick={() => handleRedirect('/registerdoctor')} className="btn btn-outline-primary me-2">List your Practice on DocBook</button>|
+            <button onClick={() => handleRedirect('/login')} className="btn btn-outline-primary me-2">Login/Signup</button>
             </div>
         </div>
         <div className='uppertext'>Book local doctors who accept your Insurance</div>
-        <div className="search-bar">
-            <input
-            type="text"
-            className="form-control mb-2"
-            placeholder="Location"
-            name="location"
-            value={searchParams.location}
-            onChange={handleSearchChange}
-            />
-            <input
-            type="text"
-            className="form-control mb-2"
-            placeholder="Specialty"
-            name="specialty"
-            value={searchParams.specialty}
-            onChange={handleSearchChange}
-            />
-            <input
-            type="text"
-            className="form-control mb-2"
-            placeholder="Insurance"
-            name="insurance"
-            value={searchParams.insurance}
-            onChange={handleSearchChange}
-            />
-            <button className="btn btn-primary search-btn">Search</button>
+        <div className='searchframe'>
+            <div className="search-bar">
+                <div className="search-icon">
+                    <FontAwesomeIcon icon={faSearch} />
+                </div>
+                <input
+                type="text"
+                className="mb-2"
+                placeholder="Location"
+                name="location"
+                value={searchParams.location}
+                onChange={handleSearchChange}
+                />
+                <div className="search-icon">
+                    <FontAwesomeIcon icon={faHospital} />
+                </div>
+                <input
+                type="text"
+                className="mb-2"
+                placeholder="Specialty"
+                name="specialty"
+                value={searchParams.specialty}
+                onChange={handleSearchChange}
+                />
+                <div className="search-icon">
+                    <FontAwesomeIcon icon={faUserDoctor} />
+                </div>
+                <input
+                type="text"
+                className="mb-2"
+                placeholder="Name"
+                name="insurance"
+                value={searchParams.insurance}
+                onChange={handleSearchChange}
+                />
+                <button className="btn btn-primary search-btn">
+                <FontAwesomeIcon icon={faSearch} />
+                </button>
+            </div>
         </div>
       </div>
       <div className="doctor-profiles">

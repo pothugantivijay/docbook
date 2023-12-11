@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const DoctorController = require('../controllers/doctor_controller.js');
 
+router.route('/alldoc')
+    .get(DoctorController.fetchall);
 router.route('/:id')
     .get(DoctorController.get);
 router.route('/search')

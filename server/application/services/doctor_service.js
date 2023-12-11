@@ -58,6 +58,11 @@ async function getDoctorDetailsWithReviews(doctorId) {
   }
 }
 
+async function allDoctors() {
+  const doctors = await Doctor.find({});
+  return doctors;
+}
+
 async function searchDoctors(criteria) {
   try {
     let query = {};
@@ -165,5 +170,6 @@ module.exports = {
   getDoctorDetailsWithReviews,
   searchDoctors,
   createDoctor,
+  allDoctors,
   getSlotDetailsForDay
 };

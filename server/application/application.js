@@ -19,7 +19,7 @@ const initialize = ( application ) => {
         saveUninitialized: true,
     }));
 
-    mongoose.connect('mongodb+srv://chebrolus:sai123@testcluster.tcwunuu.mongodb.net/coursedb?retryWrites=true&w=majority');
+    mongoose.connect('mongodb+srv://tummalasan:Jd1ejBdazESyn0SV@mycluster.z6pfjmc.mongodb.net/');
     registerRouter(application);
 };
 
