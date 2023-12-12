@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import Appointment from "../interfaces/Appointment";
 import DoctorDetails from "../interfaces/Doctor";
 import { fetchDoctorDetails } from "../api";
+import { useTranslation } from "react-i18next";
 
 function PatientAppointments() {
+  const { t, i18n, ready } = useTranslation("common", { useSuspense: false });
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
   const [editedReview, seteditedReview] = useState({
@@ -344,16 +346,16 @@ function PatientAppointments() {
         </div>
       </div>
       <div className="container mt-5 mb-5" data-aos="fade-down">
-        <h1 className="mb-4">Your Appointments</h1>
+        <h1 className="mb-4">{t("profile.page.yourappointments")}</h1>
         <table className="table">
           <thead>
             <tr className="table-dark">
-              <th scope="col">Doctor Name</th>
-              <th scope="col">Specialty</th>
-              <th scope="col">Condition</th>
-              <th scope="col">Start Time</th>
-              <th scope="col">End Time</th>
-              <th scope="col">Status</th>
+              <th scope="col">{t("profile.page.doctorname")}</th>
+              <th scope="col">{t("profile.page.specialty")}</th>
+              <th scope="col">{t("profile.page.condition")}</th>
+              <th scope="col">{t("profile.page.starttime")}</th>
+              <th scope="col">{t("profile.page.endtime")}</th>
+              <th scope="col">{t("profile.page.status")}</th>
             </tr>
           </thead>
           <tbody>

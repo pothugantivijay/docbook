@@ -10,12 +10,14 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/slices/login_slice";
 import { RootState } from "../store";
+import { useTranslation } from "react-i18next";
 
 interface DoctorDetailsProps {
   doctor: Doctor | null;
 }
 
 const DoctorUserProfile: React.FC<DoctorDetailsProps> = ({ doctor }) => {
+  const { t, i18n, ready } = useTranslation("common", { useSuspense: false });
   const [reviews, setReviews] = useState<Review[]>([] as Review[]);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
@@ -192,18 +194,18 @@ const DoctorUserProfile: React.FC<DoctorDetailsProps> = ({ doctor }) => {
               d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
             ></path>
           </svg>
-          Logout
+          {t("profile.page.logout")}
         </button>
         {doctor ? (
           <div>
             <h5 className="mb-4" style={{ fontSize: "2.5rem" }}>
-              Your Details
+              {t("profile.page.yourdetails")}
               <button
                 type="button"
                 className="btn btn-outline-primary m-4"
                 //onClick={handleShowModal}
               >
-                Edit Profile
+                {t("profile.page.editprofile")}
               </button>
             </h5>
             <div
@@ -216,35 +218,35 @@ const DoctorUserProfile: React.FC<DoctorDetailsProps> = ({ doctor }) => {
               <div className="card-body">
                 <dl className="row">
                   <dt className="col-sm-3" style={{ fontSize: "1.3rem" }}>
-                    Username
+                    {t("profile.page.username")}
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {doctor.username}
                   </dd>
 
                   <dt className="col-sm-3" style={{ fontSize: "1.3rem" }}>
-                    Email
+                    {t("profile.page.email")}
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {doctor.email}
                   </dd>
 
                   <dt className="col-sm-3" style={{ fontSize: "1.3rem" }}>
-                    Specialty
+                    {t("profile.page.specialty")}
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {doctor.specialty}
                   </dd>
 
                   <dt className="col-sm-3" style={{ fontSize: "1.3rem" }}>
-                    Address
+                    {t("profile.page.address")}
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {doctor.address}
                   </dd>
 
                   <dt className="col-sm-3" style={{ fontSize: "1.3rem" }}>
-                    About
+                    {t("profile.page.about")}
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {doctor.about}
@@ -255,7 +257,7 @@ const DoctorUserProfile: React.FC<DoctorDetailsProps> = ({ doctor }) => {
             <div className="container mt-5" data-aos="fade-up">
               <div className="row mb-4">
                 <div className="col">
-                  <h2>Education</h2>
+                  <h2>{t("profile.page.education")}</h2>
                   <ul>
                     {doctor.education.map((edu, index) => (
                       <li key={index}>
@@ -268,7 +270,7 @@ const DoctorUserProfile: React.FC<DoctorDetailsProps> = ({ doctor }) => {
 
               <div className="row">
                 <div className="col">
-                  <h2>Experience</h2>
+                  <h2>{t("profile.page.experience")}</h2>
                   <ul>
                     {doctor.experience.map((exp, index) => (
                       <li key={index}>
@@ -281,7 +283,7 @@ const DoctorUserProfile: React.FC<DoctorDetailsProps> = ({ doctor }) => {
               </div>
             </div>
             <h5 className="mb-4 mt-5" style={{ fontSize: "2.5rem" }}>
-              Rating
+              {t("profile.page.rating")}
             </h5>
             <div className="text-center d-flex align-items-center justify-content-center">
               {doctor && (
@@ -301,34 +303,34 @@ const DoctorUserProfile: React.FC<DoctorDetailsProps> = ({ doctor }) => {
             </div>
             <div>
               <h5 className="mb-4 mt-5" style={{ fontSize: "2.5rem" }}>
-                Upcoming Appointments
+                {t("profile.page.upcomingappointments")}
               </h5>
               <table className="table">
                 <thead>
                   <tr className="table-dark">
-                    <th scope="col">Patient Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Condition</th>
-                    <th scope="col">Start Time</th>
-                    <th scope="col">End Time</th>
-                    <th scope="col">Insurance</th>
+                    <th scope="col">{t("profile.page.patientname")}</th>
+                    <th scope="col">{t("profile.page.email")}</th>
+                    <th scope="col">{t("profile.page.condition")}</th>
+                    <th scope="col">{t("profile.page.starttime")}</th>
+                    <th scope="col">{t("profile.page.endtime")}</th>
+                    <th scope="col">{t("profile.page.insurance")}</th>
                   </tr>
                 </thead>
                 <tbody>{getScheduledAppointments()}</tbody>
               </table>
 
               <h5 className="mb-4 mt-5" style={{ fontSize: "2.5rem" }}>
-                Past Appointments
+                {t("profile.page.pastappointments")}
               </h5>
               <table className="table">
                 <thead>
                   <tr className="table-dark">
-                    <th scope="col">Patient Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Condition</th>
-                    <th scope="col">Start Time</th>
-                    <th scope="col">End Time</th>
-                    <th scope="col">Insurance</th>
+                    <th scope="col">{t("profile.page.patientname")}</th>
+                    <th scope="col">{t("profile.page.email")}</th>
+                    <th scope="col">{t("profile.page.condition")}</th>
+                    <th scope="col">{t("profile.page.starttime")}</th>
+                    <th scope="col">{t("profile.page.endtime")}</th>
+                    <th scope="col">{t("profile.page.insurance")}</th>
                   </tr>
                 </thead>
                 <tbody>{getPastAppointments()}</tbody>
