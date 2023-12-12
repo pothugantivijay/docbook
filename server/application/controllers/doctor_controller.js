@@ -1,18 +1,19 @@
+const Doctor = require('../models/doctor.js');
 const DoctorService = require('../services/doctor_service.js');
-const multer = require('multer');
-const upload = multer({ dest: 'uploads/' }); // Adjust as per your configuration
+// const multer = require('multer');
+// const upload = multer({ dest: 'uploads/' }); // Adjust as per your configuration
 
-    const uploadImage = async (req, res) => {
-    try {
-      const imageUrl = await DoctorService.storeImage(req.file);
-      res.json({ message: "Image uploaded successfully", url: imageUrl });
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      res.status(500).send('Image upload failed');
-    }
-  }
+//     const uploadImage = async (req, res) => {
+//     try {
+//       const imageUrl = await DoctorService.storeImage(req.file);
+//       res.json({ message: "Image uploaded successfully", url: imageUrl });
+//     } catch (error) {
+//       console.error('Error uploading image:', error);
+//       res.status(500).send('Image upload failed');
+//     }
+//   }
 
-  const uploadImageMiddleware = upload.single('file');
+//   const uploadImageMiddleware = upload.single('file');
 
 const get = async (request, response) => {
     try {
@@ -63,14 +64,26 @@ const fetchall = async (req, res) => {
 
 const create = async (req, res) => {
     try {
-        const doctorData = req.body;
+        // First, handle the image upload
+        console.log(req.file);
+        const doctorData = JSON.parse(req.body.data); 
+        const count = await Doctor.countDocuments();
+        if(req.file){
+            const imageUrl = await DoctorService.storeImage(req.file);
+            doctorData.profilePicture = imageUrl;
+            doctorData.id = count+1;
+        }
+        
+        // Now, create the doctor record with the updated doctorData
         const newDoctor = await DoctorService.createDoctor(doctorData);
+
         res.status(201).json(newDoctor);
     } catch (error) {
-        console.error(error.message);
+        console.error('Error in creating doctor:', error.message);
         res.status(500).json({ error: error.message });
     }
 }
+
 
 const getSlots = async (req, res) => {
     try {

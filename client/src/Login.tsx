@@ -107,7 +107,7 @@ function Login() {
               <a href="../registerpatient/">Register as a patient</a>
             </div>
             <div className="doctor">
-              <a href="#">Register as a doctor</a>
+              <a href="/registerdoctor">Register as a doctor</a>
             </div>
           </div>
         </div>
