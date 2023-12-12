@@ -4,6 +4,8 @@ const DoctorController = require('../controllers/doctor_controller.js');
 
 router.route('/alldoc')
     .get(DoctorController.fetchall);
+router.route('/upload-image')
+    .post(DoctorController.uploadImage);
 router.route('/profile')
     .get(DoctorController.getProfile);
 router.route('/search')

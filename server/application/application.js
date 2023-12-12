@@ -3,11 +3,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const registerRouter = require('./routes/index.js');
 const session        = require('express-session');
+const multer = require('multer');
 
 const path = require('path');
 
 const initialize = ( application ) => {
 
+    // application.use(multer);
     application.use(cors());
     application.use(express.json());
     application.use(express.urlencoded());
