@@ -1,5 +1,9 @@
+import { useTranslation } from "react-i18next";
 import DocBookHeader from "./DocBookHeader";
+
 function HelpHeader() {
+  const { t, i18n, ready } = useTranslation("common", { useSuspense: false });
+
   return (
     <div
       style={{ backgroundColor: "#f8fcfd", minHeight: "60vh", width: "100%" }}
@@ -11,12 +15,8 @@ function HelpHeader() {
           style={{ minHeight: "calc(60vh - 60px)" }}
         >
           <div className="col-12 text-center">
-            <h2 className="display-3">
-              Get the info you’re looking for right now
-            </h2>
-            <p className="lead mt-3">
-              Get answers to common questions and access service support
-            </p>
+            <h2 className="display-3">{t("help.page.text1")}</h2>
+            <p className="lead mt-3">{t("help.page.text2")}</p>
           </div>
         </div>
       </div>
