@@ -1,11 +1,11 @@
 import React, { useState, useEffect, FormEvent } from "react";
-import "./Css/login.css";
+import "../Css/login.css";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "./store/slices/login_slice";
-import { RootState } from "./store";
-import { selectUser } from "./store/slices/login_slice";
-import DocBookHeader from "./components/DocBookHeader";
+import { login } from "../store/slices/login_slice";
+import { RootState } from "../store";
+import { selectUser } from "../store/slices/login_slice";
+import DocBookHeader from "../components/DocBookHeader";
 
 function Login() {
   const [username, setUsername] = useState("");

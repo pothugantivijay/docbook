@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import DocBookHeader from "./components/DocBookHeader";
+import DocBookHeader from "../components/DocBookHeader";
 
 interface FormData {
   username: string;

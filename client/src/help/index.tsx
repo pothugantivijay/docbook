@@ -1,9 +1,9 @@
-import HelpHeader from "./components/HelpHeader";
-import ImageAndText from "./components/ImageAndText";
-import svgHelp from "./media/Layer_9.svg";
-import customerHelp from "./media/Wavy_Bus-26_Single-04 Large.jpeg";
-import emailImg from "./media/Mar-Business_18.jpg";
-import FaqAccordion from "./components/Accordion";
+import HelpHeader from "../components/HelpHeader";
+import ImageAndText from "../components/ImageAndText";
+import svgHelp from "../media/Layer_9.svg";
+import customerHelp from "../media/Wavy_Bus-26_Single-04 Large.jpeg";
+import emailImg from "../media/Mar-Business_18.jpg";
+import FaqAccordion from "../components/Accordion";
 import { useTranslation } from "react-i18next";
 
 function Help() {
