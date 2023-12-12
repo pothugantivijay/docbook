@@ -1,4 +1,18 @@
 const DoctorService = require('../services/doctor_service.js');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // Adjust as per your configuration
+
+    const uploadImage = async (req, res) => {
+    try {
+      const imageUrl = await DoctorService.storeImage(req.file);
+      res.json({ message: "Image uploaded successfully", url: imageUrl });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      res.status(500).send('Image upload failed');
+    }
+  }
+
+  const uploadImageMiddleware = upload.single('file');
 
 const get = async (request, response) => {
     try {
@@ -45,6 +59,7 @@ const fetchall = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
 
 const create = async (req, res) => {
     try {
@@ -93,5 +108,6 @@ module.exports = {
     fetchall,
     getSlots,
     getProfile,
-    getDoctorByIdController
+    getDoctorByIdController,
+    uploadImage: (req, res, next) => uploadImageMiddleware(req, res, () => uploadImage(req, res, next))
 };

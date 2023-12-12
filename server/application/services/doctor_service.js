@@ -2,8 +2,39 @@ const Doctor = require('../models/doctor.js');
 const Review = require('../models/review.js');
 const Appointment = require('../models/appointment.js');
 const mongoose = require('mongoose');
+const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 const totalSlotsPerDay = 8;
+
+const cloudinary = require('cloudinary').v2;
+
+// Configure Cloudinary with your account credentials
+cloudinary.config({
+  cloud_name: 'dsows9fzi',
+  api_key: '645585867513747',
+  api_secret: 'w4T_QsDp40LLPAuYSCKSU9bjOk4'
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'uploads', // Optional - specify folder for uploaded files
+    allowed_formats: ['jpg', 'jpeg', 'png', 'gif'], // Optional - specify allowed formats
+    // Other configuration options if needed
+  }
+});
+
+const storeImage = async (file) => {
+  if (!file) throw new Error('No file uploaded');
+
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload(file.path, { folder: "uploads" }, (error, result) => {
+      if (error) reject(error);
+      else resolve(result.url);
+    });
+  });
+};
 
 function convertToLocalTime(date, offset) {
   return new Date(date.getTime() - offset * 60 * 60 * 1000);
@@ -264,5 +295,6 @@ module.exports = {
   allDoctors,
   getSlotDetailsForDay,
   getDoctorProfile,
-  getDoctorById
+  getDoctorById,
+  storeImage
 };
