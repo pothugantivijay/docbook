@@ -20,6 +20,8 @@ const PatientRegistrationForm: React.FC = () => {
     window.location.href = "/profile";
   }
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const [formData, setFormData] = useState<FormData>({
     username: "",
     password: "",
@@ -27,7 +29,7 @@ const PatientRegistrationForm: React.FC = () => {
     email: "",
     phone: "",
     address: "",
-    gender: "",
+    gender: "male",
     dob: "",
     weight: "",
     height: "",
@@ -38,6 +40,18 @@ const PatientRegistrationForm: React.FC = () => {
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { id, value } = e.target;
+
+    if (id === "username") {
+      const isValidUsername = /^[a-zA-Z0-9]+$/.test(value);
+      if (!isValidUsername) {
+        setErrorMessage(
+          "Invalid characters in username. Only alphanumeric characters are allowed."
+        );
+        return;
+      }
+    }
+
+    setErrorMessage(null);
 
     setFormData((prevData) => ({
       ...prevData,
@@ -98,6 +112,11 @@ const PatientRegistrationForm: React.FC = () => {
                     onChange={handleInputChange}
                     required
                   />
+                  {errorMessage && (
+                    <div className="alert alert-danger" role="alert">
+                      {errorMessage}
+                    </div>
+                  )}
                 </div>
                 <div className="mb-3">
                   <label htmlFor="password" className="form-label">

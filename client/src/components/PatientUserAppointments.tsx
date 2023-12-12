@@ -166,7 +166,7 @@ function PatientAppointments() {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    timeZone: "UTC",
+    timeZone: "America/New_York",
   };
   const getStatus = (startTime: string, endTime: string): string => {
     const currentDateTime = new Date();
@@ -332,6 +332,26 @@ function PatientAppointments() {
                         style={{ fontSize: "0.8em", padding: "0.1em 0.2em" }}
                       >
                         Submit Review
+                      </button>
+                    )}
+                    {getStatus(
+                    new Date(appointment.startTime).toLocaleString(
+                      "en-US",
+                      options
+                    ),
+                    new Date(appointment.endTime).toLocaleString(
+                      "en-US",
+                      options
+                    )
+                  ) === "Completed" &&
+                    appointment.reviewed && (
+                      <button
+                        type="button"
+                        className="btn disabled btn-success m-4"
+                        onClick={() => handleShowModal(appointment)}
+                        style={{ fontSize: "0.8em", padding: "0.1em 0.2em" }}
+                      >
+                        Reviewed
                       </button>
                     )}
                 </td>

@@ -9,6 +9,9 @@ import DoctorUserProfile from "./components/DoctorUserProfile";
 import DocBookHeader from "./components/DocBookHeader";
 import { useSelector } from "react-redux";
 import { selectUser } from "./store/slices/login_slice";
+import { useDispatch } from "react-redux";
+import { setPatient } from "./store/slices/patient_slice";
+import { RootState } from "./store";
 
 function Profile() {
   const [patientData, setPatientData] = useState<Patient | null>(null);
@@ -16,6 +19,7 @@ function Profile() {
     null
   );
 
+  const dispatch = useDispatch();
   const userType = useSelector(selectUser);
 
   if (userType == null) {
@@ -34,6 +38,7 @@ function Profile() {
 
           const data = await response.json();
           setPatientData(data);
+          dispatch(setPatient(data));
           console.log(data);
         } else if (userType === "doctor") {
           const doctorResponse = await fetch("/doctor/profile");

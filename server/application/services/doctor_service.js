@@ -219,6 +219,43 @@ async function getDoctorProfile(username) {
 
 }
 
+async function getDoctorById(doctorId) {
+  try {
+    // Find the doctor by ID
+    const doctor = await Doctor.findOne({ id: doctorId });
+
+    // Handle case where doctor is not found
+    if (!doctor) {
+      throw new Error('Doctor not found');
+    }
+
+    console.log(doctor.id);
+    const bookedCount = await getBookedSlotsCount(doctor.id);
+    console.log(bookedCount);
+    let availabilitySummary = {};
+
+    // Calculate available slots for the next 28 days
+    for (let i = 0; i < 28; i++) {
+      let day = convertToLocalTime(new Date(), 0);
+      day.setDate(day.getDate() + i);
+      const dayStr = day.toLocaleDateString('en-CA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      });
+      let totalSlotsPerDay = 8; // Assuming a fixed number of slots per day
+      availabilitySummary[dayStr] = totalSlotsPerDay - (bookedCount[dayStr] || 0);
+    }
+
+    return {
+      ...doctor.toObject(),
+      availabilitySummary
+    };
+  } catch (error) {
+    throw new Error(`Error retrieving doctor by ID: ${error.message}`);
+  }
+}
+
 
 module.exports = {
   getDoctorDetailsWithReviews,
@@ -226,5 +263,6 @@ module.exports = {
   createDoctor,
   allDoctors,
   getSlotDetailsForDay,
-  getDoctorProfile
+  getDoctorProfile,
+  getDoctorById
 };

@@ -11,6 +11,8 @@ import patientImage from '../media/vecteezy_covid19-vaccine-illustration1_SS0321
 import ImageAndText from './ImageAndText';
 import appointmentImage from '../media/vecteezy_covid19-vaccine-illustration1_SS0321.jpg';
 import DocBookHeader from './DocBookHeader';
+import { useSelector } from "react-redux";
+import { selectPatient } from '../store/slices/patient_slice';
 
 interface BookingFormData {
     name: string;
@@ -33,6 +35,19 @@ const BookingPage: React.FC = () => {
     const { doctorId, slot, date } = location.state || {};
 
     const [doctor, setDoctor] = useState<Doctor | null>(null);
+
+    const userData = useSelector(selectPatient);
+
+    useEffect(() => {
+        if (userData) {
+          setFormData({
+            ...formData,
+            name: userData.name,
+            email: userData.email,
+            insuranceProvider: userData.insurance ?? '',
+          });
+        }
+      }, [userData, setFormData]);
 
     useEffect(() => {
         const fetchAndSetDoctor = async () => {
@@ -156,7 +171,7 @@ const BookingPage: React.FC = () => {
                                                         className="form-control"
                                                         id="name"
                                                         name="name"
-                                                        value={formData.name}
+                                                        value={formData.name || userData?.name}
                                                         onChange={handleChange}
                                                         required
                                                     />
@@ -171,7 +186,7 @@ const BookingPage: React.FC = () => {
                                                         className="form-control"
                                                         id="email"
                                                         name="email"
-                                                        value={formData.email}
+                                                        value={formData.email || userData?.email}
                                                         onChange={handleChange}
                                                         required
                                                     />
@@ -202,7 +217,7 @@ const BookingPage: React.FC = () => {
                                                         className="form-control"
                                                         id="insuranceProvider"
                                                         name="insuranceProvider"
-                                                        value={formData.insuranceProvider}
+                                                        value={formData.insuranceProvider || userData?.insurance}
                                                         onChange={handleChange}
                                                     />
                                                 </div>

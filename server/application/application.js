@@ -19,7 +19,7 @@ const initialize = ( application ) => {
         saveUninitialized: true,
     }));
 
-    mongoose.connect('mongodb+srv://tummalasan:Jd1ejBdazESyn0SV@mycluster.z6pfjmc.mongodb.net/');
+    mongoose.connect(process.env.MONGO_CONNECTION);
     registerRouter(application);
 };
 
