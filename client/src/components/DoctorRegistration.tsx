@@ -1,586 +1,647 @@
 import React, { useState, ChangeEvent, FormEvent, useRef, useEffect} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
-import { useTranslation } from "react-i18next";
-import { startTransition } from "react";
-
+import L from 'leaflet';
+import mapPin from "../media/map_pin.png";
 interface FormData {
-  username: string;
-  name: string;
-  specialty: string;
-  address: string;
-  latitude: number;
-  longitude: number;
-  email: string;
-  rating: number;
-  profilePicture: string;
-  availability: {
-    monday: string[];
-    tuesday: string[];
-    wednesday: string[];
-    thursday: string[];
-    friday: string[];
+ username: string;
+ password:string;
+ name: string;
+ specialty: string;
+ address: string;
+  location: {
+    latitude: number;
+    longitude: number;
   };
-  insuranceProviders: string[];
-  education: {
-    degree: string;
-    university: string;
-  }[];
-  experience: {
-    position: string;
-    hospital: string;
-    duration: string;
-  }[];
-  about: string;
+ email: string;
+ rating: number;
+ profilePicture: string;
+ availability: {
+ monday: string[];
+ tuesday: string[];
+ wednesday: string[];
+ thursday: string[];
+ friday: string[];
+ };
+ insuranceProviders: string[];
+ education: {
+ degree: string;
+ university: string;
+ }[];
+ experience: {
+ position: string;
+ hospital: string;
+ duration: string;
+ }[];
+ about: string;
 }
-
+const initialLocation = {
+  latitude: 0,
+  longitude: 0,
+};
 const DoctorRegistrationForm: React.FC = () => {
-  const { t } = useTranslation('common');
-    const mapRef = useRef<any>(null);
-    const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
-  const [formData, setFormData] = useState<FormData>({
-    username: "",
-    name: "",
-    specialty: "",
-    address: "",
-    latitude: 0,
-    longitude: 0,
-    email: "",
-    rating: 0,
-    profilePicture: "",
-    availability: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: [],
-    },
-    insuranceProviders: [],
-    education: [{ degree: "", university: "" }],
-    experience: [{ position: "", hospital: "", duration: "" }],
-    about: "",
-  });
+ const mapRef = useRef<any>(null);
+ const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
+ const [profilePictureFile, setProfilePictureFile] = useState<File | null>(null);
+ const [errorMessage, setErrorMessage] = useState<string | null>(null);
+ const [formData, setFormData] = useState<FormData>({
+ username: "",
+ password: "",
+ name: "",
+ specialty: "",
+ address: "",
+ email: "",
+ rating: 0,
+ profilePicture: "",
+ availability: {
+ monday: [],
+ tuesday: [],
+ wednesday: [],
+ thursday: [],
+ friday: [],
+ },
+ location: { ...initialLocation },
+ insuranceProviders: [],
+ education: [{ degree: "", university: "" }],
+ experience: [{ position: "", hospital: "", duration: "" }],
+ about: "",
+ });
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    const { id, value, name } = e.target;
+ const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  if (e.target.files && e.target.files.length > 0) {
+    setProfilePictureFile(e.target.files[0]);
+  }
+};
 
-    if (id === "latitude" || id === "longitude") {
-        // Handle changes for latitude and longitude
-        setFormData((prevData) => ({
-          ...prevData,
-          [id]: parseFloat(value),
-        }));
-  
-    } else if (id === "availability") {
-        // handle changes for availability
-      const [day, indexStr] = name?.split("-") || [];
-      if (day && indexStr !== undefined) {
-        const index = parseInt(indexStr, 10);
-        setFormData((prevData) => {
-          const updatedAvailability = { ...prevData.availability };
-          (updatedAvailability[day as keyof typeof updatedAvailability] as string[])[index] = value;
-          return {
-            ...prevData,
-            availability: updatedAvailability,
-          };
-        });
-      }
-    } else if (name?.startsWith("degree") || name?.startsWith("university")) {
-      // Handle changes for education
-      const index = Number(name.match(/\d+/)?.[0] ?? 0);
-      setFormData((prevData) => ({
-        ...prevData,
-        education: prevData.education.map((edu, i) =>
-          i === index ? { ...edu, [name]: value } : edu
-        ),
-      }));
-    } else if (name?.startsWith("position") || name?.startsWith("hospital") || name?.startsWith("duration")) {
-      // Handle changes for experience
-      const index = Number(name.match(/\d+/)?.[0] ?? 0);
-      setFormData((prevData) => ({
-        ...prevData,
-        experience: prevData.experience.map((exp, i) =>
-          i === index ? { ...exp, [name]: value } : exp
-        ),
-      }));
-    } else if (name?.startsWith("insuranceProvider")) {
-      // Handle changes for insurance providers
-      const index = Number(name.match(/\d+/)?.[0] ?? 0);
-      setFormData((prevData) => ({
-        ...prevData,
-        insuranceProviders: prevData.insuranceProviders.map((provider, i) =>
-          i === index ? value : provider
-        ),
-      }));
-    } else {
-      // Handle other input changes
-      setFormData((prevData) => ({
-        ...prevData,
-        [id]: value,
-      }));
+ const handleInputChange = (
+ e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+ ) => {
+ const { id, value, name,type} = e.target;
+  if(id === "username") {
+    const isValidUsername = /^[a-zA-Z0-9]+$/.test(value);
+    if (!isValidUsername) {
+      setErrorMessage(
+        "Invalid characters in username. Only alphanumeric characters are allowed."
+      );
+      return;
     }
-  };    
+  }
+  setErrorMessage(null);
+      if (name?.startsWith("degree") || name?.startsWith("university")) {
+         // Handle changes for education
+         const index = Number(name.match(/\d+/)?.[0] ?? 0);
+         setFormData((prevData) => ({
+         ...prevData,
+         education: prevData.education.map((edu, i) =>
+         i === index ? { ...edu, [name]: value } : edu
+         ),
+         }));
+        } else if (name?.startsWith("position") || name?.startsWith("hospital") || 
+        name?.startsWith("duration")) {
+         // Handle changes for experience
+         const index = Number(name.match(/\d+/)?.[0] ?? 0);
+         setFormData((prevData) => ({
+         ...prevData,
+         experience: prevData.experience.map((exp, i) =>
+         i === index ? { ...exp, [name]: value } : exp
+         ),
+         }));
+         } else if (name?.startsWith("insuranceProvider")) {
+                // Handle changes for insurance providers
+                const index = Number(name.match(/\d+/)?.[0] ?? 0);
+                setFormData((prevData) => ({
+                ...prevData,
+                insuranceProviders: prevData.insuranceProviders.map((provider, i) =>
+                i === index ? value : provider
+                ),
+                }));
+                } else {
+                // Handle other input changes
+                setFormData((prevData) => ({
+                ...prevData,
+                [id]: value,
+                }));
+                }
+                };
+              
+ const handleEducationChange = (
+ e: ChangeEvent<HTMLInputElement>,
+ index: number,
+ field: "degree" | "university"
+ ) => {
+ const { value } = e.target;
+ setFormData((prevData) => ({
+ ...prevData,
+ education: prevData.education.map((edu, i) =>
+ i === index ? { ...edu, [field]: value } : edu
+ ),
+ }));
+ };
+ const handleAddEducation = () => {
+ setFormData((prevData) => ({
+ ...prevData,
+ education: [...prevData.education, { degree: "", university: "" }],
+ }));
+ };
+ const handleRemoveEducation = (index: number) => {
+ setFormData((prevData) => ({
+ ...prevData,
+ education: prevData.education.filter((edu, i) => i !== index),
+ }));
+ };
+ const handleExperienceChange = (
+ e: ChangeEvent<HTMLInputElement>,
+ index: number,
+ field: "position" | "hospital" | "duration"
+ ) => {
+ const { name, value } = e.target;
+ setFormData((prevData) => ({
+ ...prevData,
+ experience: prevData.experience.map((exp, i) =>
+ i === index ? { ...exp, [field]: value } : exp
+ ),
+ }));
+ };
 
-  const handleEducationChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      education: prevData.education.map((edu, i) =>
-        i === index ? { ...edu, [name]: value } : edu
-      ),
-    }));
-  };
+ const handleAddExperience = () => {
+ setFormData((prevData) => ({
+ ...prevData,
+ experience: [...prevData.experience, { position: "", hospital: "", duration: "" }],
+ }));
+ };
+ const handleRemoveExperience = (index: number) => {
+ setFormData((prevData) => ({
+ ...prevData,
+ experience: prevData.experience.filter((exp, i) => i !== index),
+ }));
+ };
+ const handleInsuranceProviderChange = (
+ e: ChangeEvent<HTMLInputElement>,
+ index: number
+ ) => {
+ const { value } = e.target;
+ setFormData((prevData) => ({
+ ...prevData,
+ insuranceProviders: prevData.insuranceProviders.map((provider, i) =>
+ i === index ? value : provider
+ ),
+ }));
+ };
 
-  const handleAddEducation = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      education: [...prevData.education, { degree: "", university: "" }],
-    }));
-  };
+ const handleAddInsuranceProvider = () => {
+ setFormData((prevData) => ({
+ ...prevData,
+ insuranceProviders: [...prevData.insuranceProviders, ""],
+ }));
+ };
 
-  const handleRemoveEducation = (index: number) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      education: prevData.education.filter((edu, i) => i !== index),
-    }));
-  };
+ const handleRemoveInsuranceProvider = (index: number) => {
+ setFormData((prevData) => ({
+ ...prevData,
+ insuranceProviders: prevData.insuranceProviders.filter((provider, i) => i !== index),
+ }));
+ };
+ const handleMapClick = (e: any) => {
+  const { lat, lng } = e.latlng;
+  console.log("Latitude:", lat);
+  console.log("Longitude:", lng);
 
-  const handleExperienceChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      experience: prevData.experience.map((exp, i) =>
-        i === index ? { ...exp, [name]: value } : exp
-      ),
-    }));
-  };
-
-  const handleAddExperience = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      experience: [...prevData.experience, { position: "", hospital: "", duration: "" }],
-    }));
-  };
-
-  const handleRemoveExperience = (index: number) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      experience: prevData.experience.filter((exp, i) => i !== index),
-    }));
-  };
-
-  const handleInsuranceProviderChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const { value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      insuranceProviders: prevData.insuranceProviders.map((provider, i) =>
-        i === index ? value : provider
-      ),
-    }));
-  };
-  
-  const handleAddInsuranceProvider = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      insuranceProviders: [...prevData.insuranceProviders, ""],
-    }));
-  };
-  
-  const handleRemoveInsuranceProvider = (index: number) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      insuranceProviders: prevData.insuranceProviders.filter((provider, i) => i !== index),
-    }));
-  };
-
-  const handleMapClick = (e: any) => {
-    const { lat, lng } = e.latlng;
-    console.log("Latitude:", lat);
-    console.log("Longitude:", lng);
-    setCoordinates([lat, lng]);
-  };
-
-  const handleMapReady = () => {
-    console.log("Map is ready!");
-    if (mapRef.current) {
-      console.log("Map object:", mapRef.current);
+  // Update form data with new latitude and longitude
+  setFormData((prevData) => ({
+    ...prevData,
+    location: {
+      latitude: lat,
+      longitude: lng,
+      // L.marker([lat,lng]),
     }
+  }));
+
+  // Assuming you have a state named 'coordinates', set it here
+  setCoordinates([lat, lng]);
+};
+
+ const handleMapReady = () => {
+ console.log("Map is ready!");
+ if (mapRef.current) {
+ console.log("Map object:", mapRef.current);
+ }
+ };
+ const MapClickHandler = () => {
+ const map = useMapEvents({
+ click: handleMapClick,
+ });
+ useEffect(() => {
+ mapRef.current = map;
+ }, [map]);
+ return null;
+ };
+
+ const customIcon = new L.Icon({
+  iconUrl: mapPin,
+  iconSize: [25, 25], // Size of the icon
+  iconAnchor: [12, 41], // Point of the icon which will correspond to marker's location
+  popupAnchor: [1, -34], // Point from which the popup should open relative to the iconAnchor
+});
+
+
+ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  console.log("clicked submit");
+  console.log(formData.username);
+  console.log(formData.password);
+   console.log(formData.name);
+   console.log(formData.email);
+   console.log(formData.specialty);
+   console.log(formData.availability);
+   console.log(formData.profilePicture);
+   console.log(formData.location);
+   console.log(formData.education);
+   console.log(formData.experience);
+  try {
+    const formDataToSend = {
+      username: formData.username,
+      password: formData.password,
+      name: formData.name,
+      specialty: formData.specialty,
+      address: formData.address,
+      location: formData.location,
+      email: formData.email,
+      rating: formData.rating, // Assuming you have this field in formData
+      insuranceProviders: formData.insuranceProviders,
+      education: formData.education.map(edu => ({
+          degree: edu.degree,
+          university: edu.university,
+      })),
+      experience: formData.experience.map(exp => ({
+          position: exp.position,
+          hospital: exp.hospital,
+          duration: exp.duration,
+      })),
+      about: formData.about, // Assuming you have this field in formData
   };
 
-  const MapClickHandler = () => {
-    const map = useMapEvents({
-      click: handleMapClick,
+  const formdata = new FormData();
+  formdata.append("data", JSON.stringify(formDataToSend));
+
+  if (profilePictureFile) {
+    formdata.append("profilePicture", profilePictureFile);
+  }
+
+    const response = await fetch("/doctor/create", {
+      method: "POST",
+      body: formdata
     });
 
-    useEffect(() => {
-      mapRef.current = map;
-    }, [map]);
-
-    return null;
-  };
-   
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("clicked submit");
-    try {
-      const response = await fetch("/doctor", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        console.log("Doctor registered successfully!");
-        window.location.href = "/help";
-      } else {
-        console.error("Error registering doctor.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
+    console.log(formData);
+    if (response.ok) {
+      console.log("Doctor registered successfully!");
+      window.location.href = "/login";
+    } else {
+      console.error("Error registering doctor.");
     }
-  };
+  } catch (error) {
+    console.error("Error:", error);
+  }
 
-  return (
-    <div className="containerfluid mt-5 mb-5 ">
-      <div className="row justify-content-center">
-        <div className="col-lg-8">
-          <div
-            className="card p-4"
-            style={{
-              borderRadius: "15px",
-              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            }}
-          >
-            <h2 className="text-center mb-4" style={{ color: "#007BFF" }}>
-              Doctor Registration
-            </h2>
-
-            {/* Registration Details */}
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <h4 style={{ color: "#495057" }}>{t('title')}</h4>
-                <div className="mb-3">
-                  <label htmlFor="username" className="form-label">
-                    Username
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="username"
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="name" className="form-label">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="specialty" className="form-label">
-                    Specialty
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="specialty"
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Contact and Location */}
-              <div className="mb-4">
-                <h4 style={{ color: "#495057" }}>Contact and Location</h4>
-                <div className="mb-3">
-                  <label htmlFor="address" className="form-label">
-                    Address
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="address"
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-            <label htmlFor="map" className="form-label">
-              Map
-            </label>
-                <MapContainer
-                  center={[37.7749, -122.4194]}
-                  zoom={13}
-                  style={{ height: "400px", width: "100%" }}
-                  whenReady={handleMapReady}
-                >
-                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                  <MapClickHandler />
-                  {coordinates && <Marker position={coordinates} />}
-                </MapContainer>
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="latitude" className="form-label">
-              Latitude
+ };
+ return (
+ <div className="containerfluid mt-5 mb-5 ">
+  <div className="row justify-content-center">
+    <div className="col-lg-8">
+      <div
+        className="card p-4"
+        style={{
+        borderRadius: "15px",
+        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+        }}
+        >
+        <h2 className="text-center mb-4" style={{ color: "#007BFF" }}>
+        Doctor Registration
+        </h2>
+        {/* Registration Details */}
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <div className="mb-4">
+            <h4 style={{ color: "#495057" }}>Registration Details</h4>
+            <div className="mb-3">
+            <label htmlFor="username" className="form-label">
+            Username
             </label>
             <input
-              type="text"
-              className="form-control"
-              id="latitude"
-              value={coordinates ? coordinates[0] : ""}
-              readOnly
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="longitude" className="form-label">
-              Longitude
+            type="text"
+            className="form-control"
+            id="username"
+            onChange={handleInputChange}
+            required
+        />
+        {errorMessage && (
+            <div className="alert alert-danger" role="alert">
+              {errorMessage}
+            </div>
+         )}
+        </div>
+        <div className="mb-3">
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="password"
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+            Name
             </label>
             <input
-              type="text"
-              className="form-control"
-              id="longitude"
-              value={coordinates ? coordinates[1] : ""}
-              readOnly
+            type="text"
+            className="form-control"
+            id="name"
+            onChange={handleInputChange}
+            required
+          />
+          </div>
+        <div className="mb-3">
+            <label htmlFor="specialty" className="form-label">
+            Specialty
+            </label>
+            <input
+            type="text"
+            className="form-control"
+            id="specialty"
+            onChange={handleInputChange}
+            required
             />
           </div>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="profilePicture" className="form-label">
-                    Profile Picture
-                  </label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    id="profilePicture"
-                    name="photo"
-                    accept="image/*"
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Availability */}
+          </div>
+            {/* Contact and Location */}
             <div className="mb-4">
-                <h4 style={{ color: "#495057" }}>Availability</h4>
-                <label htmlFor="availability" className="form-label">
-                    Availability
-                </label>
-                <input
+            <h4 style={{ color: "#495057" }}>Contact and Location</h4>
+            <div className="mb-3">
+            <label htmlFor="address" className="form-label">
+            Address
+            </label>
+            <input
+            type="text"
+            className="form-control"
+            id="address"
+            onChange={handleInputChange}
+            required
+            />
+          </div>
+          <div className="mb-3">
+              <label htmlFor="map" className="form-label">
+              Map
+              </label>
+              <MapContainer
+              center={[37.7749, -122.4194]}
+              zoom={13}
+              style={{ height: "400px", width: "100%" }}
+              whenReady={handleMapReady}
+              >
+              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+              <MapClickHandler />
+              {coordinates && <Marker position={coordinates} icon={customIcon} />}
+              </MapContainer>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="latitude" className="form-label">
+                Latitude
+              </label>
+              <input
                 type="text"
                 className="form-control"
-                id="availability"
+                id="latitude"
+                value={formData.location.latitude}
                 onChange={handleInputChange}
-                />
+                readOnly
+              />
             </div>
-
+            <div className="mb-3">
+              <label htmlFor="longitude" className="form-label">
+                Longitude
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="longitude"
+                value={formData.location.longitude}
+                onChange={handleInputChange}
+                readOnly
+              />
+            </div>
+          <div className="mb-3">
+              <label htmlFor="email" className="form-label">
+              Email
+              </label>
+              <input
+              type="email"
+              className="form-control"
+              id="email"
+              onChange={handleInputChange}
+              required
+              />
+          </div>
+          <div className="mb-3">
+          <label htmlFor="profilePicture" className="form-label">
+          Profile Picture
+          </label>
+          <input
+          type="file"
+          className="form-control"
+          id="profilePicture"
+          name="photo"
+          accept="image/*"
+          onChange={handleFileChange}
+          required
+          />
+          </div>
+          </div>
+          {/* Availability */}
+          <div className="mb-4">
+              <h4 style={{ color: "#495057" }}>Availability</h4>
+              <label htmlFor="availability" className="form-label">
+              Availability
+              </label>
+              <input
+              type="text"
+              className="form-control"
+              id="availability"
+              onChange={handleInputChange}
+          />
+          </div>
               {/* Insurance Providers */}
-                <div className="mb-4">
+              <div className="mb-4">
                   <h4 style={{ color: "#495057" }}>Insurance Providers</h4>
                   {formData.insuranceProviders.map((provider, index) => (
-                    <div key={index} className="mb-3">
-                      <label htmlFor={`insuranceProvider${index}`} className="form-label">
-                        Insurance Provider
+                  <div key={index} className="mb-3">
+                  <label htmlFor={`insuranceProvider${index}`} className="form-label">
+                  Insurance Provider
+                  </label>
+                  <input
+                  type="text"
+                  id={`insuranceProvider${index}`}
+                  name={`insuranceProvider${index}`}
+                  value={provider}
+                  className="form-control"
+                  onChange={(e) => handleInsuranceProviderChange(e, index)}
+                  />
+              </div>
+              ))}
+              <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={handleAddInsuranceProvider}
+              >
+              Add Insurance Provider
+              </button>
+              {formData.insuranceProviders.length > 1 && (
+              <button
+              type="button"
+              className="btn btn-danger ms-2"
+              //className="form-control"
+              onClick={() => 
+              handleRemoveInsuranceProvider(formData.insuranceProviders.length - 1)}
+              >
+              Remove Last Insurance Provider
+              </button>
+              )}
+            </div>
+                {/* Education */}
+                <div className="mb-4">
+                  <h4 style={{ color: "#495057" }}>Education</h4>
+                  {formData.education.map((edu, index) => (
+                  <div key={index} className="mb-3">
+                      <label htmlFor={`degree${index}`} className="form-label">
+                      Degree
                       </label>
                       <input
-                        type="text"
-                        id={`insuranceProvider${index}`}
-                        name={`insuranceProvider${index}`}
-                        value={provider}
-                        className="form-control"
-                        onChange={(e) => handleInsuranceProviderChange(e, index)}
-                      />
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={handleAddInsuranceProvider}
-                  >
-                    Add Insurance Provider
-                  </button>
-                  {formData.insuranceProviders.length > 1 && (
-                    <button
-                      type="button"
-                      className="btn btn-danger ms-2"
-                      //className="form-control"
-                      onClick={() => handleRemoveInsuranceProvider(formData.insuranceProviders.length - 1)}
-                    >
-                      Remove Last Insurance Provider
-                    </button>
-                  )}
-                </div>
-
-              {/* Education */}
-              <div className="mb-4">
-                <h4 style={{ color: "#495057" }}>Education</h4>
-                {formData.education.map((edu, index) => (
-                  <div key={index} className="mb-3">
-                    <label htmlFor={`degree${index}`} className="form-label">
-                      Degree
-                    </label>
-                    <input
                       type="text"
                       id={`degree${index}`}
                       name={`degree${index}`}
                       value={edu.degree}
                       className="form-control"
-                      onChange={(e) => handleEducationChange(e, index)}
-                    />
-                    <label htmlFor={`university${index}`} className="form-label">
+                      onChange={(e) => handleEducationChange(e, index,"degree")}
+                      />
+                      <label htmlFor={`university${index}`} className="form-label">
                       University
-                    </label>
-                    <input
+                      </label>
+                      <input
                       type="text"
                       id={`university${index}`}
                       name={`university${index}`}
                       value={edu.university}
                       className="form-control"
-                      onChange={(e) => handleEducationChange(e, index)}
-                    />
-                  </div>
+                      onChange={(e) => handleEducationChange(e, index,"university")}
+                      />
+                </div>
                 ))}
                 <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={handleAddEducation}
+                type="button"
+                className="btn btn-secondary"
+                onClick={handleAddEducation}
                 >
-                  Add Education
+                Add Education
                 </button>
                 {formData.education.length > 1 && (
-                  <button
-                    type="button"
-                    className="btn btn-danger ms-2"
-                    //className="form-control"
-                    onClick={() => handleRemoveEducation(formData.education.length - 1)}
-                  >
-                    Remove Last Education
-                  </button>
+                <button
+                type="button"
+                className="btn btn-danger ms-2"
+                onClick={() => handleRemoveEducation(formData.education.length - 1)}
+                >
+                Remove Last Education
+                </button>
                 )}
-              </div>
+                </div>
 
-               {/* Experience */}
-            <div className="mb-4">
-              <h4 style={{ color: "#495057" }}>Experience</h4>
-              {formData.experience.map((exp, index) => (
-                <div key={index} className="mb-3">
-                  <label htmlFor={`position${index}`} className="form-label">
+              {/* Experience */}
+              <div className="mb-4">
+                <h4 style={{ color: "#495057" }}>Experience</h4>
+                {formData.experience.map((exp, index) => (
+                  <div key={index} className="mb-3">
+                    <label htmlFor={`position${index}`} className="form-label">
                     Position
-                  </label>
-                  <input
+                    </label>
+                    <input
                     type="text"
                     id={`position${index}`}
                     name={`position${index}`}
                     value={exp.position}
                     className="form-control"
-                    onChange={(e) => handleExperienceChange(e, index)}
-                  />
-                  <label htmlFor={`hospital${index}`} className="form-label">
+                    onChange={(e) => handleExperienceChange(e, index,"position")}
+                    />
+                    <label htmlFor={`hospital${index}`} className="form-label">
                     Hospital
-                  </label>
-                  <input
+                    </label>
+                    <input
                     type="text"
                     id={`hospital${index}`}
                     name={`hospital${index}`}
                     value={exp.hospital}
                     className="form-control"
-                    onChange={(e) => handleExperienceChange(e, index)}
-                  />
-                  <label htmlFor={`duration${index}`} className="form-label">
+                    onChange={(e) => handleExperienceChange(e, index,"hospital")}
+                    />
+                    <label htmlFor={`duration${index}`} className="form-label">
                     Duration
-                  </label>
-                  <input
+                    </label>
+                    <input
                     type="text"
                     id={`duration${index}`}
                     name={`duration${index}`}
                     value={exp.duration}
                     className="form-control"
-                    onChange={(e) => handleExperienceChange(e, index)}
-                  />
-                </div>
-              ))}
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={handleAddExperience}
-              >
-                Add Experience
-              </button>
-              {formData.experience.length > 1 && (
-                <button
+                    onChange={(e) => handleExperienceChange(e, index,"duration")}
+                    />
+                  </div>
+                  ))}
+                  <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={handleAddExperience}
+                  >
+                  Add Experience
+                  </button>
+                  {formData.experience.length > 1 && (
+                  <button
                   type="button"
                   className="btn btn-danger ms-2"
                   //className="form-control"
                   onClick={() => handleRemoveExperience(formData.experience.length - 1)}
-                >
+                  >
                   Remove Last Experience
-                </button>
-              )}
-            </div>
-
+                  </button>
+                  )}
+              </div>
               {/* About */}
               <div className="mb-4">
-                <h4 style={{ color: "#495057" }}>About</h4>
-                <div className="mb-3">
-                  <label htmlFor="about" className="form-label">
-                    About
-                  </label>
-                  <textarea
-                    className="form-control"
-                    id="about"
-                    onChange={handleInputChange}
-                    required
-                  ></textarea>
-                </div>
+              <h4 style={{ color: "#495057" }}>About</h4>
+              <div className="mb-3">
+                <label htmlFor="about" className="form-label">
+                About
+                </label>
+                <textarea
+                className="form-control"
+                id="about"
+                onChange={handleInputChange}
+                required
+                ></textarea>
               </div>
-
-              <button
+            </div>
+                <button
                 type="submit"
                 className="btn btn-primary w-100 mt-3"
                 style={{ backgroundColor: "#007BFF", borderColor: "#007BFF" }}
-              >
+                >
                 Submit
-              </button>
-            </form>
-          </div>
+                </button>
+          </form>
         </div>
       </div>
     </div>
-  );
+ </div>
+ );
 };
 
 export default DoctorRegistrationForm;
