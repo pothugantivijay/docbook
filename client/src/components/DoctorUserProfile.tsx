@@ -169,7 +169,7 @@ const DoctorUserProfile: React.FC<DoctorDetailsProps> = ({ doctor }) => {
     <>
       <ImageAndText
         imagePath={HelloImg}
-        text={`Hi, ${doctor?.name}`}
+        text={`${t("profile.page.hi")}, ${doctor?.name}`}
       ></ImageAndText>
       <div className="container mt-4" data-aos="fade-up">
         <button
