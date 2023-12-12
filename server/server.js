@@ -7,4 +7,4 @@ dotenv.config();
 const application = express();
 const port        = process.env.SERVER_PORT;
 initialize(application);
-application.listen(port, () => console.log("Server listening at port 5000"));
+application.listen(port, () => console.log("Server listening at port 5001"));
