@@ -23,6 +23,9 @@ const PatientRegistrationForm: React.FC = () => {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const [formData, setFormData] = useState<FormData>({
     username: "",
     password: "",
@@ -74,9 +77,14 @@ const PatientRegistrationForm: React.FC = () => {
 
       if (response.ok) {
         console.log("Patient registered successfully!");
-        window.location.href = "/login";
+        setLoginSuccess(true);
+        setTimeout(() => {
+          setLoginSuccess(false);
+          window.location.href = "/login";
+        }, 1000);
+        setError(null);
       } else {
-        console.error("Error registering patient.");
+        setErrorMessage("Error Registering Patient");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -85,6 +93,25 @@ const PatientRegistrationForm: React.FC = () => {
 
   return (
     <>
+      {error && (
+        <div
+          className="alert alert-danger alert-top"
+          role="alert"
+          style={{ zIndex: "1" }}
+        >
+          {error}
+        </div>
+      )}
+
+      {loginSuccess && (
+        <div
+          className="alert alert-success alert-top"
+          role="alert"
+          style={{ zIndex: "1" }}
+        >
+          Login successful! Redirecting...
+        </div>
+      )}
       <div
         style={{ backgroundColor: "#f8fcfd", height: "100%", width: "100%" }}
       >
@@ -119,7 +146,10 @@ const PatientRegistrationForm: React.FC = () => {
                         required
                       />
                       {errorMessage && (
-                        <div className="alert alert-danger" role="alert">
+                        <div
+                          className="alert alert-danger alert-top"
+                          role="alert"
+                        >
                           {errorMessage}
                         </div>
                       )}
