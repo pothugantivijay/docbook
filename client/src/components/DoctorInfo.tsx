@@ -7,6 +7,7 @@ import { faStethoscope, faMapMarkerAlt, faEnvelope } from '@fortawesome/free-sol
 import { faStar as fasFaStar } from '@fortawesome/free-solid-svg-icons'; // Filled star
 import { faStarHalfAlt } from '@fortawesome/free-solid-svg-icons'; // Half-filled star
 import { faStar as farFaStar } from '@fortawesome/free-regular-svg-icons'; // Empty star
+import defdoc from '../media/defaultdoc.png';
 
 
 
@@ -40,7 +41,7 @@ const DoctorInfo: React.FC<DoctorInfoProps> = ({ doctor }) => {
                 {/* Profile Picture */}
                 <div className="col-md-2 doctor-details">
                     <img
-                        src={doctor.profilePicture || "path/to/default/image.jpg"}
+                        src={defdoc}
                         className="img-fluid rounded-start doctor-image"
                         alt={doctor.name}
                     />
