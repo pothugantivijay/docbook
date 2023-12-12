@@ -58,15 +58,16 @@ const HomePage = () => {
     insurance: "",
   });
 
-  const { t } = useTranslation('common');
+  //const { t } = useTranslation('common');
 
   const [users, setUsers] = useState<User[]>([]);
   const minRating = 0; 
+  const targetSpecialty = "Cardiologist";
 
   // Function to fetch data 
   const fetchData = async () => {
     try {
-      const response = await fetch('/doctor/alldoc');
+      const response = await fetch('http://localhost:5001/doctor/alldoc');
       const data = await response.json();
       setUsers(data.result); // Update users state with fetched data
     } catch (error) {
@@ -83,7 +84,21 @@ const HomePage = () => {
     return users.filter(user => user.rating >= minRating);
   };
 
-  const filteredUsers = filterUsersByRating();
+  const filteredUsersByRating = filterUsersByRating();
+
+  const filterUsersBySpecialty = () => {
+    return users.filter(user => user.specialty === targetSpecialty);
+  };
+  
+  const filteredUsersBySpecialty = filterUsersBySpecialty();
+
+  const getAllSpecialties = () => {
+    const specialties = users.map(user => user.specialty);
+    const uniqueSpecialties = new Set(specialties);
+    return Array.from(uniqueSpecialties);
+  };
+  
+  const allSpecialties = getAllSpecialties();
 
   const [expanded, setExpanded] = useState<ExpandedState>({
     medical: false,
@@ -215,7 +230,7 @@ const HomePage = () => {
       <div className="upper">
         <DocBookHeader></DocBookHeader>
         <div className="uppertext">
-          {t('title')}
+          Docbook
         </div>
         <div className='uppertext'>Book local doctors who accept your Insurance</div>
         <div className='searchframe'>
@@ -263,7 +278,7 @@ const HomePage = () => {
         <div className="doctor-row">
           <div className="doctor-row-label">Top Rated Doctors</div>
           <div className="doctor-cards" ref={doctorScrollRef}>
-            {filteredUsers.map(user => (
+            {filteredUsersByRating.map(user => (
             <div className="doctor-card" key={user.id}>
                 <h3>Dr. {user.name}</h3>
                 <p>{user.specialty}</p>
@@ -288,6 +303,12 @@ const HomePage = () => {
         <div className="doctor-row">
           <div className="doctor-row-label">Dentists</div>
           <div className="doctor-cards" ref={dentistScrollRef}>
+            {filteredUsersBySpecialty.map(user => (
+            <div className="doctor-card" key={user.id}>
+                <h3>Dr. {user.name}</h3>
+                <p>{user.specialty}</p>
+            </div>
+            ))}
             {dentists.map((dentist) => (
               <div className="doctor-card">
                 <h3>{dentist.name}</h3>

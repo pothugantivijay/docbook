@@ -1,7 +1,8 @@
 import React, { useState, ChangeEvent, FormEvent, useRef, useEffect} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
-
+import { useTranslation } from "react-i18next";
+import { startTransition } from "react";
 
 interface FormData {
   username: string;
@@ -34,6 +35,7 @@ interface FormData {
 }
 
 const DoctorRegistrationForm: React.FC = () => {
+  const { t } = useTranslation('common');
     const mapRef = useRef<any>(null);
     const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
   const [formData, setFormData] = useState<FormData>({
@@ -269,7 +271,7 @@ const DoctorRegistrationForm: React.FC = () => {
             {/* Registration Details */}
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <h4 style={{ color: "#495057" }}>Registration Details</h4>
+                <h4 style={{ color: "#495057" }}>{t('title')}</h4>
                 <div className="mb-3">
                   <label htmlFor="username" className="form-label">
                     Username
