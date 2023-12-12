@@ -9,7 +9,7 @@ export const searchDoctors = (
   searchCriteria: SearchCriteria
 ): Promise<Doctor[]> => {
   return new Promise((resolve, reject) => {
-    fetch("http://localhost:5000/doctor/search", {
+    fetch("http://localhost:5001/doctor/search", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export const fetchSlotDetails = (
     const formattedDate = date.toISOString().split("T")[0]; // Format date as YYYY-MM-DD
 
     fetch(
-      `http://localhost:5000/doctor/slot/${doctorId}/slots?date=${formattedDate}`,
+      `http://localhost:5001/doctor/slot/${doctorId}/slots?date=${formattedDate}`,
       {
         method: "GET",
         headers: {
@@ -56,7 +56,7 @@ export const fetchSlotDetails = (
 
 export const fetchDoctorDetails = async (doctorId: Number) => {
   try {
-    const response = await fetch(`http://localhost:5000/doctor/${doctorId}`);
+    const response = await fetch(`http://localhost:5001/doctor/${doctorId}`);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

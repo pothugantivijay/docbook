@@ -13,6 +13,7 @@ function PatientAppointments() {
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null);
 
@@ -29,6 +30,40 @@ function PatientAppointments() {
     });
     setShowModal(true);
     document.body.style.overflow = "hidden";
+  };
+
+  const handleShowCancelModal = (appointment: Appointment) => {
+    setSelectedAppointment(appointment);
+    setShowCancelModal(true);
+    document.body.style.overflow = "hidden";
+  };
+  const handleCloseCancelModal = () => {
+    setShowCancelModal(false);
+    document.body.style.overflow = "auto";
+  };
+  const cancelAppointment = async () => {
+    try {
+      const deleteResponse = await fetch("/appts/", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          _id: selectedAppointment?._id,
+        }),
+      });
+
+      if (!deleteResponse.ok) {
+        throw new Error("Failed to patch the appointment");
+      }
+
+      console.log("Appointment deleted successfully");
+
+      handleCloseCancelModal();
+      window.location.reload();
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
   };
 
   const handleCommentChange = (
@@ -263,6 +298,51 @@ function PatientAppointments() {
           </div>
         </div>
       </div>
+      <div
+        className={`modal fade${showCancelModal ? " show" : ""}`}
+        aria-labelledby="contained-modal-title-vcenter"
+        style={{
+          display: showCancelModal ? "block" : "none",
+          backdropFilter: "blur(3px)",
+        }}
+        tabIndex={-1}
+        aria-hidden={!showCancelModal}
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header bg-danger text-white">
+              <h5 className="modal-title" id="cancelAppt">
+                Cancel Appointment
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={handleCloseCancelModal}
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <p>Do you want to confirm your appointment cancellation?</p>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={handleCloseCancelModal}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={cancelAppointment}
+              >
+                Yes, cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="container mt-5 mb-5" data-aos="fade-down">
         <h1 className="mb-4">Your Appointments</h1>
         <table className="table">
@@ -334,7 +414,7 @@ function PatientAppointments() {
                         Submit Review
                       </button>
                     )}
-                    {getStatus(
+                  {getStatus(
                     new Date(appointment.startTime).toLocaleString(
                       "en-US",
                       options
@@ -348,12 +428,30 @@ function PatientAppointments() {
                       <button
                         type="button"
                         className="btn disabled btn-success m-4"
-                        onClick={() => handleShowModal(appointment)}
                         style={{ fontSize: "0.8em", padding: "0.1em 0.2em" }}
                       >
                         Reviewed
                       </button>
                     )}
+                  {getStatus(
+                    new Date(appointment.startTime).toLocaleString(
+                      "en-US",
+                      options
+                    ),
+                    new Date(appointment.endTime).toLocaleString(
+                      "en-US",
+                      options
+                    )
+                  ) === "Scheduled" && (
+                    <button
+                      type="button"
+                      className="btn btn-danger m-4"
+                      style={{ fontSize: "0.8em", padding: "0.1em 0.2em" }}
+                      onClick={() => handleShowCancelModal(appointment)}
+                    >
+                      Cancel
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

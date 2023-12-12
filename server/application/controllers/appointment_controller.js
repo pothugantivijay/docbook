@@ -41,10 +41,21 @@ const patchAppointment = async (request, response) => {
     }
 }
 
+const deleteAppointment = async (request, response) => {
+    try {
+        const appointment = await AppointmentService.deleteAppointment(request.body._id);
+        response.status(201).json(appointment);
+    } catch (error) {
+        console.error(error);
+        response.status(500).json({ message: 'Error patching appointment' });
+    }
+}
+
 
 module.exports = {
     createAppointment,
     getAppointments,
     patchAppointment,
     getDoctorAppointments,
+    deleteAppointment
 };
