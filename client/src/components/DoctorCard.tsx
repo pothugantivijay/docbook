@@ -1,7 +1,7 @@
 import React from "react";
 import StarRating from "./StarRating";
 import DoctorInterface from "../interfaces/Doctor";
-import profilePic from "../media/doctors-stethoscope-white-background.jpeg";
+import profilePic from "../media/defaultdoc.png";
 import "../Css/doctorProfile.css";
 import "../Css/card.css";
 
@@ -14,7 +14,11 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
   return (
     <div className="profileContainer">
       <div className="pictureContainer">
-        <img src={profilePic} alt="Profile" className="profilePic" />
+        <img
+          src={doctor.profilePicture || profilePic}
+          alt="Profile"
+          className="profilePic"
+        />
       </div>
       <div className="infoContainer">
         <div className="name" title={doctor.name}>

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "./store/slices/login_slice";
 import { RootState } from "./store";
 import { selectUser } from "./store/slices/login_slice";
+import DocBookHeader from "./components/DocBookHeader";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -62,9 +63,7 @@ function Login() {
 
   return (
     <div className="body">
-      <div className="headingContainer">
-        <div className="docHeading">DocBook</div>
-      </div>
+      <DocBookHeader></DocBookHeader>
       <div className="centerWrap">
         {error && (
           <div className="alert alert-danger alert-top" role="alert">
