@@ -336,19 +336,19 @@ const HomePage = () => {
       <div className="doctor-row">
         <div className="doctor-row-label">Top Searched Specialties</div>
         <div className="specialty-cards">
-          {topSearchedSpecialties.map((specialty) => (
+          {allSpecialties.map((specialty) => (
             <a
-              href={specialty.pageUrl}
-              key={specialty.id}
+              href={specialty}
+              key={specialty}
               className="specialty-card-link"
             >
               <div className="specialty-card">
                 <img
-                  src={specialty.logo}
-                  alt={specialty.name}
+                  src={specialty}
+                  alt={specialty}
                   className="specialty-logo"
                 />
-                <div className="specialty-name">{specialty.name}</div>
+                <div className="specialty-name">{specialty}</div>
               </div>
             </a>
           ))}
