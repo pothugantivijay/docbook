@@ -1,6 +1,7 @@
 const Doctor = require('../models/doctor.js');
 const Review = require('../models/review.js');
 const Appointment = require('../models/appointment.js');
+const User    = require('../models/login_model');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
@@ -147,8 +148,15 @@ async function searchDoctors(criteria) {
 async function createDoctor(doctorData) {
   try {
     const newDoctor = new Doctor(doctorData);
-    await newDoctor.save();
-    return newDoctor;
+    const doctor = await newDoctor.save();
+    const { username, password } = doctorData;
+    const user = new User({
+      username: username,
+      password: password,
+      type: 'doctor',
+    });
+    await user.save();
+    return doctor;
   } catch (error) {
     throw new Error(`Error creating doctor: ${error.message}`);
   }
