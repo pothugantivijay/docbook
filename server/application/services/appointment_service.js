@@ -68,9 +68,21 @@ const patchAppointment = async (appointmentData) => {
     }
 }
 
+const deleteAppointment = async (appointmentId) => {
+
+    try {
+        const deletedAppointment = await Appointment.findByIdAndDelete(appointmentId);
+
+        return deletedAppointment;
+    } catch (err) {
+        throw err;
+    }
+}
+
 module.exports = {
     createAppointment,
     getAppointments,
     patchAppointment,
     getDoctorAppointments,
+    deleteAppointment
 };
