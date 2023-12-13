@@ -14,7 +14,7 @@ import PatientRegistrationForm from "./registerpatient";
 import Profile from "./userprofile";
 import DoctorSearchPage from "./search";
 import BookingPage from "./booking";
-import HomePage from "./components/Homepage";
+import HomePage from "./home";
 import DoctorRegistrationForm from "./components/DoctorRegistration";
 import NotFoundComponent from "./components/NotFoundPage";
 
