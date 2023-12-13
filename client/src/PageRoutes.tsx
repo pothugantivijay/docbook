@@ -16,6 +16,7 @@ import DoctorSearchPage from "./components/DoctorSearchPage";
 import BookingPage from "./components/BookingPage";
 import HomePage from "./components/Homepage";
 import DoctorRegistrationForm from "./components/DoctorRegistration";
+import NotFoundComponent from "./components/NotFoundPage";
 
 const Routes: React.FC = () => {
   return (
@@ -35,6 +36,7 @@ const Routes: React.FC = () => {
         <Route path="/search" element={<DoctorSearchPage />} />
         <Route path="/booking" element={<BookingPage />} />
         <Route path="/registerdoctor" element={<DoctorRegistrationForm />} />
+        <Route path="*" element={<NotFoundComponent />} />
       </RouterRoutes>
     </Router>
   );
