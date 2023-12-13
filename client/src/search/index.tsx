@@ -3,7 +3,6 @@ import SearchForm from "../components/SearchForm";
 import DoctorProfile from "../components/DoctorProfile";
 import DoctorMap from "../components/DoctorMap";
 import { searchDoctors } from "../api";
-import "../Css/DoctorInfo.css";
 import { SearchCriteria, Doctor } from "../types/DoctorTypes";
 import DocBookHeader from "../components/DocBookHeader";
 import Footer from "../components/Footer";

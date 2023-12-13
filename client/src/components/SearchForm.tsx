@@ -1,5 +1,4 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import '../Css/SearchForm.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHospital, faSearch, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 
@@ -32,7 +31,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearchSubmit, initialCriteria
             <div className='uppertext'>Book local doctors who accept your Insurance</div>
             <div className='searchframe'>
                 <div className="search-bar width-adj">
-                <div className="search-icon">
+                    <div className="search-icon">
                         <FontAwesomeIcon icon={faSearch} />
                     </div>
 
@@ -43,11 +42,11 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearchSubmit, initialCriteria
                         placeholder="Location"
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setLocation(e.target.value)}
                     />
-                
+
                     <div className="search-icon">
                         <FontAwesomeIcon icon={faHospital} />
-                </div>
-                    
+                    </div>
+
                     <input
                         type="text"
                         className="mb-2"
@@ -55,9 +54,9 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearchSubmit, initialCriteria
                         placeholder="Specialty"
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setSpecialty(e.target.value)}
                     />
-                <div className="search-icon">
+                    <div className="search-icon">
                         <FontAwesomeIcon icon={faUserDoctor} />
-                </div>
+                    </div>
                     <input
                         type="text"
                         className="mb-2"
@@ -65,9 +64,9 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearchSubmit, initialCriteria
                         placeholder="Name"
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                     />
-                    
-    
-                <button className="btn btn-primary search-btn"><FontAwesomeIcon icon={faSearch} /></button>
+
+
+                    <button className="btn btn-primary search-btn"><FontAwesomeIcon icon={faSearch} /></button>
                 </div>
             </div>
 

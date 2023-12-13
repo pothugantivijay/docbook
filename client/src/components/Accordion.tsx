@@ -1,5 +1,4 @@
 import React from "react";
-import "../Css/main.css";
 
 interface Faq {
   question: string;
