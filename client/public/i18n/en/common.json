@@ -34,5 +34,19 @@
     "profile.page.rating": "Rating",
     "profile.page.reviews": "Reviews",
     "profile.page.hi" : "Hi",
-    "profile.page.displaycard": "Your Display Card"
+    "profile.page.displaycard": "Your Display Card",
+    "home.page.title": "Book Local Doctors Near You",
+    "home.page.toprated" : "Top Rated Doctors",
+    "home.page.toprdesc" : "90% patients rated 5-stars",
+    "home.page.dentist" : "Dentists",
+    "home.page.spec.title" : "Top Searched Specialties",
+    "home.page.cardiologists" : "Cardiologists",
+    "home.page.speccard.pc" : "Primary Care",
+    "home.page.speccard.den" : "Dentist",
+    "home.page.speccard.ob" : "OB-GYN",
+    "home.page.speccard.psy" : "Psychiatrist",
+    "home.page.speccard.car" : "Cardiologist",
+    "home.page.info.title1" : "Thousands of providers.",
+    "home.page.info.title2" : "One app.",
+    "home.page.info.desc" : "The DocBook app is the quickest, easiest way to book and keep track of your appointments."
 }
