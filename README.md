@@ -2,5 +2,5 @@
 
 Please check below documentation to run the project.
 
-1. [Course API](./client/README.md)
-2. [Course App](./server/README.md)
+1. [DOC BOOK API](./client/README.md)
+2. [DOC BOOK](./server/README.md)
