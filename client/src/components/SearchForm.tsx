@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHospital, faSearch, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from "react-i18next";
 
 interface SearchFormProps {
     onSearchSubmit: (data: { name: string; specialty: string; location: string }) => void;
@@ -26,9 +27,11 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearchSubmit, initialCriteria
         onSearchSubmit({ name, specialty, location });
     };
 
+    const { t, i18n, ready } = useTranslation("common", { useSuspense: false });
+
     return (
         <form onSubmit={handleSubmit}>
-            <div className='uppertext'>Book local doctors who accept your Insurance</div>
+            <div className='uppertext'>{t("home.page.title")}</div>
             <div className='searchframe'>
                 <div className="search-bar width-adj">
                     <div className="search-icon">

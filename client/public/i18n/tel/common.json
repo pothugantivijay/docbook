@@ -34,5 +34,20 @@
     "profile.page.rating": "రేటింగ్",
     "profile.page.reviews": "సమీక్షలు",
     "profile.page.hi" : "నమస్కారం",
-    "profile.page.displaycard": "మీ కార్డ్"
+    "profile.page.displaycard": "మీ కార్డ్",
+    "home.page.title": "స్థానిక వైద్యులను బుక్ చేయండి",
+    "home.page.toprated" : "అత్యుత్తమ రేటు చేయబడిన వైద్యులు",
+    "home.page.toprdesc" : "90% రోగులు 5-స్టార్లు రేటు చేసారు",
+    "home.page.dentist" : "దంత వైద్యులు",
+    "home.page.cardiologists" : "హృదయ వైద్యులు",
+    "home.page.spec.title" : "ఎక్కువగా అన్వేషించబడిన ప్రత్యేకతలు",
+    "home.page.speccard.pc": "ప్రాథమిక సంరక్షణ",
+    "home.page.speccard.den": "దంత వైద్యుడు",
+    "home.page.speccard.ob": "స్త్రీరోగ నిపుణుడు (OB-GYN)",
+    "home.page.speccard.psy": "మానసిక వైద్యుడు",
+    "home.page.speccard.car": "కార్డియాలజిస్ట్",
+    "home.page.info.title1": "వేలాది ప్రొవైడర్లు.",
+    "home.page.info.title2": "ఒకే అనువర్తనం.",
+    "home.page.info.desc": "మీ అపాయింట్మెంట్లను బుక్ చేసుకోవడం మరియు ట్రాక్ చేసుకోవడంలో DocBook అనువర్తనం అత్యంత వేగవంతమైనది, సులభమైనది."
+
 }
