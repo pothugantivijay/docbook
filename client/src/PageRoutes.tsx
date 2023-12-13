@@ -12,8 +12,8 @@ import Help from "./help";
 import DoctorProfile from "./doctorprofile";
 import PatientRegistrationForm from "./registerpatient";
 import Profile from "./userprofile";
-import DoctorSearchPage from "./components/DoctorSearchPage";
-import BookingPage from "./components/BookingPage";
+import DoctorSearchPage from "./search";
+import BookingPage from "./booking";
 import HomePage from "./components/Homepage";
 import DoctorRegistrationForm from "./components/DoctorRegistration";
 import NotFoundComponent from "./components/NotFoundPage";
@@ -27,7 +27,6 @@ const Routes: React.FC = () => {
           element={<Navigate to={"/service-worker.js"} replace />}
         ></Route>
         <Route path="/" element={<HomePage />} />
-        <Route path="/" element={<App />} />
         <Route path="/login" element={<Login />} />
         <Route path="/help" element={<Help />} />
         <Route path="/doctorprofile/doctor/:id" element={<DoctorProfile />} />
