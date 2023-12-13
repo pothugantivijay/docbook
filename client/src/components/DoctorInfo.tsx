@@ -58,17 +58,17 @@ const DoctorInfo: React.FC<DoctorInfoProps> = ({ doctor }) => {
                             <h5 className="card-title">
                                 {doctor.name}
                             </h5>
-                            <p className="card-text doctor-rating">
+                            <p className="doctor-rating pt-1">
                                 {renderStars(doctor.rating)}<small><strong>&nbsp;{doctor.rating}</strong></small>
                             </p>
-                            <p className="card-text">
+                            <p>
                                 <FontAwesomeIcon icon={faStethoscope} /> <small className="text-muted">{doctor.specialty}</small>
                             </p>
 
-                            <p className="card-text">
+                            <p >
                                 <FontAwesomeIcon icon={faMapMarkerAlt} style={{ color: '#ff6347' }} /> <small className="text-muted">{doctor.address}</small>
                             </p>
-                            <p className="card-text">
+                            <p >
                                 <FontAwesomeIcon icon={faEnvelope} /> <small className="text-muted">{doctor.email}</small>
                             </p>
                         </div>
