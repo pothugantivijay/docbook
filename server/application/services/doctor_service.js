@@ -1,7 +1,7 @@
 const Doctor = require('../models/doctor.js');
 const Review = require('../models/review.js');
 const Appointment = require('../models/appointment.js');
-const User    = require('../models/login_model');
+const User = require('../models/login_model');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
@@ -45,7 +45,7 @@ async function getBookedSlotsCount(id) {
   const utcOffsetForEST = 5; // EST is UTC-5
 
   // Set startDate to the current date in EST
-  let startDate = convertToLocalTime(new Date(), utcOffsetForEST);
+  let startDate = convertToLocalTime(new Date(), 5);
   startDate.setHours(0, 0, 0, 0);
 
   // Set endDate to 28 days later
@@ -55,7 +55,7 @@ async function getBookedSlotsCount(id) {
 
   const appointments = await Appointment.find({
     doctorId: id,
-    date: { $gte: startDate, $lte: endDate }
+    startTime: { $gte: startDate, $lte: endDate }
   });
 
   let bookedCountPerDay = {};

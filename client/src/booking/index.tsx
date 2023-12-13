@@ -134,8 +134,7 @@ const BookingPage: React.FC = () => {
     return (
         <>
             <DocBookHeader></DocBookHeader>
-            <div>
-
+            <div className='mb-5'>
                 <div className="booking-container container-fluid" data-aos="fade-up">
                     <div className="row h-100">
                         <div className="col-md-6 left-column" style={{ backgroundImage: `url(${patientImage})` }}>
