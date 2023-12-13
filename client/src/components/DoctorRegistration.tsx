@@ -4,6 +4,8 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import L from 'leaflet';
 import mapPin from "../media/map_pin.png";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
+import { useNavigate } from "react-router-dom";
+import DocBookHeader from "./DocBookHeader";
 interface FormData {
  username: string;
  password:string;
@@ -45,6 +47,8 @@ const DoctorRegistrationForm: React.FC = () => {
  const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
  const [profilePictureFile, setProfilePictureFile] = useState<File | null>(null);
  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+ const [message, setMessage] = useState('');
+ const navigate = useNavigate();
  const [formData, setFormData] = useState<FormData>({
  username: "",
  password: "",
@@ -325,17 +329,22 @@ const DoctorRegistrationForm: React.FC = () => {
 
     console.log(formData);
     if (response.ok) {
-      console.log("Doctor registered successfully!");
-      window.location.href = "/login";
+      setMessage("Doctor registered successfully!");
+      setTimeout(() => navigate("/login"), 2000); 
     } else {
       console.error("Error registering doctor.");
     }
   } catch (error) {
-    console.error("Error:", error);
+    if (error instanceof Error) {
+      setMessage("Error: " + error.message);
+    } else {
+      setMessage("An unexpected error occurred");
+    }
   }
-
  };
  return (
+ <> 
+ <DocBookHeader></DocBookHeader>
  <div className="containerfluid mt-5 mb-5 ">
   <div className="row justify-content-center">
     <div className="col-lg-8">
@@ -437,7 +446,7 @@ const DoctorRegistrationForm: React.FC = () => {
               {coordinates && <Marker position={coordinates} icon={customIcon} />}
               </MapContainer>
             </div>
-            <div className="mb-3">
+            <div className="mb-3" style={{display:'none'}}>
               <label htmlFor="latitude" className="form-label">
                 Latitude
               </label>
@@ -450,7 +459,7 @@ const DoctorRegistrationForm: React.FC = () => {
                 readOnly
               />
             </div>
-            <div className="mb-3">
+            <div className="mb-3" style={{display:'none'}}>
               <label htmlFor="longitude" className="form-label">
                 Longitude
               </label>
@@ -491,7 +500,7 @@ const DoctorRegistrationForm: React.FC = () => {
           </div>
           </div>
           {/* Availability */}
-          <div className="mb-4">
+          <div className="mb-4" style={{display: 'none'}}>
               <h4 style={{ color: "#495057" }}>Availability</h4>
               <label htmlFor="availability" className="form-label">
               Availability
@@ -667,11 +676,13 @@ const DoctorRegistrationForm: React.FC = () => {
                 >
                 Submit
                 </button>
+                {message && <div className="alert">{message}</div>}
           </form>
         </div>
       </div>
     </div>
  </div>
+ </>
  );
 };
 
