@@ -2,11 +2,13 @@ import React, { useState, useEffect, ChangeEvent, useRef } from "react";
 import "../Css/Homepage.css"; // Import the corresponding CSS file for styling
 import Footer from "./Footer";
 import DocBookHeader from "./DocBookHeader";
-import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { faUserDoctor } from "@fortawesome/free-solid-svg-icons";
-import { faHospital } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faUserDoctor } from '@fortawesome/free-solid-svg-icons';
+import { faHospital } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faShieldHalved } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from "react-i18next";
 import { SearchCriteria } from "../types/DoctorTypes";
 import rightimg from "../media/right-img.png";
@@ -69,7 +71,7 @@ const HomePage = () => {
   //const { t } = useTranslation('common');
 
   const [users, setUsers] = useState<User[]>([]);
-  const minRating = 0;
+  const minRating = 0; 
   const targetSpecialty = "Cardiologist";
 
   const navigateToDoctorSearch = (searchCriteria: SearchCriteria) => {
@@ -242,154 +244,161 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
-      <div className="upper">
-        <DocBookHeader></DocBookHeader>
-        <div className="uppertext">
-          Book local doctors who accept your Insurance
-        </div>
-        <div className="searchframe">
-          <div className="search-bar">
-            <div className="search-icon">
-              <FontAwesomeIcon icon={faSearch} />
-            </div>
-            <input
-              type="text"
-              className="mb-2"
-              placeholder="Location"
-              name="location"
-              value={searchParams.location}
-              onChange={handleSearchChange}
-            />
-            <div className="search-icon">
-              <FontAwesomeIcon icon={faHospital} />
-            </div>
-            <input
-              type="text"
-              className="mb-2"
-              placeholder="Specialty"
-              name="specialty"
-              value={searchParams.specialty}
-              onChange={handleSearchChange}
-            />
-            <div className="search-icon">
-              <FontAwesomeIcon icon={faUserDoctor} />
-            </div>
-            <input
-              type="text"
-              className="mb-2"
-              placeholder="Name"
-              name="name"
-              value={searchParams.name}
-              onChange={handleSearchChange}
-            />
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                navigateToDoctorSearch(searchParams);
-              }}
-              className="btn btn-primary search-btn"
-            >
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="doctor-profiles">
-        <div className="docrow-display">
-          <div className="doctor-row-label">
-            Top Rated Doctors
-            <h3> 90% patients rated 5-stars</h3>
-          </div>
-          <div className="doctor-row">
-            <div className="doctor-cards" ref={doctorScrollRef}>
-              {filteredUsersByRating.map((user) => (
-                <div
-                  className="doctor-card"
-                  key={user.id}
-                  onClick={() => handleCardClick(user.id)}
-                >
-                  <h3>Dr. {user.name}</h3>
-                  <p>{user.specialty}</p>
+        <div className="upper">
+            <DocBookHeader></DocBookHeader>
+            <div className='uppertext'>Book local doctors who accept your Insurance</div>
+            <div className='searchframe'>
+                <div className="search-bar">
+                    <div className="search-icon">
+                        <FontAwesomeIcon icon={faSearch} />
+                    </div>
+                    <input
+                    type="text"
+                    className="mb-2"
+                    placeholder="Location"
+                    name="location"
+                    value={searchParams.location}
+                    onChange={handleSearchChange}
+                    />
+                    <div className="search-icon">
+                        <FontAwesomeIcon icon={faHospital} />
+                    </div>
+                    <input
+                    type="text"
+                    className="mb-2"
+                    placeholder="Specialty"
+                    name="specialty"
+                    value={searchParams.specialty}
+                    onChange={handleSearchChange}
+                    />
+                    <div className="search-icon">
+                        <FontAwesomeIcon icon={faUserDoctor} />
+                    </div>
+                    <input
+                    type="text"
+                    className="mb-2"
+                    placeholder="Name"
+                    name="name"
+                    value={searchParams.name}
+                    onChange={handleSearchChange}
+                    />
+                    <button onClick={(e) => {
+                    e.preventDefault();
+                    navigateToDoctorSearch(searchParams);
+                }} className="btn btn-primary search-btn">
+                    <FontAwesomeIcon icon={faSearch} />
+                    </button>
                 </div>
-              ))}
-              {filteredUsersByRating.map((user) => (
-                <div className="doctor-card" key={user.id}>
-                  <h3>Dr. {user.name}</h3>
-                  <p>{user.specialty}</p>
-                </div>
-              ))}
             </div>
-            <div className="scroll-arrows">
-              <button
-                onClick={() => scrollLeft(doctorScrollRef)}
-                className="scroll-left"
-              >
-                &lt;
-              </button>
-              <button
-                onClick={() => scrollRight(doctorScrollRef)}
-                className="scroll-right"
-              >
-                &gt;
-              </button>
-            </div>
-          </div>
         </div>
-        <div className="docrow-display">
-          <div className="doctor-row-label">{targetSpecialty}</div>
-          <div className="doctor-row">
-            <div className="doctor-cards" ref={dentistScrollRef}>
-              {filteredUsersBySpecialty.map((user) => (
-                <div className="doctor-card" key={user.id}>
-                  <h3>Dr. {user.name}</h3>
-                  <p>{user.specialty}</p>
+        <div className="doctor-profiles">
+            <div className="docrow-display">
+                <div className="doctor-row-label">
+                    Top Rated Doctors
+                <h3> 90% patients rated 5-stars</h3>
                 </div>
-              ))}
-              {dentists.map((dentist) => (
-                <div className="doctor-card">
-                  <h3>{dentist.name}</h3>
-                  <p>{dentist.specialty}</p>
-                  {/* Add more dentist details */}
+                <div className="doctor-row">
+                    <div className="doctor-cards" ref={doctorScrollRef}>
+                        {filteredUsersByRating.map(user => (
+                          <div className="carddoc doctor-card" key={user.id} onClick={() => handleCardClick(user.id)}>
+                            <div className="card-header">
+                              <img src={user.profilePicture} alt={`Dr. ${user.name}`} className="profile-image" />
+                              <div className="main-head">
+                                <div className="profile-name">Dr. {user.name}</div>
+                                <div className="star-rating">{/* Render stars here based on user.rating */}</div>
+                                <div className="reviews">{user.specialty}</div>
+                              </div>
+                            </div>
+                            <div className="card-body">
+                              <h2 className="card-title"><FontAwesomeIcon icon={faStar} /> {user.rating} Rating</h2>
+                              <h2 className="card-title"><FontAwesomeIcon icon={faShieldHalved} /> {user.insuranceProviders}</h2>
+                              <div className="card-text">{user.experience.map(value => (
+                                <div className="exp">
+                                  <p>{value.duration} In {value.hospital}</p>
+                                </div>
+                              ))}</div>
+                            </div>
+                            <div className="carddoc-footer">
+                              Check Availablity
+                            </div>
+                          </div>
+                        ))}   
+                    </div>
+                    <div className="scroll-arrows">
+                        <button
+                        onClick={() => scrollLeft(doctorScrollRef)}
+                        className="scroll-left"
+                        >
+                        &lt;
+                        </button>
+                        <button
+                        onClick={() => scrollRight(doctorScrollRef)}
+                        className="scroll-right"
+                        >
+                        &gt;
+                        </button>
+                    </div>
                 </div>
-              ))}
             </div>
-            <div className="scroll-arrows">
-              <button
-                onClick={() => scrollLeft(dentistScrollRef)}
-                className="scroll-left"
-              >
-                &lt;
-              </button>
-              <button
-                onClick={() => scrollRight(dentistScrollRef)}
-                className="scroll-right"
-              >
-                &gt;
-              </button>
+            <div className="docrow-display">
+                <div className="doctor-row-label">{targetSpecialty}</div>
+                <div className="doctor-row">
+                    <div className="doctor-cards" ref={dentistScrollRef}>
+                        {filteredUsersBySpecialty.map(user => (
+                          <div className="carddoc doctor-card" key={user.id} onClick={() => handleCardClick(user.id)}>
+                            <div className="card-header">
+                              <img src={user.profilePicture} alt={`Dr. ${user.name}`} className="profile-image" />
+                              <div className="main-head">
+                                <div className="profile-name">Dr. {user.name}</div>
+                                <div className="star-rating">{/* Render stars here based on user.rating */}</div>
+                                <div className="reviews">{user.specialty}</div>
+                              </div>
+                            </div>
+                            <div className="card-body">
+                              <h2 className="card-title"><FontAwesomeIcon icon={faStar} /> {user.rating} Rating</h2>
+                              <h2 className="card-title"><FontAwesomeIcon icon={faShieldHalved} /> {user.insuranceProviders}</h2>
+                              <div className="card-text">{user.experience.map(value => (
+                                <div className="exp">
+                                  <p>{value.duration} In {value.hospital}</p>
+                                </div>
+                              ))}</div>
+                            </div>
+                            <div className="carddoc-footer">
+                              Check Availablity
+                            </div>
+                          </div>
+                        ))}   
+                        
+                    </div>
+                    <div className="scroll-arrows">
+                        <button
+                        onClick={() => scrollLeft(dentistScrollRef)}
+                        className="scroll-left"
+                        >
+                        &lt;
+                        </button>
+                        <button
+                        onClick={() => scrollRight(dentistScrollRef)}
+                        className="scroll-right"
+                        >
+                        &gt;
+                        </button>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div className="doctor-spec">
-        <div className="doctor-row-label">Top Searched Specialties</div>
-        <div className="specialty-cards">
-          <a
-            href="/search"
-            onClick={(e) => {
-              e.preventDefault();
-              navigateToDoctorSearch({
-                name: "",
-                specialty: "Primary Care",
-                location: "",
-              });
-            }}
-            className="specialty-card-link"
-          >
-            <div className="specialty-card">
-              <img src={PrimaryCare}></img>
-              <div className="specialty-name">Primary Care</div>
-            </div>
-          </a>
+        <div className="doctor-spec">
+            <div className="doctor-row-label">Top Searched Specialties</div>
+            <div className="specialty-cards">
+                <a href="/search" onClick={(e) => {
+                    e.preventDefault();
+                    navigateToDoctorSearch({name:"",specialty: "Primary Care", location:""});
+                }} className="specialty-card-link">
+                <div className="specialty-card">
+                    <img src={PrimaryCare}></img>
+                    <div className="specialty-name">Primary Care</div>
+                </div>
+                </a>
 
           <a
             href="/search"

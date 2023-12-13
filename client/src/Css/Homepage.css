@@ -183,9 +183,13 @@
     cursor: pointer;
     
   }
+
+  .scroll-left {
+    padding-right: 3px;
+  }
   
   .scroll-arrows button:hover {
-    color: #000;
+    color: black;
   }
 
 /* Style for the specialty cards section */
@@ -256,19 +260,104 @@
     gap: 20px;
   }
   
-  .doctor-card {
-    border: 1px solid #ccc;
+  .carddoc {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(87, 87, 87, 0.1);
     border-radius: 8px;
-    padding: 20px;
-    width: 250px;
+    font-family: 'Arial', sans-serif;
+    max-width: 300px;
+    cursor: pointer; /* To indicate the card is clickable */
+    justify-content: space-between;
   }
   
-  .doctor-card img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
+  .carddoc:hover .carddoc-footer {
+    color: #007bff; 
+  }
+
+  .carddoc:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    border-bottom: none;
+    padding: 16px;
+    padding-top: 0px;
+    background-color: #fff;
+  }
+  
+  .profile-image {
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    margin-bottom: 15px;
+    margin-right: 16px;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    z-index: 5;
+  }
+
+  .main-head {
+    padding-left: 50px;
+    background-color: white;
+  }
+  
+  .profile-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .star-rating {
+    color: #ffc107;
+    font-size: 14px;
+  }
+  
+  .reviews {
+    font-size: 12px;
+    color: #757575;
+  }
+  
+  .card-body {
+    padding: 16px;
+  }
+
+  .exp p {
+    margin-bottom: 0;
+  }
+  
+  .card-title {
+    font-size: 16px;
+    margin: 0;
+    color: #333;
+  }
+  
+  .card-text {
+    font-size: 14px;
+    padding-top: 10px;
+    margin-bottom: 0px;
+    color: #757575;
+  }
+  
+  .carddoc-footer {
+    position: absolute;
+    bottom: 10px;
+    left: 50px;
+    padding: 16px;
+    background-color: white;
+    font-size: 14px;
+    text-align: center;
+    color: #757575;
+  }
+  
+  .doctor-card {
+    border-radius: 8px;
+    padding: 20px;
+    padding-top: 10px;
+    width: 250px;
+    position: relative;
+    border-top-left-radius: 35px;
   }
   
   .doctor-name {
@@ -285,7 +374,7 @@
     padding: 8px 16px;
     background-color: #007bff;
     color: #fff;
-    border: none;
+    
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
