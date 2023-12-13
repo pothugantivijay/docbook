@@ -17,7 +17,13 @@ function DocBookHeader() {
   return (
     <>
       <div className="header">
-        <div className="DocBook">DocBook</div>
+        <a
+          className="DocBook"
+          href="/"
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          Docbook
+        </a>
         <div className="navigation">
           <div className="form-check form-switch d-flex justify-content-center">
             <input
