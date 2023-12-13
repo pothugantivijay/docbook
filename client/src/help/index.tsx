@@ -1,25 +1,27 @@
-import HelpHeader from "./components/HelpHeader";
-import ImageAndText from "./components/ImageAndText";
-import svgHelp from "./media/Layer_9.svg";
-import customerHelp from "./media/Wavy_Bus-26_Single-04 Large.jpeg";
-import emailImg from "./media/Mar-Business_18.jpg";
-import FaqAccordion from "./components/Accordion";
+import HelpHeader from "../components/HelpHeader";
+import ImageAndText from "../components/ImageAndText";
+import svgHelp from "../media/Layer_9.svg";
+import customerHelp from "../media/Wavy_Bus-26_Single-04 Large.jpeg";
+import emailImg from "../media/Mar-Business_18.jpg";
+import FaqAccordion from "../components/Accordion";
+import { useTranslation } from "react-i18next";
 
 function Help() {
+  const { t, i18n, ready } = useTranslation("common", { useSuspense: false });
   return (
     <div>
       <HelpHeader></HelpHeader>
       <ImageAndText
         imagePath={svgHelp}
-        text="Get in touch with a member of our friendly Service team"
+        text={t("help.page.text3")}
       ></ImageAndText>
       <ImageAndText
         imagePath={customerHelp}
-        text="We are available 365 days a year! Monday to Friday from 8am-8pm EST, and weekends and holidays from 9am-6pm EST."
+        text={t("help.page.text4")}
       ></ImageAndText>
       <ImageAndText
         imagePath={emailImg}
-        text="Mail us at service@docbook.com"
+        text={t("help.page.text5")}
       ></ImageAndText>
       <FaqAccordion faqs={faqs}></FaqAccordion>
     </div>

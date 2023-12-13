@@ -5,6 +5,7 @@ import DoctorCard from "./DoctorCard";
 import DoctorInterface from "../interfaces/Doctor";
 import DocBookHeader from "./DocBookHeader";
 import DocAvailability from "./docAvailability";
+import defdoc from "../media/defaultdoc.png";
 
 interface DoctorDetailsProps {
   doctor: DoctorInterface;

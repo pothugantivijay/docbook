@@ -6,12 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/slices/login_slice";
 import { RootState } from "../store";
 import { clearPatient } from "../store/slices/patient_slice";
+import { useTranslation } from "react-i18next";
 
 interface PatientDetailsProps {
   patient: Patient | null;
 }
 
 const PatientDetails: React.FC<PatientDetailsProps> = ({ patient }) => {
+  const { t, i18n, ready } = useTranslation("common", { useSuspense: false });
   const [showModal, setShowModal] = useState(false);
   const [editedPatient, setEditedPatient] = useState({
     email: "",
@@ -107,7 +109,7 @@ const PatientDetails: React.FC<PatientDetailsProps> = ({ patient }) => {
           <div className="modal-content">
             <div className="modal-header bg-primary text-white">
               <h5 className="modal-title" id="editProfileModal">
-                Edit Profile
+                {t("profile.page.editprofile")}
               </h5>
               <button
                 type="button"
@@ -227,7 +229,7 @@ const PatientDetails: React.FC<PatientDetailsProps> = ({ patient }) => {
       </div>
       <ImageAndText
         imagePath={HelloImg}
-        text={`Hi, ${patient?.name}`}
+        text={`${t("profile.page.hi")}, ${patient?.name}`}
       ></ImageAndText>
       <div className="container mt-4" data-aos="fade-up">
         <button
@@ -252,18 +254,18 @@ const PatientDetails: React.FC<PatientDetailsProps> = ({ patient }) => {
               d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
             ></path>
           </svg>
-          Logout
+          {t("profile.page.logout")}
         </button>
         {patient ? (
           <div>
             <h5 className="mb-4" style={{ fontSize: "2.5rem" }}>
-              Your Details
+              {t("profile.page.yourdetails")}
               <button
                 type="button"
                 className="btn btn-outline-primary m-4"
                 onClick={handleShowModal}
               >
-                Edit Profile
+                {t("profile.page.editprofile")}
               </button>
             </h5>
             <div
@@ -277,35 +279,35 @@ const PatientDetails: React.FC<PatientDetailsProps> = ({ patient }) => {
               <div className="card-body text-white">
                 <dl className="row">
                   <dt className="col-sm-3" style={{ fontSize: "1.3rem" }}>
-                    Username
+                    {t("profile.page.username")}
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {patient.username}
                   </dd>
 
                   <dt className="col-sm-3" style={{ fontSize: "1.3rem" }}>
-                    Email
+                    {t("profile.page.email")}
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {patient.email}
                   </dd>
 
                   <dt className="col-sm-3" style={{ fontSize: "1.3rem" }}>
-                    Phone
+                    {t("profile.page.phone")}
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {patient.phone}
                   </dd>
 
                   <dt className="col-sm-3" style={{ fontSize: "1.3rem" }}>
-                    Gender
+                    {t("profile.page.gender")}
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {patient.gender}
                   </dd>
 
                   <dt className="col-sm-3" style={{ fontSize: "1.3rem" }}>
-                    Date of Birth
+                    {t("profile.page.dob")}
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {patient.dob
@@ -317,21 +319,21 @@ const PatientDetails: React.FC<PatientDetailsProps> = ({ patient }) => {
                   </dd>
 
                   <dt className="col-sm-3" style={{ fontSize: "1.3rem" }}>
-                    Insurance
+                    {t("profile.page.insurance")}
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {patient.insurance || "N/A"}
                   </dd>
 
                   <dt className="col-sm-3" style={{ fontSize: "1.3rem" }}>
-                    Height
+                    {t("profile.page.height")}
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {patient.height || "N/A"}
                   </dd>
 
                   <dt className="col-sm-3" style={{ fontSize: "1.3rem" }}>
-                    Weight
+                    {t("profile.page.weight")}
                   </dt>
                   <dd className="col-sm-9" style={{ fontSize: "1.3rem" }}>
                     {patient.weight || "N/A"}
