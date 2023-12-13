@@ -12,12 +12,14 @@ import { faStar as fasFaStar } from "@fortawesome/free-solid-svg-icons"; // Fill
 import { faStarHalfAlt } from "@fortawesome/free-solid-svg-icons"; // Half-filled star
 import { faStar as farFaStar } from "@fortawesome/free-regular-svg-icons"; // Empty star
 import defdoc from "../media/defaultdoc.png";
+import { useNavigate } from "react-router-dom";
 
 interface DoctorInfoProps {
     doctor: Doctor;
 }
 
 const DoctorInfo: React.FC<DoctorInfoProps> = ({ doctor }) => {
+    const navigate = useNavigate();
     function renderStars(rating: number) {
         const roundedRating = Math.round(rating * 2) / 2; // Round to nearest half
         const stars = [];
@@ -39,6 +41,10 @@ const DoctorInfo: React.FC<DoctorInfoProps> = ({ doctor }) => {
         return stars;
     }
 
+    function handleNameClick() {
+        navigate(`/doctorprofile/doctor/${doctor.id}`)
+    }
+
     return (
         <div className="card mb-3 doctor-card-search">
             <div className="row g-0">
@@ -55,10 +61,10 @@ const DoctorInfo: React.FC<DoctorInfoProps> = ({ doctor }) => {
                 <div className="col-md-3 doctor-details p-2">
                     <div>
                         <div>
-                            <h5 className="card-title">
+                            <h5 className="card-title doctor-name" onClick={() => { handleNameClick() }}>
                                 {doctor.name}
                             </h5>
-                            <p className="doctor-rating pt-1">
+                            <p className="doctor-rating">
                                 {renderStars(doctor.rating)}<small><strong>&nbsp;{doctor.rating}</strong></small>
                             </p>
                             <p>
