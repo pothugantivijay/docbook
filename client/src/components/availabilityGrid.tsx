@@ -5,6 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { fetchSlotDetails } from '../api';
+import { RootState } from '../store';
+import { selectUser } from '../store/slices/login_slice';
+import { useSelector } from "react-redux";
 
 interface AvailabilityGridProps {
     availabilitySummary: { [date: string]: number }; // Updated structure
@@ -18,6 +21,7 @@ interface Slot {
 
 const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary, doctor }) => {
     const navigate = useNavigate();
+    const user = useSelector((state: RootState) => state.user);
     const [selectedDay, setSelectedDay] = useState<{ date: Date; slots: Slot[] } | null>(null);
     const startDate = new Date();
     const [slots, setSlots] = useState<Slot[]>([]);
@@ -61,7 +65,6 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary
 
 
     const handleCellClick = async (date: Date) => {
-        console.log(date);
         setSelectedDay({ date, slots: [] });
         try {
             const slotDetails = await fetchSlotDetails(doctor.id.toString(), date);
@@ -76,7 +79,12 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary
     };
 
     const handleBookingClick = (doctorId: number, slot: Slot, date: Date) => {
-        navigate('/booking', { state: { doctorId, slot, date } });
+        if (user.user === null) {
+            window.location.href = "/login";
+        }
+        else {
+            navigate('/booking', { state: { doctorId, slot, date } });
+        }
     };
 
     const isSlotTimePast = (end: string, date: Date) => {
@@ -104,9 +112,7 @@ const AvailabilityGrid: React.FC<AvailabilityGridProps> = ({ availabilitySummary
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title">Available Slots on {selectedDay.date.toDateString()}</h5>
-                                <button type="button" className="close" onClick={() => setSelectedDay(null)}>
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <span aria-hidden="true" className="modal-close-icon" onClick={() => setSelectedDay(null)}>&times;</span>
                             </div>
                             <div className="modal-body">
                                 {slots.length > 0 ? (
