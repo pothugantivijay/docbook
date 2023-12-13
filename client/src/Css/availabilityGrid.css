@@ -99,4 +99,11 @@
     cursor: not-allowed;
 }
 
-/* Additional styling as needed */
+.modal-close-icon {
+    font-size: xx-large;
+    cursor: pointer;
+}
+
+.modal-close-icon:hover {
+    color: rgb(200, 55, 55);
+}
