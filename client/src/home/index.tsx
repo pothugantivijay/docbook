@@ -1,14 +1,14 @@
 import React, { useState, useEffect, ChangeEvent, useRef } from "react";
 import "../Css/Homepage.css"; // Import the corresponding CSS file for styling
-import Footer from "./Footer";
-import DocBookHeader from "./DocBookHeader";
+import Footer from "../components/Footer";
+import DocBookHeader from "../components/DocBookHeader";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 import { faHospital } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { faShieldHalved } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from "react-i18next";
 import { SearchCriteria } from "../types/DoctorTypes";
 import rightimg from "../media/right-img.png";
@@ -20,6 +20,8 @@ import Dentist from "../media/Dentist.jpg";
 import OBGYN from "../media/OB-GYN.jpg";
 import PrimaryCare from "../media/Primary Care.jpg";
 import Psychiatrist from "../media/Psychiatrist.jpg";
+import { faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 type ExpandedState = {
   medical: boolean;
@@ -72,7 +74,8 @@ const HomePage = () => {
 
   const [users, setUsers] = useState<User[]>([]);
   const minRating = 0; 
-  const targetSpecialty = "Cardiologist";
+  const targetSpecialty = "Cardio";
+  const targetSpecialty2 = "Dent";
 
   const navigateToDoctorSearch = (searchCriteria: SearchCriteria) => {
     navigate("/search", { state: { searchCriteria } });
@@ -81,7 +84,7 @@ const HomePage = () => {
   // Function to fetch data
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5001/doctor/alldoc");
+      const response = await fetch("/doctor/alldoc");
       const data = await response.json();
       setUsers(data.result); // Update users state with fetched data
     } catch (error) {
@@ -100,11 +103,18 @@ const HomePage = () => {
 
   const filteredUsersByRating = filterUsersByRating();
 
-  const filterUsersBySpecialty = () => {
-    return users.filter((user) => user.specialty === targetSpecialty);
+  const filterUsersBySpecialty = (tar: string) => {
+    //return users.filter((user) => user.specialty === tar);
+
+    return users.filter((user) => {
+      const regex = new RegExp(tar, 'i'); // 'i' for case-insensitive matching
+      return regex.test(user.specialty);
+    });
   };
 
-  const filteredUsersBySpecialty = filterUsersBySpecialty();
+
+  const filteredUsersBySpecialty = filterUsersBySpecialty(targetSpecialty);
+  const filteredUsersBySpecialty2 = filterUsersBySpecialty(targetSpecialty2);
 
   const allSpecialties = [
     "Primary Care",
@@ -166,6 +176,7 @@ const HomePage = () => {
 
   const doctorScrollRef = useRef<HTMLDivElement | null>(null);
   const dentistScrollRef = useRef<HTMLDivElement | null>(null);
+  const cardioScrollRef = useRef<HTMLDivElement | null>(null);
 
   const scrollLeft = (ref: React.RefObject<HTMLDivElement> | null) => {
     if (ref && ref.current) {
@@ -246,7 +257,7 @@ const HomePage = () => {
     <div className="homepage">
         <div className="upper">
             <DocBookHeader></DocBookHeader>
-            <div className='uppertext'>Book local doctors who accept your Insurance</div>
+            <div className='uppertext'>Book local doctors near you</div>
             <div className='searchframe'>
                 <div className="search-bar">
                     <div className="search-icon">
@@ -311,16 +322,16 @@ const HomePage = () => {
                             </div>
                             <div className="card-body">
                               <h2 className="card-title"><FontAwesomeIcon icon={faStar} /> {user.rating} Rating</h2>
-                              <h2 className="card-title"><FontAwesomeIcon icon={faShieldHalved} /> {user.insuranceProviders}</h2>
+                              <p className="card-title2"><FontAwesomeIcon icon={faEnvelope} /> {user.email}</p>
                               <div className="card-text">{user.experience.map(value => (
                                 <div className="exp">
                                   <p>{value.duration} In {value.hospital}</p>
                                 </div>
                               ))}</div>
                             </div>
-                            <div className="carddoc-footer">
+                            {/* <div className="carddoc-footer">
                               Check Availablity
-                            </div>
+                            </div> */}
                           </div>
                         ))}   
                     </div>
@@ -329,21 +340,66 @@ const HomePage = () => {
                         onClick={() => scrollLeft(doctorScrollRef)}
                         className="scroll-left"
                         >
-                        &lt;
+                        <FontAwesomeIcon icon={faCircleArrowLeft} />
                         </button>
                         <button
                         onClick={() => scrollRight(doctorScrollRef)}
                         className="scroll-right"
                         >
-                        &gt;
+                        <FontAwesomeIcon icon={faCircleArrowRight} />
                         </button>
                     </div>
                 </div>
             </div>
             <div className="docrow-display">
-                <div className="doctor-row-label">{targetSpecialty}</div>
+                <div className="doctor-row-label">Dentists</div>
                 <div className="doctor-row">
                     <div className="doctor-cards" ref={dentistScrollRef}>
+                        {filteredUsersBySpecialty2.map(user => (
+                          <div className="carddoc doctor-card" key={user.id} onClick={() => handleCardClick(user.id)}>
+                            <div className="card-header">
+                              <img src={user.profilePicture} alt={`Dr. ${user.name}`} className="profile-image" />
+                              <div className="main-head">
+                                <div className="profile-name">Dr. {user.name}</div>
+                                <div className="reviews">{user.specialty}</div>
+                              </div>
+                            </div>
+                            <div className="card-body">
+                              <h2 className="card-title"><FontAwesomeIcon icon={faStar} /> {user.rating} Rating</h2>
+                              <h2 className="card-title"><FontAwesomeIcon icon={faEnvelope} /> {user.email}</h2>
+                              <div className="card-text">{user.experience.map(value => (
+                                <div className="exp">
+                                  <p>{value.duration} In {value.hospital}</p>
+                                </div>
+                              ))}</div>
+                            </div>
+                            {/* <div className="carddoc-footer">
+                              Check Availablity
+                            </div> */}
+                          </div>
+                        ))}   
+                        
+                    </div>
+                    <div className="scroll-arrows">
+                        <button
+                        onClick={() => scrollLeft(dentistScrollRef)}
+                        className="scroll-left"
+                        >
+                        <FontAwesomeIcon icon={faCircleArrowLeft} />
+                        </button>
+                        <button
+                        onClick={() => scrollRight(dentistScrollRef)}
+                        className="scroll-right"
+                        >
+                        <FontAwesomeIcon icon={faCircleArrowRight} />
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div className="docrow-display">
+                <div className="doctor-row-label">Cardiologists</div>
+                <div className="doctor-row">
+                    <div className="doctor-cards" ref={cardioScrollRef}>
                         {filteredUsersBySpecialty.map(user => (
                           <div className="carddoc doctor-card" key={user.id} onClick={() => handleCardClick(user.id)}>
                             <div className="card-header">
@@ -356,32 +412,32 @@ const HomePage = () => {
                             </div>
                             <div className="card-body">
                               <h2 className="card-title"><FontAwesomeIcon icon={faStar} /> {user.rating} Rating</h2>
-                              <h2 className="card-title"><FontAwesomeIcon icon={faShieldHalved} /> {user.insuranceProviders}</h2>
+                              <h2 className="card-title"><FontAwesomeIcon icon={faEnvelope} /> {user.email}</h2>
                               <div className="card-text">{user.experience.map(value => (
                                 <div className="exp">
                                   <p>{value.duration} In {value.hospital}</p>
                                 </div>
                               ))}</div>
                             </div>
-                            <div className="carddoc-footer">
+                            {/* <div className="carddoc-footer">
                               Check Availablity
-                            </div>
+                            </div> */}
                           </div>
                         ))}   
                         
                     </div>
                     <div className="scroll-arrows">
                         <button
-                        onClick={() => scrollLeft(dentistScrollRef)}
+                        onClick={() => scrollLeft(cardioScrollRef)}
                         className="scroll-left"
                         >
-                        &lt;
+                        <FontAwesomeIcon icon={faCircleArrowLeft} />
                         </button>
                         <button
-                        onClick={() => scrollRight(dentistScrollRef)}
+                        onClick={() => scrollRight(cardioScrollRef)}
                         className="scroll-right"
                         >
-                        &gt;
+                        <FontAwesomeIcon icon={faCircleArrowRight} />
                         </button>
                     </div>
                 </div>
@@ -406,7 +462,7 @@ const HomePage = () => {
               e.preventDefault();
               navigateToDoctorSearch({
                 name: "",
-                specialty: "Dentist",
+                specialty: "Dental",
                 location: "",
               });
             }}
@@ -442,7 +498,7 @@ const HomePage = () => {
               e.preventDefault();
               navigateToDoctorSearch({
                 name: "",
-                specialty: "Psychiatrist",
+                specialty: "Psychiatry",
                 location: "",
               });
             }}
@@ -460,7 +516,7 @@ const HomePage = () => {
               e.preventDefault();
               navigateToDoctorSearch({
                 name: "",
-                specialty: "Cardiologist",
+                specialty: "Cardio",
                 location: "",
               });
             }}
@@ -518,93 +574,6 @@ const HomePage = () => {
         </div>
         <div className="right-content">
           <img src={rightimg} alt="Large Image Icon" className="large-image" />
-        </div>
-      </div>
-      <div className="visit-reasons-section">
-        <h2 className="visit-reasons-title">Common Visit Reasons</h2>
-        <div className="visit-reasons">
-          <div className="visit-reason medical">
-            <div
-              className="reason-title"
-              onClick={() => toggleExpand("medical")}
-            >
-              Medical
-              <span className={`arrow ${expanded.medical ? "expanded" : ""}`}>
-                &#9658;
-              </span>
-            </div>
-            {expanded.medical && (
-              <div className="sub-reasons">
-                <a href="/medical/physical">Physical</a>
-                <br />
-                <a href="/medical/physicians">Physicians</a>
-                <br />
-                <a href="/medical/covid-testing">COVID Testing</a>
-              </div>
-            )}
-          </div>
-          <div className="visit-reason medical">
-            <div
-              className="reason-title"
-              onClick={() => toggleExpand("dental")}
-            >
-              Dental
-              <span className={`arrow ${expanded.dental ? "expanded" : ""}`}>
-                &#9658;
-              </span>
-            </div>
-            {expanded.dental && (
-              <div className="sub-reasons">
-                <a href="/medical/physical">Physical</a>
-                <br />
-                <a href="/medical/physicians">Physicians</a>
-                <br />
-                <a href="/medical/covid-testing">COVID Testing</a>
-              </div>
-            )}
-          </div>
-          <div className="visit-reason medical">
-            <div
-              className="reason-title"
-              onClick={() => toggleExpand("mentalHealth")}
-            >
-              Medical
-              <span
-                className={`arrow ${expanded.mentalHealth ? "expanded" : ""}`}
-              >
-                &#9658;
-              </span>
-            </div>
-            {expanded.mentalHealth && (
-              <div className="sub-reasons">
-                <a href="/medical/physical">Physical</a>
-                <br />
-                <a href="/medical/physicians">Physicians</a>
-                <br />
-                <a href="/medical/covid-testing">COVID Testing</a>
-              </div>
-            )}
-          </div>
-          <div className="visit-reason medical">
-            <div
-              className="reason-title"
-              onClick={() => toggleExpand("vision")}
-            >
-              Medical
-              <span className={`arrow ${expanded.vision ? "expanded" : ""}`}>
-                &#9658;
-              </span>
-            </div>
-            {expanded.vision && (
-              <div className="sub-reasons">
-                <a href="/medical/physical">Physical</a>
-                <br />
-                <a href="/medical/physicians">Physicians</a>
-                <br />
-                <a href="/medical/covid-testing">COVID Testing</a>
-              </div>
-            )}
-          </div>
         </div>
       </div>
       <Footer />

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import DoctorInterface from "../interfaces/Doctor";
-import "../Css/main.css";
 
 interface DoctorDetailsProps {
   doctor: DoctorInterface;

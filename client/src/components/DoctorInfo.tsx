@@ -1,5 +1,4 @@
 import React from "react";
-import "../Css/DoctorInfo.css"; // Ensure this file contains your custom styling
 import { Doctor } from "../types/DoctorTypes";
 import AvailabilityGrid from "./availabilityGrid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

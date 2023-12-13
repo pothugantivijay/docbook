@@ -26,6 +26,7 @@
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "leaflet-geosearch": "^3.11.0",
+    "node-sass": "^7.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^13.5.0",
@@ -51,7 +52,9 @@
     "workbox-webpack-plugin": "^7.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "sass:compile": "node-sass src/SCSS/main.scss -o src/dist",
+    "sass:watch": "node-sass -w src/SCSS/main.scss -o src/dist",
+    "start": "npm run sass:compile && npm run sass:watch & react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

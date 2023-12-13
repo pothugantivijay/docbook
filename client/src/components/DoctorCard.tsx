@@ -2,8 +2,6 @@ import React from "react";
 import StarRating from "./StarRating";
 import DoctorInterface from "../interfaces/Doctor";
 import profilePic from "../media/defaultdoc.png";
-import "../Css/doctorProfile.css";
-import "../Css/card.css";
 
 interface DoctorCardProps {
   doctor: DoctorInterface;

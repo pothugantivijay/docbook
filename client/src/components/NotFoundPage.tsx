@@ -1,11 +1,10 @@
-import "../Css/NotFound.css";
 import { useNavigate } from "react-router-dom";
-const NotFoundComponent: React.FC=() =>{
+const NotFoundComponent: React.FC = () => {
     const navigate = useNavigate();
     const handleButtonClick = () => {
-        navigate('/'); 
-      };
-    return(
+        navigate('/');
+    };
+    return (
         <div className="Error-message">
             <h1>404 REQUEST NOT FOUND</h1>
             <p>Sorry, the page you are looking for does not exist</p>

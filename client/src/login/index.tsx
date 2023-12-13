@@ -1,5 +1,4 @@
 import React, { useState, useEffect, FormEvent } from "react";
-import "../Css/login.css";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/slices/login_slice";
