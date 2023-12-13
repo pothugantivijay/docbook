@@ -1,8 +1,6 @@
-// Footer.jsx
 import Test from "../media/test.png";
 import { useNavigate } from "react-router-dom";
 import { SearchCriteria } from "../types/DoctorTypes";
-import "../Css/Footer.css";
 
 const Footer: React.FC = () => {
   const navigate = useNavigate();

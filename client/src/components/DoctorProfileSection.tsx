@@ -1,5 +1,3 @@
-import "../Css/doctorProfile.css";
-import "../Css/card.css";
 import DoctorCard from "./DoctorCard";
 
 import DoctorInterface from "../interfaces/Doctor";

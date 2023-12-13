@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import "./dist/main.css";
 
 import i18n from "./internationalisation";
 import { I18nextProvider } from "react-i18next";
