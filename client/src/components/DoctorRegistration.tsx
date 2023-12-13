@@ -6,6 +6,7 @@ import mapPin from "../media/map_pin.png";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { useNavigate } from "react-router-dom";
 import DocBookHeader from "./DocBookHeader";
+import { useTranslation } from "react-i18next";
 interface FormData {
  username: string;
  password:string;
@@ -49,6 +50,7 @@ const DoctorRegistrationForm: React.FC = () => {
  const [errorMessage, setErrorMessage] = useState<string | null>(null);
  const [message, setMessage] = useState('');
  const navigate = useNavigate();
+ const { t, i18n, ready } = useTranslation("common", { useSuspense: false });
  const [formData, setFormData] = useState<FormData>({
  username: "",
  password: "",
@@ -356,15 +358,15 @@ const DoctorRegistrationForm: React.FC = () => {
         }}
         >
         <h2 className="text-center mb-4" style={{ color: "#007BFF" }}>
-        Doctor Registration
+        {t("doctor.page.title")}
         </h2>
         {/* Registration Details */}
         <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="mb-4">
-            <h4 style={{ color: "#495057" }}>Registration Details</h4>
+            <h4 style={{ color: "#495057" }}>{t("doctor.page.registration")}</h4>
             <div className="mb-3">
             <label htmlFor="username" className="form-label">
-            Username
+            {t("doctor.page.username")}
             </label>
             <input
             type="text"
@@ -381,7 +383,7 @@ const DoctorRegistrationForm: React.FC = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">
-            Password
+          {t("doctor.page.password")}
           </label>
           <input
             type="password"
@@ -393,7 +395,7 @@ const DoctorRegistrationForm: React.FC = () => {
         </div>
         <div className="mb-3">
             <label htmlFor="name" className="form-label">
-            Name
+            {t("doctor.page.name")}
             </label>
             <input
             type="text"
@@ -405,7 +407,7 @@ const DoctorRegistrationForm: React.FC = () => {
           </div>
         <div className="mb-3">
             <label htmlFor="specialty" className="form-label">
-            Specialty
+            {t("doctor.page.speciality")}
             </label>
             <input
             type="text"
@@ -418,10 +420,10 @@ const DoctorRegistrationForm: React.FC = () => {
           </div>
             {/* Contact and Location */}
             <div className="mb-4">
-            <h4 style={{ color: "#495057" }}>Contact and Location</h4>
+            <h4 style={{ color: "#495057" }}>{t("doctor.page.candl")}</h4>
             <div className="mb-3">
             <label htmlFor="address" className="form-label">
-            Address
+            {t("doctor.page.address")}
             </label>
             <input
             type="text"
@@ -433,7 +435,7 @@ const DoctorRegistrationForm: React.FC = () => {
           </div>
           <div className="mb-3">
               <label htmlFor="map" className="form-label">
-              Map
+              {t("doctor.page.map")}
               </label>
               <MapContainer
               center={[37.7749, -122.4194]}
@@ -474,7 +476,7 @@ const DoctorRegistrationForm: React.FC = () => {
             </div>
           <div className="mb-3">
               <label htmlFor="email" className="form-label">
-              Email
+              {t("doctor.page.email")}
               </label>
               <input
               type="email"
@@ -486,7 +488,7 @@ const DoctorRegistrationForm: React.FC = () => {
           </div>
           <div className="mb-3">
           <label htmlFor="profilePicture" className="form-label">
-          Profile Picture
+          {t("doctor.page.Profilepicture")}
           </label>
           <input
           type="file"
@@ -514,7 +516,7 @@ const DoctorRegistrationForm: React.FC = () => {
           </div>
               {/* Insurance Providers */}
               <div className="mb-4">
-                  <h4 style={{ color: "#495057" }}>Insurance Providers</h4>
+                  <h4 style={{ color: "#495057" }}>{t("doctor.page.insuranceproviders")}</h4>
                   {formData.insuranceProviders.map((provider, index) => (
                   <div key={index} className="mb-3">
                   <label htmlFor={`insuranceProvider${index}`} className="form-label">
@@ -535,7 +537,7 @@ const DoctorRegistrationForm: React.FC = () => {
               className="btn btn-secondary"
               onClick={handleAddInsuranceProvider}
               >
-              Add Insurance Provider
+              {t("doctor.page.education")}
               </button>
               {formData.insuranceProviders.length > 1 && (
               <button
@@ -551,11 +553,11 @@ const DoctorRegistrationForm: React.FC = () => {
             </div>
                 {/* Education */}
                 <div className="mb-4">
-                  <h4 style={{ color: "#495057" }}>Education</h4>
+                  <h4 style={{ color: "#495057" }}>{t("doctor.page.education")}</h4>
                   {formData.education.map((edu, index) => (
                   <div key={index} className="mb-3">
                       <label htmlFor={`degree${index}`} className="form-label">
-                      Degree
+                      {t("doctor.page.degree")}
                       </label>
                       <input
                       type="text"
@@ -566,7 +568,7 @@ const DoctorRegistrationForm: React.FC = () => {
                       onChange={(e) => handleEducationChange(e, index,"degree")}
                       />
                       <label htmlFor={`university${index}`} className="form-label">
-                      University
+                      {t("doctor.page.university")}
                       </label>
                       <input
                       type="text"
@@ -583,7 +585,7 @@ const DoctorRegistrationForm: React.FC = () => {
                 className="btn btn-secondary"
                 onClick={handleAddEducation}
                 >
-                Add Education
+                {t("doctor.page.experiencebutton")}
                 </button>
                 {formData.education.length > 1 && (
                 <button
@@ -598,11 +600,11 @@ const DoctorRegistrationForm: React.FC = () => {
 
               {/* Experience */}
               <div className="mb-4">
-                <h4 style={{ color: "#495057" }}>Experience</h4>
+                <h4 style={{ color: "#495057" }}>{t("doctor.page.experience")}</h4>
                 {formData.experience.map((exp, index) => (
                   <div key={index} className="mb-3">
                     <label htmlFor={`position${index}`} className="form-label">
-                    Position
+                    {t("doctor.page.position")}
                     </label>
                     <input
                     type="text"
@@ -613,7 +615,7 @@ const DoctorRegistrationForm: React.FC = () => {
                     onChange={(e) => handleExperienceChange(e, index,"position")}
                     />
                     <label htmlFor={`hospital${index}`} className="form-label">
-                    Hospital
+                    {t("doctor.page.hospital")}
                     </label>
                     <input
                     type="text"
@@ -624,7 +626,7 @@ const DoctorRegistrationForm: React.FC = () => {
                     onChange={(e) => handleExperienceChange(e, index,"hospital")}
                     />
                     <label htmlFor={`duration${index}`} className="form-label">
-                    Duration
+                    {t("doctor.page.duration")}
                     </label>
                     <input
                     type="text"
@@ -641,7 +643,7 @@ const DoctorRegistrationForm: React.FC = () => {
                   className="btn btn-secondary"
                   onClick={handleAddExperience}
                   >
-                  Add Experience
+                  {t("doctor.page.experiencebutton")}
                   </button>
                   {formData.experience.length > 1 && (
                   <button
@@ -656,10 +658,10 @@ const DoctorRegistrationForm: React.FC = () => {
               </div>
               {/* About */}
               <div className="mb-4">
-              <h4 style={{ color: "#495057" }}>About</h4>
+              <h4 style={{ color: "#495057" }}>{t("doctor.page.about")}</h4>
               <div className="mb-3">
                 <label htmlFor="about" className="form-label">
-                About
+                {t("doctor.page.about")}
                 </label>
                 <textarea
                 className="form-control"
@@ -674,7 +676,7 @@ const DoctorRegistrationForm: React.FC = () => {
                 className="btn btn-primary w-100 mt-3"
                 style={{ backgroundColor: "#007BFF", borderColor: "#007BFF" }}
                 >
-                Submit
+                {t("doctor.page.submit")}
                 </button>
                 {message && <div className="alert">{message}</div>}
           </form>
