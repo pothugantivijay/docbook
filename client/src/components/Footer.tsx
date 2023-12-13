@@ -1,9 +1,12 @@
 import Test from "../media/test.png";
 import { useNavigate } from "react-router-dom";
 import { SearchCriteria } from "../types/DoctorTypes";
+import "../Css/Footer.css";
+import { useTranslation } from "react-i18next";
 
 const Footer: React.FC = () => {
   const navigate = useNavigate();
+  const { t, i18n, ready } = useTranslation("common", { useSuspense: false });
 
   const navigateToDoctorSearch = (searchCriteria: SearchCriteria) => {
     navigate("/search", { state: { searchCriteria } });
@@ -14,23 +17,23 @@ const Footer: React.FC = () => {
       <div className="container">
         <div className="row">
           <div className="col-md-3">
-            <h3 className="heading">DocBook</h3>
+            <h3 className="heading">{t("footer.page.title")}</h3>
             <div className="elementstyle">
               <p>
                 <a href="./" className="link">
-                  Home
+                {t("footer.page.home")}
                 </a>
               </p>
               <p>
                 <a href="./help" className="link">
-                  Help
+                {t("footer.page.help")}
                 </a>
               </p>
             </div>
           </div>
 
           <div className="col-md-3">
-            <h3 className="heading">Contact</h3>
+            <h3 className="heading">{t("footer.page.contact")}</h3>
             <div className="elementstyle">
               <p>
                 <a href="#" className="link">
@@ -41,7 +44,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="col-md-3">
-            <h3 className="heading">Insurance Carriers</h3>
+            <h3 className="heading">{t("footer.page.insurance")}</h3>
             <div className="elementstyle">
               <p>
                 <a
@@ -79,7 +82,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="col-md-3">
-            <h3 className="heading">Top Specialties</h3>
+            <h3 className="heading">{t("footer.page.specialities")}</h3>
             <div className="elementstyle">
               <p>
                 <a
@@ -93,7 +96,7 @@ const Footer: React.FC = () => {
                     })
                   }
                 >
-                  Primary Care Doctor
+                  {t("footer.page.primarydoc")}
                 </a>
               </p>
               <p>
@@ -108,7 +111,7 @@ const Footer: React.FC = () => {
                     })
                   }
                 >
-                  Dermatology
+                  {t("footer.page.dermatology")}
                 </a>
               </p>
               <p>
@@ -123,7 +126,7 @@ const Footer: React.FC = () => {
                     })
                   }
                 >
-                  Psychiatrist
+                  {t("footer.page.psychiatrist")}
                 </a>
               </p>
               <p>
@@ -138,7 +141,7 @@ const Footer: React.FC = () => {
                     })
                   }
                 >
-                  Nutritionist
+                  {t("footer.page.nutritionist")}
                 </a>
               </p>
               <p>
@@ -153,7 +156,7 @@ const Footer: React.FC = () => {
                     })
                   }
                 >
-                  Dentist
+                  {t("footer.page.dentist")}
                 </a>
               </p>
             </div>
@@ -166,23 +169,23 @@ const Footer: React.FC = () => {
               <li className="list-inline-item">&copy;&nbsp;DocBook, Inc.</li>
               <li className="list-inline-item">
                 <a href="#" className="link">
-                  Terms
+                  {t("footer.page.terms")}
                 </a>
               </li>
               <li className="list-inline-item">
                 <a href="#" className="link">
-                  Privacy
+                {t("Footer.page.privacy")}
                 </a>
               </li>
               <li className="list-inline-item">
                 <a href="#" className="link">
-                  Site Map
+                {t("Footer.page.sitemap")}
                 </a>
               </li>
               <li className="list-inline-item">
                 <a href="#" className="link">
                   <img src={Test} className="privacy-image" alt="Privacy" />{" "}
-                  Your Privacy Choices
+                  {t("Footer.page.privacychoices")}
                 </a>
               </li>
               <li className="list-inline-item">
