@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/slices/login_slice";
 import { RootState } from "../store";
 import { useTranslation } from "react-i18next";
+import DoctorCard from "./DoctorCard";
 
 interface DoctorDetailsProps {
   doctor: Doctor | null;
@@ -279,6 +280,19 @@ const DoctorUserProfile: React.FC<DoctorDetailsProps> = ({ doctor }) => {
                       </li>
                     ))}
                   </ul>
+                </div>
+              </div>
+            </div>
+            <div className="container mt-5" data-aos="fade-up">
+              <div className="row mb-4">
+                <div className="col">
+                  <h2>{t("profile.page.displaycard")}</h2>
+                  <a
+                    href={`/doctorprofile/doctor/${doctor.id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <DoctorCard doctor={doctor}></DoctorCard>
+                  </a>
                 </div>
               </div>
             </div>
