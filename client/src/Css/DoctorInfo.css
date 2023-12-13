@@ -41,15 +41,15 @@
 
 .doctor-image {
     width: 9vw;
-    /* Adjust the size as needed */
+
     height: 9vw;
-    /* Adjust the size as needed */
+
     border-radius: 50%;
-    /* This creates the circle shape */
+
     object-fit: cover;
-    /* This ensures the image fully covers the area without being stretched */
+
     object-position: center;
-    /* This centers the image in the circle */
+    box-shadow: 2px 5px 5px 5px #6c757d3d;
 }
 
 
