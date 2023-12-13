@@ -5,6 +5,7 @@ import L from 'leaflet';
 import mapPin from "../media/map_pin.png";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { useNavigate } from "react-router-dom";
+import DocBookHeader from "./DocBookHeader";
 interface FormData {
  username: string;
  password:string;
@@ -342,6 +343,8 @@ const DoctorRegistrationForm: React.FC = () => {
   }
  };
  return (
+ <> 
+ <DocBookHeader></DocBookHeader>
  <div className="containerfluid mt-5 mb-5 ">
   <div className="row justify-content-center">
     <div className="col-lg-8">
@@ -679,6 +682,7 @@ const DoctorRegistrationForm: React.FC = () => {
       </div>
     </div>
  </div>
+ </>
  );
 };
 
