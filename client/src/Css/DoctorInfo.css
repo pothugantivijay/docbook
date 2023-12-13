@@ -96,6 +96,10 @@
     /* Light grey for empty stars */
 }
 
+.doctor-name:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
 
 
 /* Responsive adjustments */
