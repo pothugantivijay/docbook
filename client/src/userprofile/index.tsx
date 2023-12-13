@@ -22,10 +22,6 @@ function Profile() {
   const dispatch = useDispatch();
   const userType = useSelector(selectUser);
 
-  if (userType == null) {
-    window.location.href = "/login";
-  }
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -53,11 +49,19 @@ function Profile() {
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        if (userType == null) {
+          window.location.href = "/login";
+        }
       }
     };
 
     fetchData();
-  }, []);
+  }, [dispatch, userType]);
+
+  if (userType === null) {
+    return null;
+  }
 
   return (
     <>
