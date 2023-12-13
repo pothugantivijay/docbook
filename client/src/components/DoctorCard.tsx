@@ -19,7 +19,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
         />
       </div>
       <div className="infoContainer">
-        <div className="name" title={doctor.name}>
+        <div className="doctorname" title={doctor.name}>
           {doctor.name}
         </div>
         <div className="specialty" title={doctor.specialty}>
