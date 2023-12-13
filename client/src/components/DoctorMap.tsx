@@ -58,8 +58,7 @@ const DoctorMap: React.FC<DoctorMapProps> = ({ doctors }) => {
                         <div>
                             <h3>{doctor.name}</h3>
                             <p>{doctor.specialty}</p>
-                            {/* Display latitude and longitude */}
-                            <p>Latitude: {doctor.location.latitude}, Longitude: {doctor.location.longitude}</p>
+                            <p>{doctor.address}</p>
                         </div>
                     </Popup>
                 </Marker>
