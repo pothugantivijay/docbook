@@ -84,7 +84,7 @@ const HomePage = () => {
   // Function to fetch data
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5001/doctor/alldoc");
+      const response = await fetch("/doctor/alldoc");
       const data = await response.json();
       setUsers(data.result); // Update users state with fetched data
     } catch (error) {
