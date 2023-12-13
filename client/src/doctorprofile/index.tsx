@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import DoctorDetails from "./interfaces/Doctor";
-import DoctorInfoSection from "./components/DoctorInfoSection";
-import DoctorProfileSection from "./components/DoctorProfileSection";
-import ReviewSection from "./components/Reviews";
-import GoogleLocation from "./components/GoogleLocation";
-import Accordion from "./components/Accordion";
+import DoctorDetails from "../interfaces/Doctor";
+import DoctorInfoSection from "../components/DoctorInfoSection";
+import DoctorProfileSection from "../components/DoctorProfileSection";
+import ReviewSection from "../components/Reviews";
+import GoogleLocation from "../components/GoogleLocation";
+import Accordion from "../components/Accordion";
 
 const DoctorProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -30,9 +30,11 @@ const DoctorProfile: React.FC = () => {
   }, [id]);
 
   if (!doctorDetails) {
-    return (<div className="spinner-border" role="status">
-    <span className="sr-only">Loading...</span>
-  </div>)
+    return (
+      <div className="spinner-border" role="status">
+        <span className="sr-only">Loading...</span>
+      </div>
+    );
   }
 
   return (

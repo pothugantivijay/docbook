@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import L from 'leaflet';
 import mapPin from "../media/map_pin.png";
+import { OpenStreetMapProvider } from "leaflet-geosearch";
 interface FormData {
  username: string;
  password:string;
@@ -236,6 +237,36 @@ const DoctorRegistrationForm: React.FC = () => {
  return null;
  };
 
+ const handleAddressChange = async (e: ChangeEvent<HTMLInputElement>) => {
+  const address = e.target.value;
+  setFormData((prevData) => ({
+    ...prevData,
+    address,
+  }));
+
+  try {
+    const provider = new OpenStreetMapProvider();
+    const results = await provider.search({ query: address });
+
+    if (results.length > 0) {
+      const { x, y } = results[0];
+      setCoordinates([y, x]);
+      setFormData((prevData) => ({
+        ...prevData,
+        location: {
+          latitude: y,
+          longitude: x,
+        }
+      }));
+      mapRef.current?.flyTo([y, x], 15);
+    } else {
+      setCoordinates(null);
+    }
+  } catch (error) {
+    console.error("Error fetching coordinates:", error);
+  }
+};
+
  const customIcon = new L.Icon({
   iconUrl: mapPin,
   iconSize: [25, 25], // Size of the icon
@@ -387,7 +418,7 @@ const DoctorRegistrationForm: React.FC = () => {
             type="text"
             className="form-control"
             id="address"
-            onChange={handleInputChange}
+            onChange={handleAddressChange}
             required
             />
           </div>

@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import Patient from "./interfaces/Patient";
-import DoctorDetails from "./interfaces/Doctor";
-import ImageAndText from "./components/ImageAndText";
+import Patient from "../interfaces/Patient";
+import DoctorDetails from "../interfaces/Doctor";
+import ImageAndText from "../components/ImageAndText";
 import HelloImg from "./media/3568984.jpg";
-import PatientDetails from "./components/PatientUserProfile";
-import PatientAppointments from "./components/PatientUserAppointments";
-import DoctorUserProfile from "./components/DoctorUserProfile";
-import DocBookHeader from "./components/DocBookHeader";
+import PatientDetails from "../components/PatientUserProfile";
+import PatientAppointments from "../components/PatientUserAppointments";
+import DoctorUserProfile from "../components/DoctorUserProfile";
+import DocBookHeader from "../components/DocBookHeader";
 import { useSelector } from "react-redux";
-import { selectUser } from "./store/slices/login_slice";
+import { selectUser } from "../store/slices/login_slice";
 import { useDispatch } from "react-redux";
-import { setPatient } from "./store/slices/patient_slice";
-import { RootState } from "./store";
+import { setPatient } from "../store/slices/patient_slice";
+import { RootState } from "../store";
 
 function Profile() {
   const [patientData, setPatientData] = useState<Patient | null>(null);

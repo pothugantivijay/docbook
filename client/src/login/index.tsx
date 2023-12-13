@@ -1,10 +1,11 @@
 import React, { useState, useEffect, FormEvent } from "react";
-import "./Css/login.css";
+import "../Css/login.css";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "./store/slices/login_slice";
-import { RootState } from "./store";
-import { selectUser } from "./store/slices/login_slice";
+import { login } from "../store/slices/login_slice";
+import { RootState } from "../store";
+import { selectUser } from "../store/slices/login_slice";
+import DocBookHeader from "../components/DocBookHeader";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -51,8 +52,11 @@ function Login() {
       dispatch(login({ type: data, loggedIn: true }));
 
       setLoginSuccess(true);
+      setTimeout(() => {
+        setLoginSuccess(false);
+        window.location.href = "/profile";
+      }, 1000);
       setError(null);
-      window.location.href = "/profile";
     } catch (error) {
       console.error("Login error:", (error as Error).message);
 
@@ -62,13 +66,25 @@ function Login() {
 
   return (
     <div className="body">
-      <div className="headingContainer">
-        <div className="docHeading">DocBook</div>
-      </div>
+      <DocBookHeader></DocBookHeader>
       <div className="centerWrap">
         {error && (
-          <div className="alert alert-danger alert-top" role="alert">
+          <div
+            className="alert alert-danger alert-top"
+            role="alert"
+            style={{ zIndex: "1" }}
+          >
             {error}
+          </div>
+        )}
+
+        {loginSuccess && (
+          <div
+            className="alert alert-success alert-top"
+            role="alert"
+            style={{ zIndex: "1" }}
+          >
+            Login successful! Redirecting...
           </div>
         )}
         <div className="containerWrap glassEffect">

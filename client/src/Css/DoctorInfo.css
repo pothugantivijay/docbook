@@ -14,7 +14,7 @@
 }
 
 .customContainerFluid {
-    background-color: rgb(248, 248, 243);
+    background-color: #f8fcfd;
 }
 
 .header-btn {
@@ -31,22 +31,27 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.doctor-card-search .doctor-image {
+.doctor-card-search {
     object-fit: cover;
     width: 100%;
     /* Full width of the column */
     height: auto;
     /* Maintain aspect ratio */
-    max-height: 200px;
-    /* Maximum height */
 }
 
 .doctor-image {
-    border-radius: 50%; 
-    object-fit: cover; 
-    width: 100%; 
-    height: 100%; 
+    width: 9vw;
+    /* Adjust the size as needed */
+    height: 9vw;
+    /* Adjust the size as needed */
+    border-radius: 50%;
+    /* This creates the circle shape */
+    object-fit: cover;
+    /* This ensures the image fully covers the area without being stretched */
+    object-position: center;
+    /* This centers the image in the circle */
 }
+
 
 
 .doctor-card-search .card-body {
@@ -71,7 +76,13 @@
 }
 
 .doctor-details {
-    margin-top: 3rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.custom-grid-padding {
+    padding: 20px 20px 20px 0px !important;
 }
 
 .filled-star,
