@@ -46,7 +46,6 @@ async function getBookedSlotsCount(id) {
   let bookedCountPerDay = {};
   appointments.forEach(appointment => {
     const dayStr = appointment.date.toISOString().split('T')[0];
-    console.log(dayStr);
     bookedCountPerDay[dayStr] = (bookedCountPerDay[dayStr] || 0) + 1;
   });
 
@@ -99,9 +98,7 @@ async function searchDoctors(criteria) {
     const doctors = await Doctor.find(query);
 
     const doctorsWithAvailability = await Promise.all(doctors.map(async (doctor) => {
-      console.log(doctor.id);
       const bookedCount = await getBookedSlotsCount(doctor.id);
-      console.log(bookedCount);
       let availabilitySummary = {};
 
 
@@ -252,10 +249,7 @@ async function getDoctorById(doctorId) {
     if (!doctor) {
       throw new Error('Doctor not found');
     }
-
-    console.log(doctor.id);
     const bookedCount = await getBookedSlotsCount(doctor.id);
-    console.log(bookedCount);
     let availabilitySummary = {};
 
     // Calculate available slots for the next 28 days

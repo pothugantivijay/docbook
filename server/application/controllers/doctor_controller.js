@@ -53,7 +53,7 @@ const search = async (request, response) => {
 
 const fetchall = async (req, res) => {
     try {
-        const result = await DoctorService.allDoctors(); 
+        const result = await DoctorService.allDoctors();
         res.status(200).json({ result });
     } catch (error) {
         console.error(error.message);
@@ -65,15 +65,14 @@ const fetchall = async (req, res) => {
 const create = async (req, res) => {
     try {
         // First, handle the image upload
-        console.log(req.file);
-        const doctorData = JSON.parse(req.body.data); 
+        const doctorData = JSON.parse(req.body.data);
         const count = await Doctor.countDocuments();
-        if(req.file){
+        if (req.file) {
             const imageUrl = await DoctorService.storeImage(req.file);
             doctorData.profilePicture = imageUrl;
-            doctorData.id = count+1;
+            doctorData.id = count + 1;
         }
-        
+
         // Now, create the doctor record with the updated doctorData
         const newDoctor = await DoctorService.createDoctor(doctorData);
 
